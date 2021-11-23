@@ -1,25 +1,47 @@
-import logo from './logo.svg';
+import React from 'react';
+
+// components
+
+// pages
+import LandingPage from "./pages/Home";
+
+// router
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+} from 'react-router-dom';
+
+// global styling for Application
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+
+    return (
+        <Router>
+            <div id='container'>
+                <Switch>
+                    <Route exact path="/">
+                        <LandingPage />
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
   );
 }
 
 export default App;
+
+//          <Container />
+/**
+ *
+ *               <Route path="/gaatjes">
+ <CavitiesPage />
+ </Route>
+ <Route path="/afspraak-maken">
+ <AppointmentsPage />
+ </Route>
+ <Route path="/tanden-bleken">
+ <WhiteningPage />
+ */
