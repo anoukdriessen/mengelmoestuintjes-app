@@ -1,47 +1,52 @@
 import React from 'react';
-
-// components
+import './App.css';
 
 // pages
-import LandingPage from "./pages/Home";
+import Home from './pages/Home';
+import About from './pages/About';
+import RegisterLogin from './pages/RegisterLogin';
+import Profile from './pages/Profile';
 
-// router
+// routing
 import {
     BrowserRouter as Router,
     Switch,
     Route,
 } from 'react-router-dom';
 
-// global styling for Application
-import './App.css';
-
 function App() {
+    // lijst met alle pagina's
+    const pages = ['home', 'about-us'];
 
+    // de datum van vandaag
+    const today = new Date();
 
     return (
         <Router>
-            <div id='container'>
-                <Switch>
-                    <Route exact path="/">
-                        <LandingPage />
-                    </Route>
-                </Switch>
-            </div>
+            <Switch>
+                <Route exact path="/">
+                    <Home
+                        current = { pages[0] }
+                        nextPage = { pages[1] }
+                        today = { today }
+                        isLoggedIn = { true }
+                    />
+                </Route>
+
+                <Route path="/about-us">
+                    <About />
+                </Route>
+
+                <Route path="/register-and-login">
+                    <RegisterLogin />
+                </Route>
+
+                <Route path="/profile">
+                    <Profile />
+                </Route>
+            </Switch>
         </Router>
-  );
+    );
 }
 
 export default App;
-
-//          <Container />
-/**
- *
- *               <Route path="/gaatjes">
- <CavitiesPage />
- </Route>
- <Route path="/afspraak-maken">
- <AppointmentsPage />
- </Route>
- <Route path="/tanden-bleken">
- <WhiteningPage />
- */

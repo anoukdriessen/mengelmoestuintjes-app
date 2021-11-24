@@ -11,10 +11,16 @@
     --warning: #f1c40f;
     --failure: #e74c3c;
 
-    --debug-border: 2px solid deepskyblue;
+    --debug-border: 1px solid deepskyblue;
 }
 
 * {
     margin: 0;
     padding: 0;
+}
+
+html, body, div#root {
+    max-height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
 }

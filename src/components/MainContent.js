@@ -1,35 +1,52 @@
+import './styles/Container.css';
 import Quote from './Quote';
 import Card from "./Card";
 
-// quote of the day
-let quote = ['Iedere dag heb je twee keuzes, groeien of herhalen.', '@mengelmoestuintjes'];
-
-function PageContent({pages, current}) {
-    const landingPage = pages[0];
-
-    const isLandingPage = landingPage === current;
-
-    if (isLandingPage) {
-        // console.log('dit is de landingspagina')
-        return <>
-            <Quote quoteOfTheDay={quote}/>
-            <div id='missions'>
-                <Card />
-                <Card />
-                <Card />
-            </div>
-        </>
-    }
-     return <p>empty</p>
+function getQOTD() {
+    // quote of the day
+    return ['Iedere dag heb je twee keuzes, groeien of herhalen.', '@mengelmoestuintjes'];
 }
-function MainContent( { pages, number, current } ) {
-    return <div className="main">
-        <PageContent
-            pages = {pages}
-            number= {number}
-            current ={current}
-        />
-    </div>;
+
+function Content( { current } ) {
+    const pages = ['home', 'about-us'];
+
+    if (current === pages[0]) {
+        return <>
+            <Quote
+                quoteOfTheDay={getQOTD()}
+            />
+            <div id='missions'>
+                <Card
+                    isMission = {true}
+                    title='Organiseren'
+                    description='blablabla'
+                />
+                <Card
+                    isMission = {true}
+                    title='delen'
+                    description='blablabla'
+                />
+                <Card
+                    isMission = {true}
+                    title='leren'
+                    description='blablabla'
+                />
+            </div>
+        </>;
+    }
+
+    return <>
+        <p>page not found</p>
+    </>
+}
+
+function MainContent( { current } ) {
+    console.log(current);
+     return <div className='main'>
+         <Content
+            current = { current }
+         />
+     </div>;
 }
 
 export default MainContent;
