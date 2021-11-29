@@ -1,9 +1,0 @@
-html {
-    background-color: var(--main-light, #f5f5f5);
-}
-
-
-
-.active-link {
-    border-bottom: 2px solid white;
-}
