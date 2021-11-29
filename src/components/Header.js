@@ -1,64 +1,63 @@
-import React from 'react';
 import './styles/Container.css';
+import './styles/Header.css';
 
-// icons
-import { MdOutlineLogin } from 'react-icons/md';
-import { MdPersonPin } from 'react-icons/md';
+// components
+import Button from  './Button'
 
-function handleAction( { isLoggedIn } ){
-    // login functionaliteit
-    if (isLoggedIn) { console.log('klikt op login'); }
+// data
+import {getAllPages} from "../assets/data";
+import {Icon} from "./BottomNav";
 
-    // profiel functionaliteit
-    console.log('klikt op profiel');
-}
-function LoginAction() {
-    return <MdOutlineLogin
-        className = 'user-action login'
-    />
-}
-function ProfileAction() {
-    return <MdPersonPin
-        className = 'user-action profile'
-    />
-}
-function Action( { isLoggedIn } ) {
-    // als de gebruiker niet ingelogd is wordt de login knop getoont
-    if (!isLoggedIn) { return <LoginAction />; }
+function PageTitle( props ) {
+    const title = props.thisPage.title;
 
-    // als de gebruiker is ingelogd wordt de profiel knop getoont
-    return <ProfileAction />;
-}
-
-function PageTitle( { isHomePage, title } ) {
-    // op de homepagina is de titel groter dan normaal
-    if (isHomePage) {
-        title = 'Mengelmoestuintjes';
-        return <h1 id='mengelmoestuintjes' className='title'> {title} </h1>;
+    // homepage has larger title
+    if ( props.thisPage === props.pages[0] ) {
+        return <h1
+                id='mmt'
+                className='title'>
+                    { title }
+        </h1>
     }
 
-    return <h1 className='title'> {title} </h1>
+    // all the other pages
+    return <div className='title-wrapper'>
+        <h1 className='title'>
+            { title }
+        </h1>
+        <Icon
+            className = 'title-icon'
+            page = { props.thisPage }
+        />
+    </div>
 }
 
-function Header({ isLoggedIn, isHomePage, pageTitle }) {
-    return (
-      <div className='header'>
-          <PageTitle
-            isHomePage={isHomePage}
-            title={pageTitle}
-          />
+function Header(props) {
+    const pages = getAllPages();
 
-          <button
-              className='user-action'
-              type='button'
-              onClick={() => handleAction( isLoggedIn )}
-          >
-              <Action
-                  isLoggedIn={ isLoggedIn }
-              />
-          </button>
-      </div>
-  );
+    // check if page props exist
+    if (props.thisPage) {
+        return (
+            <div id="header">
+                <PageTitle
+                    thisPage = { props.thisPage }
+                    pages = { pages }
+                />
+
+                <Button
+                    classStyle = 'user-action'
+                    type = 'button'
+                    action = 'user-login'
+                    checkValue = { props.isLoggedIn }
+                />
+            </div>
+        );
+    }
+
+    return <div className='header'>
+        empty header
+    </div>
+
 }
 
 export default Header;
