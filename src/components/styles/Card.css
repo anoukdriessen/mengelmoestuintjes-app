@@ -1,0 +1,61 @@
+.card {
+    /*border: var(--debug-border);*/
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+}
+
+.card .card-header {
+    display: flex;
+    flex-direction: row;
+    font-size: 2vw;
+    color: var(--green);
+}
+
+.card h3 {
+    text-transform: uppercase;
+    padding-left: 2%;
+}
+
+.card p {
+    font-size: 1vw;
+    text-align: justify;
+    border-radius: 15px
+}
+
+.speech-bubble {
+    position: relative;
+    top: -8vw;
+    left: -10vw;
+    min-height: 10vw;
+    margin: 2.5%;
+    background: var(--green);
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+.speech-bubble::before {
+    content: "";
+    position: absolute;
+    right: 96%;
+    top: 94%;
+    transform: rotate(-50deg);
+    border-top: 13px solid transparent;
+    border-right: 26px solid var(--green);
+    border-bottom: 13px solid transparent;
+}
+
+.checked {
+    color: var(--blue);
+}
+
+.number {
+    color: var(--blue)!important;
+}
+
+.number::before {
+    content: 'STAP ';
+    color: var(--main-light);
+    font-size: 2vw;
+}

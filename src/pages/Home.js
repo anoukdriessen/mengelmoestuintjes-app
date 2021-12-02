@@ -3,16 +3,12 @@ import React from 'react';
 // components
 import Container from "../components/Container";
 
-function Home(
-    { current, nextPage, today, isLoggedIn}
-) {
-
+function Home(props) {
   return (
       <Container
-        page = { current }
-        next = { nextPage }
-        today = { today }
-        isLoggedIn = { isLoggedIn }
+        page = { props.page }
+        date = { props.date }
+        isLoggedIn = { props.isLoggedIn }
         isHomePage = { true }
       />
   );

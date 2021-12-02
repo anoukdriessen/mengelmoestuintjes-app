@@ -1,0 +1,24 @@
+.quote-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.quote-wrapper div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 2vw;
+    color: var(--orange);
+}
+
+.quote {
+    width: 2vw;
+    height: 2vw;
+    color: var(--darker-blue);
+}
+
+.author {
+    text-align: center;
+    color: var(--darker-blue);
+    font-size: 1.5vw;
+}

@@ -1,0 +1,21 @@
+#bottom-nav {
+}
+
+.homepage-nav {
+    width: clamp(70vw, 70vw, 70vw);
+    height: clamp(25vh, 25vh, 25vh);
+    align-self: flex-end;
+}
+
+/* hamburger menu */
+#hamburger-icon {
+
+}
+
+#hamburger-icon span {
+
+}
+
+#hamburger-icon span:nth-child(1){}
+#hamburger-icon span:nth-child(2){}
+#hamburger-icon span:nth-child(3){}

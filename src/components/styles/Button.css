@@ -1,0 +1,43 @@
+.user-action {
+    margin: 1%;
+    width: 3vw;
+    height: 3vw;
+    border: none;
+    background: none;
+}
+
+.login, .profile {
+    color: var(--blue);
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.login:hover, .profile:hover {
+    color: var(--orange);
+}
+
+.call-to-action {
+    align-self: center;
+    color: var(--green);
+    text-transform: uppercase;
+    font-size: 1.3vw;
+    padding: 0.5% 2.5%;
+    background-color: var(--main-light);
+    border: 3px solid var(--green);
+    border-radius: 50px;
+}
+
+.call-to-action:hover {
+    transform: scale(1.1);
+    background-color: var(--orange);
+    border-color: var(--yellow);
+}
+
+.lid-worden {
+
+}
+
+.go-to-profile {
+
+}

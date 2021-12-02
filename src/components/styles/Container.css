@@ -1,115 +1,37 @@
-#container {
-    max-width:100%;
-    display: grid;
-    grid-template-columns: 0.5fr 1.5fr 1fr;
-    grid-template-rows: 0.5fr 1.5fr 0.5fr;
-    gap: 0 0;
-    grid-auto-flow: row;
+/* mobile */
+div#container {
+    display: flex;
+    flex-direction: column;
 }
-
-/* LEFT SIDE */
-.left-side {
-    /*border: var(--debug-border);*/
-    grid-area: 1 / 1 / 4 / 2;
-    max-width: 33vw;
+div#header {
+    align-self: flex-end;
+    padding: 0 5vw 2vh 0;
+    height: 25vh;
 }
-#seasonal-cover {
-    max-width: 33vw;
+div#main {
+    justify-self: center;
     height: 100vh;
+    padding: 1%;
 }
-
-/* HEADER */
-.header {
-    /*border: var(--debug-border);*/
-    grid-area: 1 / 2 / 2 / 4;
-}
-.title {
-    padding: 5% 0 0 2%;
-    font-size: 5vw;
-    color: var(--green);
-}
-#mengelmoestuintjes {
-    font-size: 7vw;
-}
-.user-action {
-    margin: 1%;
-    width: 3vw;
-    height: 3vw;
-    border: none;
-    background: none;
-}
-.login, .profile {
-    color: var(--blue);
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-.login:hover, .profile:hover {
-    color: var(--orange);
-}
-
-/* MAIN */
-.main {
-    /*border: var(--debug-border);*/
-    grid-area: 2 / 2 / 3 / 4;
-}
-.quote {
-    width: 25px;
-    height: 25px;
-    color: var(--blue);
-}
-#quote-of-the-day {
+div#footer {
     display: flex;
     flex-direction: column;
-}
-
-#quote-of-the-day div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    font-size: 30px;
-    color: var(--blue);
-}
-
-#quote-of-the-day strong {
-    text-align: center;
-    color: var(--green);
-    font-size: 20px;
-}
-#missions {
-    padding: 5% 0 0 2%;
-    /*border: var(--debug-border);*/
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
-#missions .card {
-    /*border: var(--debug-border);*/
+    height: 25vh;
     width: 100vw;
-    display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-content: center;
 }
 
-#missions .card .card-header {
-    display: flex;
-    flex-direction: row;
+/* tablet / desktop */
+@media screen and (min-width: 768px) {
 }
 
-/* FOOTER */
-.footer {
-    /*border: var(--debug-border);*/
-    grid-area: 3 / 1 / 4 / 4;
+/* General styling container items */
+.shadow {
+    box-shadow: var(--box-shadow);
+    -webkit-box-shadow: var(--box-shadow);
+    -moz-box-shadow: var(--box-shadow);
 }
-#bottom-nav ul{
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-}
-#bottom-nav ul li {
-    padding-right: 10%;
-}
-
-.card h3 {
-    text-transform: uppercase;
+.mirrored {
+    transform: rotateY(180deg);
 }

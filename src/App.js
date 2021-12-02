@@ -1,9 +1,9 @@
-import React from 'react';
-import './App.css';
+import React, {useState} from 'react';
 
-// pages
+// all pages
 import Home from './pages/Home';
-import About from './pages/About';
+import Info from './pages/Info';
+import PlantDB from './pages/PlantDB';
 import RegisterLogin from './pages/RegisterLogin';
 import Profile from './pages/Profile';
 
@@ -14,34 +14,52 @@ import {
     Route,
 } from 'react-router-dom';
 
-function App() {
-    // lijst met alle pagina's
-    const pages = ['home', 'about-us'];
+// data
+import { getAllPages } from './assets/data'
 
-    // de datum van vandaag
-    const today = new Date();
+function App() {
+    const pages = getAllPages();     // lijst met alle pagina's
+    const today = new Date();        // de datum van vandaag
+
+    const [ isUserLoggedIn, setUserLoggedIn ] = useState(false);
 
     return (
         <Router>
             <Switch>
-                <Route exact path="/">
+                <Route exact path={pages[0].url}>
                     <Home
-                        current = { pages[0] }
-                        nextPage = { pages[1] }
+                        page = { pages[0] }
+                        date = { today }
+                        isLoggedIn = { isUserLoggedIn }
+                        setLogin = { setUserLoggedIn }
+                    />
+                </Route>
+                <Route path={pages[1].url}>
+                    <Info
+                        prevPage = { pages[0] }
+                        current = { pages[1] }
+                        nextPage = { pages[2] }
                         today = { today }
-                        isLoggedIn = { true }
+                        isLoggedIn = { isUserLoggedIn }
+                    />
+                </Route>
+                <Route path={pages[2].url}>
+                    <PlantDB
+                        prevPage = { pages[1] }
+                        current = { pages[2] }
+                        nextPage = { pages[1] }
+                    />
+                </Route>
+                <Route path={pages[3].url}>
+                    <RegisterLogin
+                        prevPage = { pages[0] }
+                        current = { pages[3] }
+                        nextPage = { pages[0] }
+                        isLoggedIn = { isUserLoggedIn }
                     />
                 </Route>
 
-                <Route path="/about-us">
-                    <About />
-                </Route>
-
-                <Route path="/register-and-login">
-                    <RegisterLogin />
-                </Route>
-
-                <Route path="/profile">
+                <Route path={pages[4].url}>
                     <Profile />
                 </Route>
             </Switch>

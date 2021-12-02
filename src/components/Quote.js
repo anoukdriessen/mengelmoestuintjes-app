@@ -1,22 +1,29 @@
+import './styles/Quote.css';
+
 import { ImQuotesLeft } from "react-icons/im";
 import { ImQuotesRight } from "react-icons/im";
 
-function Quote( { quoteOfTheDay } ){
-    if (!quoteOfTheDay) {
-        return <p>empty</p>
+function Quote( { quote } ){
+    // return empty if quote is not set
+    if (!quote) {
+        return 'no quote';
     }
 
+    const author = quote[1];
+    const text = quote[0];
+
+    // return a blockquote with class .quote-wrapper
+    // inside is a div with two quote icons with class .quote
     return (
-        <blockquote id='quote-of-the-day'>
+        <blockquote className='quote-wrapper'>
             <div>
                 <ImQuotesLeft className = 'quote'/>
-                    {quoteOfTheDay[0]}
+                    { text }
                 <ImQuotesRight className = 'quote'/>
             </div>
-            <strong>
-                {quoteOfTheDay[1]}
+            <strong className = 'author'>
+                { author }
             </strong>
-
         </blockquote>
     )
 }
