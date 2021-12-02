@@ -10,8 +10,14 @@ function Container(props) {
         <Header
             thisPage = { props.page }
         />
-        <MainContent />
-        <Footer />
+        <MainContent
+            thisPage = { props.page }
+            isLoggedIn = { props.isLoggedIn }
+        />
+        <Footer
+            year = { props.date.getFullYear() }
+            thisPage = { props.page }
+        />
     </div>;
 }
 

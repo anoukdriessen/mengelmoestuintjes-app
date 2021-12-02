@@ -16,7 +16,7 @@
 }
 
 #mmt {
-    margin-left: clamp(200px, 30vw, 33vw);
+    margin-left: clamp(110px, 30vw, 33vw);
     font-size: 7vw;
 }
 

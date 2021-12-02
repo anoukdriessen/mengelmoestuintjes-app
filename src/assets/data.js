@@ -137,6 +137,8 @@ let favorites = {
  *
  */
 export function getAllPages() {
+    home.hasNext = info;
+
     return [
         home,
         info,
@@ -165,6 +167,7 @@ export function getCurrentSeasonImage() {
 
     // 0 = lente, 1 = zomer, 2 = herfst, 3 = winter
     const seasonalImage = [lente, zomer, herfst, winter];
+
 
     // de lente begint in maart
     const isSpring = month === 3 || month === 4 || month === 5;
@@ -197,8 +200,18 @@ export function getCurrentSeasonImage() {
  * TODO voeg API call toe
  */
 export function getQOTD( hasQuote ) {
+    // list of quotes TODO from DB
+    let quotes = [
+        ['Iedere dag heb je twee keuzes, groeien of herhalen.', '@mengelmoestuintjes'],
+        ['Wat met liefde is geplant raakt nooit uitgebloeid', '@ireen_boerderijgeluk'],
+        ['Als jij een bloem was, zou ik jou plukken', '@claudia.mytowergarden'],
+    ];
+
+    // select random item from array
+    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+
     // quote wordt alleen getoond als de quote variabele van object true is
     if ( hasQuote ) {
-        return ['Iedere dag heb je twee keuzes, groeien of herhalen.', '@mengelmoestuintjes'];
+        return randomQuote;
     }
 }

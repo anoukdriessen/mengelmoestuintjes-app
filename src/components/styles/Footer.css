@@ -1,0 +1,30 @@
+/*.nav-icon {*/
+/*    width: 2vw;*/
+/*    height: 2vw;*/
+/*}*/
+
+/*.link {*/
+/*    text-decoration: none;*/
+/*    color: var(--green);*/
+/*}*/
+
+/*.link:hover {*/
+/*    color: var(--orange);*/
+/*}*/
+
+/*.active-link {*/
+/*    color: var(--darker-blue);*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*.active-link:hover {*/
+/*    color: var(--darker-blue);*/
+/*    cursor: default;*/
+/*}*/
+
+#copyright {
+    font-size: 0.7vw;
+    position: absolute;
+    right: 2px;
+    bottom: 0;
+}
