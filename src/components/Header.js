@@ -1,60 +1,54 @@
-import './styles/Container.css';
+// import styling
 import './styles/Header.css';
 
-// components
-import Button from  './Button'
-
 // data
-import {getAllPages} from "../assets/data";
-import {Icon} from "./BottomNav";
+import { getAllPages } from "../assets/data";
+const pages = getAllPages();
+const homepage = pages[0];
 
 function PageTitle( props ) {
-    const title = props.thisPage.title;
+    const page = props.thisPage;
+    console.log(page.subtitle);
 
-    // homepage has larger title
-    if ( props.thisPage === props.pages[0] ) {
+    // homepage has larger title & no icon
+    const pageIsHomepage = page === homepage;
+    if ( pageIsHomepage ) {
         return <h1
                 id='mmt'
                 className='title'>
-                    { title }
+                    { page.title }
         </h1>
     }
 
     // all the other pages
-    return <div className='title-wrapper'>
-        <h1 className='title'>
-            { title }
-        </h1>
-        <Icon
-            className = 'title-icon'
-            page = { props.thisPage }
-        />
-    </div>
+    return <>
+        <div className='title-wrapper'>
+            <h1 className='title'>
+                { page.title }
+            </h1>
+            <span className='title-icon'>{ page.icon }</span>
+        </div>
+        { page.subtitle && <h3 className='sub-title'> { page.subtitle } </h3> }
+    </>
 }
 
 function Header(props) {
-    const pages = getAllPages();
+    const page = props.thisPage;
+    let className = '';
+    if (page === pages[0]) {
+        className += 'home';
+    }
 
-    // check if page props exist
-    if (props.thisPage) {
+    // check if page exist
+    if (page) {
         return (
             <div id="header">
-                <PageTitle
-                    thisPage = { props.thisPage }
-                    pages = { pages }
-                />
-
-                <Button
-                    classStyle = 'user-action'
-                    type = 'button'
-                    action = 'user-login'
-                    checkValue = { props.isLoggedIn }
-                />
+                <PageTitle thisPage = { page} />
             </div>
         );
     }
 
-    return <div className='header'>
+    return <div className='header' style='border:2px solid lightblue'>
         empty header
     </div>
 
