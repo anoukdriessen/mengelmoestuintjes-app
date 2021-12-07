@@ -1,23 +1,34 @@
 :root {
+    /*
+        COLORS
+        - main LIGHT / DARK
+        - identity colors BLUE / ORANGE / YELLOW / GREEN
+            each color has a lighter and darker shade
+        - for success / warning and failure messages show GREEN / YELLOW / RED
+    */
     --main-light: #f5f5f5;
     --main-dark: #1e2a34;
 
     --lighter-blue: #bee1ee;
     --blue: #8dcbe2;
-    --darker-blue: #71a5b8;
-    --orange: #f2a202;
-    --yellow: #ffde5c;
-    --green: #157145;
+    --darker-blue: #5c97ad;
 
-    --success: #2ecc71;
-    --warning: #f1c40f;
+    --lighter-orange: #fdc149;
+    --orange: #f2a202;
+    --darker-orange: #a26c02;
+
+    --lighter-yellow: #ffefad;
+    --yellow: #ffde5c;
+    --darker-yellow: #f5c400;
+
+    --lighter-green: #4d8c2b;
+    --green: #157145;
+    --darker-green: #0c452a;
+
+    --success: var(--lighter-green);
+    --warning: var(--darker-yellow);
     --failure: #e74c3c;
 
-    --box-shadow: 0px 5px 12.5px -2.5px var(--main-dark);
-    /* reminder:
-        box-shadow: ...
-        -webkit-box-shadow: ...
-        moz-box-shadow: ...
     */
 }
 
@@ -30,9 +41,7 @@
     use 100% of viewport height
     use 100% of viewport width
     hide everything that overflows
-    TODO horizontal scroll overflow-x: scroll
     default theme is LIGHT-MODE
-    TODO dark-mode
 */
 html, body, div#root, div#container {
     width: 100%;
