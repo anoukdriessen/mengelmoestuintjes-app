@@ -29,6 +29,8 @@
     --warning: var(--darker-yellow);
     --failure: #e74c3c;
 
+    --light-50: rgba(245, 245, 245, 0.5);
+
     /*
         FONTS
         Headings and special text will be displayed in Roboto
@@ -36,6 +38,18 @@
     */
     --heading-family: 'Roboto', sans-serif;
     --global-family: 'Lato', sans-serif;
+
+    /*
+        NUMERIC
+    */
+    --full: 100%;
+    --full-width: 100vw;
+    --full-height: 100vh;
+
+    --basic-padding: 2.5%;
+    --basic-margin: 2.5%;
+    --basic-round-corners: 25px;
+
 }
 
 * {
@@ -46,29 +60,33 @@
 /*
     use 100% of viewport height
     use 100% of viewport width
-    hide everything that overflows
     default theme is LIGHT-MODE
 */
 html, body, div#root, div#container {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    width: var(--full-width);
+    height: var(--full-height);
     background-color: var(--main-light);
 }
 
-/* Backgrounds */
-.background {
-    animation: gradientAnimation 25s ease-in-out infinite;
-    background-image: linear-gradient(
-            120deg,
-            var(--main-light),
-            var(--lighter-blue),
-            var(--main-light));
-    background-size: 500% 500%;
-    backdrop-filter: blur(10px);
+h1, h2, h3, h4 {
+    font-family: var(--heading-family);
 }
-@keyframes gradientAnimation {
-    0% { background-position: 0 0; }
-    50% { background-position: 50% 50%; }
-    100% { background-position: 0 100%; }
+a, p, span {
+    font-family: var(--global-family);
+}
+
+/*
+    BACKGROUNDS
+*/
+
+/*
+    FANCY THINGS
+*/
+.hover-shadow {
+    box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
+}
+.mirrored {
+    transform: rotateY(180deg);
 }
