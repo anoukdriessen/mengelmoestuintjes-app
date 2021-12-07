@@ -17,8 +17,16 @@
 }
 
 #mmt {
-    margin-left: clamp(110px, 30vw, 33vw);
-    font-size: 7vw;
-    padding: 5vw 0 0 3vw;
+    margin: 0;
+    font-size: 6vw;
+    padding: var(--basic-padding);
+}
+
+/* tablet / desktop */
+@media screen and (min-width: 768px) {
+    #mmt {
+        margin-left: clamp(110px, 30vw, 33vw);
+        padding: 5vw 0 0 3vw;
+    }
 }
 
