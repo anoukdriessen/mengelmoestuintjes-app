@@ -90,19 +90,9 @@ function BottomNavigation(props) {
     </nav>
 }
 
-function Footer( { year, isHomePage, isLoggedIn, isMod } ) {
-    console.log('footer');
+function Footer( { page, year, isLoggedIn, isMod } ) {
 
-    if (isHomePage) {
-        return <div id="footer" className='homepage'>
-            <BottomNavigation
-                isLoggedIn = { isLoggedIn }
-                isMod = { isMod }
-            />
-            <span id='copyright'> © { year }, design by <a href='https://www.anoukdriessen.nl'>Anouk Driessen</a></span>
-        </div>;
-    }
-    return <div id="footer">
+    return <div id="footer" className={ page.className }>
         <BottomNavigation
             isLoggedIn = { isLoggedIn }
             isMod = { isMod }
