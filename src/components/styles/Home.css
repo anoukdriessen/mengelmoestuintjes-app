@@ -1,0 +1,39 @@
+div#header.home {
+    align-self: flex-start;
+    padding: var(--basic-padding);
+}
+
+div#main.home main{
+    width: 100vw;
+    margin: 0;
+    border-radius: 0;
+}
+
+#seasonal-cover {
+    height: clamp(50px, 150px, 175px);
+    width: 100vh;
+    object-fit: cover;
+}
+
+/* tablet / desktop */
+@media screen and (min-width: 767px) {
+    div#header.home {
+        align-self: flex-end;
+    }
+
+    div#main.home main{
+        width: 80vw;
+        margin-left: 15vw;
+        border-radius: var(--basic-round-corners) 0 0 var(--basic-round-corners);
+    }
+
+    #seasonal-cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: clamp(200px, 30vw, 30vw);
+        height: 100vh;
+        object-fit: cover;
+        display: block;
+    }
+}

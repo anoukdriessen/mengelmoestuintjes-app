@@ -6,15 +6,14 @@ import {
     getAllPages,
 } from "../assets/data";
 
+// page content
 import {
     HomeContent,
-} from "../pages/Home";
-import {InfoContent} from "../pages/Info";
-
-const pages = getAllPages();
+    InfoContent
+} from "../assets/content";
 
 function PageContent( props ) {
-    console.log('content' + props.thisPage);
+    const pages = getAllPages();
     const page = props.thisPage;
 
     // check if page exists
@@ -32,13 +31,13 @@ function PageContent( props ) {
         }
     }
 
-    return <main style='border: 2px solid lightblue'>
-        <p>empty main container</p>
+    return <main className='page-undefined'>
+        empty main container
     </main>;
 }
 
 function MainContent( props ) {
-     return <div id="main">
+     return <div id="main" className={ props.thisPage.className }>
          <PageContent
             thisPage = { props.thisPage }
          />

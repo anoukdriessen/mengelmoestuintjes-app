@@ -39,7 +39,8 @@ let home = {
     title: 'Mengelmoestuintjes',
     url: '/',
     icon: <HomeIcon />,
-    content: {}
+    content: {},
+    className: 'home',
 }
 let info = {
     title: 'Maak een tuintje',
@@ -47,72 +48,84 @@ let info = {
     url: '/info',
     icon: <LeafIcon className='mirrored'/>,
     content: {},
+    className: 'info',
 }
 let plantDB = {
     title: 'plant database',
     url: '/plant-database',
     icon: <PlantDBIcon />,
     content: {},
+    className: 'plant-db',
 }
 let singlePlant = {
     title: 'single plant',
     url: '/single-plant',
     icon: <LeafIcon className='mirrored'/>,
     content: {},
+    className: 'plant-single',
 }
 let plantInGarden = {
     title: 'plant in garden',
     url: '/plant-in-garden',
     icon: <InGardenIcon />,
     content: {},
+    className: 'plant-garden',
 }
 let plantInstructions = {
     title: 'plant instructies',
     url: '/plant-instructions',
     icon: <InstructionIcon />,
     content: {},
+    className: 'plant-instr',
 }
 let moderatorDashboard = {
     title: 'moderator dashboard',
     url: '/dashboard',
     icon: <DashboardIcon />,
     content: {},
+    className: 'mod-dashboard',
 }
 let registerLogin = {
     title: 'Wordt lid of Login',
     url: '/register-and-login',
     icon: <LoginIcon />,
-    content: {}
+    content: {},
+    className: 'register-login',
 }
 let profile = {
     title: 'Profiel',
     url: '/profile',
     icon: <ProfileIcon />,
     content: {},
+    className: 'profile',
 }
 let messages = {
     title: 'berichten',
     url: '/profile-messages',
     icon: <MessageIcon />,
     content: {},
+    className: 'msg',
 }
 let gardens = {
     title: 'tuintjes',
     url: '/profile-gardens',
     icon: <GridIcon />,
     content: {},
+    className: 'gardens',
 }
 let singleGarden = {
     title: 'name of garden',
     url: '/profile-garden-name',
     icon: <SignIcon />,
     content: {},
+    className: 'gardens-single',
 }
 let favorites = {
     title: 'favorieten',
     url: '/profile-favorites',
     icon: <FavoritesIcon />,
     content: {},
+    className: 'favo',
 }
 
 /**

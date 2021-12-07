@@ -8,7 +8,6 @@ const homepage = pages[0];
 
 function PageTitle( props ) {
     const page = props.thisPage;
-    console.log(page.subtitle);
 
     // homepage has larger title & no icon
     const pageIsHomepage = page === homepage;
@@ -34,21 +33,17 @@ function PageTitle( props ) {
 
 function Header(props) {
     const page = props.thisPage;
-    let className = '';
-    if (page === pages[0]) {
-        className += 'home';
-    }
 
     // check if page exist
     if (page) {
         return (
-            <div id="header">
+            <div id="header" className={ page.className }>
                 <PageTitle thisPage = { page} />
             </div>
         );
     }
 
-    return <div className='header' style='border:2px solid lightblue'>
+    return <div id="header" className='page-undefined'>
         empty header
     </div>
 
