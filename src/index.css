@@ -29,7 +29,13 @@
     --warning: var(--darker-yellow);
     --failure: #e74c3c;
 
+    /*
+        FONTS
+        Headings and special text will be displayed in Roboto
+        All other text will be displayed in Lato
     */
+    --heading-family: 'Roboto', sans-serif;
+    --global-family: 'Lato', sans-serif;
 }
 
 * {
