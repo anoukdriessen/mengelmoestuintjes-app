@@ -3,19 +3,18 @@ div#container {
     display: flex;
     flex-direction: column;
 }
+
 div#header {
     align-self: flex-start;
-    padding: 0 5vw 2vh 0;
-    height: 25vh;
+    padding: 0 var(--basic-padding);
+    width: 95vw;
 }
-div#header .home {
-    align-self: flex-end;
-}
+
 div#main {
-    justify-self: center;
-    height: 100vh;
-    padding: 1%;
+    align-self: flex-start;
+
 }
+
 div#footer {
     height: 8vh;
 }
@@ -24,12 +23,3 @@ div#footer {
 @media screen and (min-width: 768px) {
 }
 
-/* General styling container items */
-.shadow {
-    box-shadow: var(--box-shadow);
-    -webkit-box-shadow: var(--box-shadow);
-    -moz-box-shadow: var(--box-shadow);
-}
-.mirrored {
-    transform: rotateY(180deg);
-}

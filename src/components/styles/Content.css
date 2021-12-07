@@ -1,51 +1,35 @@
 main {
-    margin: 2.5%;
-    padding: 2.5%;
+    background-color: var(--main-light);
     display: flex;
     flex-direction: column;
-}
-
-#home-content {
-    margin-left: clamp(110px, 30vw, 33vw);
-}
-
-#seasonal-cover {
+    margin: var(--basic-margin);
+    padding: var(--basic-padding);
     position: absolute;
-    top: 0;
-    left: 0;
-    width: clamp(100px, 30vw, 30vw);
-    height: 100vh;
-    object-fit: cover;
+    z-index: 1;
+    justify-content: center;
+    align-items: center;
 }
 
-#missions, #how-to {
-    width: 100%;
-    margin: 5% 0;
+/*
+    #cards has parent-child relation with .card
+    mobile .card width 100%
+    tablet/desktop .card width 20%
+*/
+#cards {
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
+    margin: 5vh 0;
 }
-
-#missions .card {
+#cards .card {
     flex: 1;
-    min-width: 20%;
-    margin: 2.5% 0;
-    height: 100%;
-}
-@media (max-width: 768px) {
-    #missions .card {
-        min-width: 50%;
-    }
+    min-width: 100%;
+    margin: var(--basic-margin) 0;
 }
 
-@media (max-width: 400px) {
-    #missions .card {
-        min-width: 50%;
+/* tablet / desktop */
+@media screen and (min-width: 767px) {
+    #cards .card {
+        min-width: 20%;
     }
-}
-#how-to .card  {
-    background-color: var(--darker-blue);
-}
-
-#how-to .speech-bubble::before {
-    border-right: 26px solid var(--darker-blue);
 }
