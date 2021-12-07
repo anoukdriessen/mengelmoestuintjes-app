@@ -2,6 +2,8 @@ import React from 'react';
 
 // components
 import Container from "../components/Container";
+import Card from "../components/Card";
+
 
 // data
 import {
@@ -26,14 +28,46 @@ function Info(props) {
 export function InfoContent( props ) {
     // content
     info.content.howTo = {
-        first: 'Stap 1...',
-        second: 'Stap 2...',
-        third: 'Stap 3...'
+        first: {
+            title: 'Stap 1...',
+            description: 'blablabla'
+        },
+        second: {
+            title: 'Stap 1...',
+            description: 'blablabla'
+        },
+        third: {
+            title: 'Stap 1...',
+            description: 'blablabla'
+        }
     }
+
+    // card content
+    const c = info.content.howTo;
+    const howTos = [c.first, c.second, c.third];
 
     return <>
         <main>
-
+            <div id='how-to'>
+                <Card
+                    isStep ={true}
+                    iconNumber = {0}
+                    title = { howTos[0].title }
+                    description = { howTos[0].description }
+                />
+                <Card
+                    isStep ={true}
+                    iconNumber = {0}
+                    title = { howTos[1].title }
+                    description = { howTos[1].description }
+                />
+                <Card
+                    isStep ={true}
+                    iconNumber = {0}
+                    title = { howTos[2].title }
+                    description = { howTos[2].description }
+                />
+            </div>
         </main>
     </>
 }

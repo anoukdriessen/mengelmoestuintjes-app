@@ -43,8 +43,8 @@ button:hover {
     display: block;
     transition: all 0.5s cubic-bezier(0.6, 0, 0.076, 1);
     left: 0.6em;
-    width: 1.5vw;
-    height: 1.5vh;
+    width: 23px;
+    height: 23px;
     background: none;
 }
 .circle .arrow::before {
@@ -52,8 +52,8 @@ button:hover {
     content: '';
     top: 1.25rem;
     right: -0.2rem;
-    width: 1vw;
-    height: 1vh;
+    width: 12px;
+    height: 12px;
     border-top: 0.125rem solid var(--main-light);
     border-right: 0.125rem solid var(--main-light);
     transform: rotate(45deg);

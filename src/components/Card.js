@@ -22,7 +22,7 @@ function getIcon( { icon } ) {
             return <Three
                 className = 'step-number'
             />
-        case 4: // icon is number Fout
+        case 4: // icon is number Four
             return <Four
                 className = 'step-number'
             />

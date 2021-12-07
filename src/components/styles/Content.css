@@ -1,5 +1,6 @@
 main {
-    margin-top: 1%;
+    margin: 2.5%;
+    padding: 2.5%;
     display: flex;
     flex-direction: column;
 }
@@ -18,8 +19,33 @@ main {
 }
 
 #missions, #how-to {
-    padding: 5% 1% 1% 2%;
+    width: 100%;
+    margin: 5% 0;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+#missions .card {
+    flex: 1;
+    min-width: 20%;
+    margin: 2.5% 0;
+    height: 100%;
+}
+@media (max-width: 768px) {
+    #missions .card {
+        min-width: 50%;
+    }
+}
+
+@media (max-width: 400px) {
+    #missions .card {
+        min-width: 50%;
+    }
+}
+#how-to .card  {
+    background-color: var(--darker-blue);
+}
+
+#how-to .speech-bubble::before {
+    border-right: 26px solid var(--darker-blue);
 }

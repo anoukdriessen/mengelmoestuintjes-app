@@ -38,8 +38,8 @@
 .speech-bubble::before {
     content: "";
     position: absolute;
-    right: 96%;
-    top: 94%;
+    right: 95%;
+    top: 92%;
     transform: rotate(-50deg);
     border-top: 13px solid transparent;
     border-right: 26px solid var(--green);
@@ -48,14 +48,4 @@
 
 .checked {
     color: var(--blue);
-}
-
-.number {
-    color: var(--blue)!important;
-}
-
-.number::before {
-    content: 'STAP ';
-    color: var(--main-light);
-    font-size: 2vw;
 }
