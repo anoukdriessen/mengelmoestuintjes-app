@@ -6,12 +6,23 @@ import Header from "./Header";
 import MainContent from "./MainContent";
 import Footer from "./Footer";
 
+function addClassNames(className) {
+
+
+    const main = document.getElementById('main');
+    console.log(main);
+    main.classList.add(className);
+
+    const footer = document.getElementById('footer');
+    console.log(footer);
+    footer.classList.add(className);
+
+    return '';
+}
+
 function Container(props) {
     return <div id="container">
-        <Header
-            thisPage = { props.page }
-            isLoggedIn = { props.isLoggedIn }
-        />
+        <Header thisPage = { props.page } />
 
         <MainContent
             thisPage = { props.page }
@@ -19,11 +30,12 @@ function Container(props) {
         />
 
         <Footer
+            page = { props.page }
             year = { props.date.getFullYear() }
-            isHomePage = { props.isHomePage }
             isLoggedIn = { props.isLoggedIn }
             isMod = { props.isMod }
         />
+
     </div>;
 }
 
