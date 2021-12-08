@@ -19,7 +19,7 @@ div#footer {
     height: 8vh;
 }
 
-/* tablet / desktop */
-@media screen and (min-width: 768px) {
+/* extra large screens */
+@media screen and (min-width: 1950px) {
 }
 
