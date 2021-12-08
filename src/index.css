@@ -36,8 +36,13 @@
         Headings and special text will be displayed in Roboto
         All other text will be displayed in Lato
     */
-    --heading-family: 'Roboto', sans-serif;
-    --global-family: 'Lato', sans-serif;
+    --roboto: 'Roboto', sans-serif;
+    --lato: 'Lato', sans-serif;
+    --reto: 'Press Start 2P', cursive;
+    --writing: 'Amatic SC', cursive;
+
+    --warning-text: monospace;
+
 
     /*
         NUMERIC
@@ -66,14 +71,18 @@ html, body, div#root, div#container {
     width: var(--full-width);
     height: var(--full-height);
     background-color: var(--main-light);
+    overflow: hidden;
 }
 
-h1, h2, h3, h4 {
-    font-family: var(--heading-family);
-}
-a, p, span {
-    font-family: var(--global-family);
-}
+/*
+    TEXT
+*/
+h1, h2, h3, h4 { font-family: var(--roboto); }
+a, p, span { font-family: var(--lato); }
+
+.error { color: var(--failure); }
+.warning { color: var(--warning); }
+.success { color: var(--success); }
 
 /*
     BACKGROUNDS
