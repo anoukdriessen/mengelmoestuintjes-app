@@ -17,6 +17,10 @@ const pages = getAllPages();
 const homepage = pages[0];
 const info = pages[1];
 
+function handleShowAndHideCards() {
+    console.log('ben er');
+}
+
 export function HomeContent( props ) {
     // content
     homepage.content.hasQuote = true;
@@ -67,12 +71,14 @@ export function HomeContent( props ) {
         <main>
             <Quote
                 quote = { getQOTD( props.content.hasQuote ) }
+                styling = 'ribbon'
             />
 
-            <div id='cards'>
-                { missions.map( ( item ) => {
+            <div id='cards' className='hover-shadow'>
+                { missions.map( ( item, key ) => {
                     return <Card
-                        iconNumber = {0}
+                        key = { key }
+                        styling = { 'mission' }
                         title = { item.title }
                         description = { item.description }
                     />

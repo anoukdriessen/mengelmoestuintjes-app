@@ -9,10 +9,9 @@ div#main.home main{
     border-radius: 0;
 }
 
+/* hide on smaller screens*/
 #seasonal-cover {
-    height: clamp(50px, 150px, 175px);
-    width: 100vh;
-    object-fit: cover;
+    display: none;
 }
 
 /* tablet / desktop */
@@ -22,9 +21,8 @@ div#main.home main{
     }
 
     div#main.home main{
-        width: 80vw;
+        width: 82.9vw;
         margin-left: 15vw;
-        border-radius: var(--basic-round-corners) 0 0 var(--basic-round-corners);
     }
 
     #seasonal-cover {
@@ -36,4 +34,11 @@ div#main.home main{
         object-fit: cover;
         display: block;
     }
+}
+
+/* extra large screens */
+@media screen and (min-width: 767px) {
+    /* content wordt te groot */
+    /* main wordt te groot */
+    /* lettertype wordt te groot */
 }

@@ -1,17 +1,13 @@
-// import styling
 import './styles/Header.css';
-
-// data
 import { getAllPages } from "../assets/data";
-const pages = getAllPages();
-const homepage = pages[0];
 
 function PageTitle( props ) {
+    const pages = getAllPages();
     const page = props.thisPage;
+    const homepage = pages[0];
 
-    // homepage has larger title & no icon
-    const pageIsHomepage = page === homepage;
-    if ( pageIsHomepage ) {
+    if ( page === homepage ) {
+        // homepage has larger title & no icon / no wrapper
         return <h1
                 id='mmt'
                 className='title'>
@@ -19,7 +15,6 @@ function PageTitle( props ) {
         </h1>
     }
 
-    // all the other pages
     return <>
         <div className='title-wrapper'>
             <h1 className='title'>
@@ -34,7 +29,6 @@ function PageTitle( props ) {
 function Header(props) {
     const page = props.thisPage;
 
-    // check if page exist
     if (page) {
         return (
             <div id="header" className={ page.className }>
@@ -43,8 +37,9 @@ function Header(props) {
         );
     }
 
+    // page does not exist / is undefined
     return <div id="header" className='page-undefined'>
-        empty header
+        <p className='error'> empty header </p>
     </div>
 
 }
