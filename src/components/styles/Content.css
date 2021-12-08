@@ -1,35 +1,10 @@
 main {
-    background-color: var(--main-light);
     display: flex;
     flex-direction: column;
-    margin: var(--basic-margin);
-    padding: var(--basic-padding);
     position: absolute;
-    z-index: 1;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 
-/*
-    #cards has parent-child relation with .card
-    mobile .card width 100%
-    tablet/desktop .card width 20%
-*/
-#cards {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: 5vh 0;
-}
-#cards .card {
-    flex: 1;
-    min-width: 100%;
-    margin: var(--basic-margin) 0;
-}
 
-/* tablet / desktop */
-@media screen and (min-width: 767px) {
-    #cards .card {
-        min-width: 20%;
-    }
-}
