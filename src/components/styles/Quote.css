@@ -21,7 +21,6 @@
     color: var(--green);
 }
 .ribbon div {
-    min-width: 570px;
     background-color: var(--orange);
     position: relative;
     padding-bottom: 0.5em;
