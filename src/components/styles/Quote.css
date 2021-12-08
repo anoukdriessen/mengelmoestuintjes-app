@@ -1,24 +1,74 @@
-.quote-wrapper {
+.quote {
+    color: var(--main-light);
+    margin: 1vw;
+}
+.author {
+    margin: 1vw;
+    color: var(--main-light);
+    text-transform: uppercase;
+    font-size: 1.5vw;
+    letter-spacing: 0.1vw;
+}
+
+.ribbon {
+    text-align: center;
+    font-family: var(--roboto);
+    position: relative;
     display: flex;
     flex-direction: column;
-}
-
-.quote-wrapper div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    margin: var(--basic-margin);
     font-size: 2vw;
-    color: var(--orange);
+    color: var(--green);
 }
-
-.quote {
-    width: 2vw;
-    height: 2vw;
-    color: var(--darker-blue);
+.ribbon div {
+    min-width: 570px;
+    background-color: var(--orange);
+    position: relative;
+    padding-bottom: 0.5em;
+    border-radius: 2px;
+    align-self: flex-start;
 }
+.ribbon strong {
+    color: var(--main-dark);
+    font-size: 1vw;
+    letter-spacing: 0.3vw;
+    align-self: center;
 
-.author {
-    text-align: center;
-    color: var(--darker-blue);
-    font-size: 1.5vw;
+}
+.ribbon::after, .ribbon::before,
+.ribbon div::after, .ribbon div::before,
+.ribbon strong::before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-color: transparent;
+}
+.ribbon::before {
+    top: 0.3em;
+    left: 0.2em;
+    width: var(--full);
+    height: 60%;
+    border: none;
+    background: rgba(0,0,0,0.2);
+    z-index: -2;
+    border-radius: 2px;
+}
+.ribbon div::before {
+    bottom: var(--full);
+    left: 0;
+    border-width: 0.5em 0.7em 0 0;
+    border-color: transparent var(--darker-orange) transparent transparent;
+}
+.ribbon div::after {
+    top: var(--full);
+    right: 0;
+    border-width: 0.5em 2em 0 0;
+    border-color: var(--darker-orange) transparent transparent transparent;
+}
+.ribbon::after {
+    top: 1em;
+    right:-2em;
+    border-width: 1.1em 1em 1.1em 3em;
+    border-color: var(--orange) transparent var(--orange) var(--orange);
+    z-index:-1;
 }
