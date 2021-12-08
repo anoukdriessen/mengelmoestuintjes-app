@@ -20,6 +20,8 @@ function PageContent( props ) {
                 return <InfoContent
                     content = { page.content }
                 />
+            default:
+                return <></>
         }
     }
 

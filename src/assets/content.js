@@ -61,6 +61,7 @@ export function HomeContent( props ) {
         props.content.missions.learning
     ]
 
+
     return <>
         <img
             id = "seasonal-cover"

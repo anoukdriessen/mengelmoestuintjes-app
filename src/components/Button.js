@@ -13,6 +13,7 @@ function Button( props ) {
                     {props.text}
                 </Link>
             </button>
+        default: <></>
     }
 
     return <button className={props.className}>
