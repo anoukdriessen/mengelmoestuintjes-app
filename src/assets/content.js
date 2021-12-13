@@ -18,10 +18,6 @@ const pages = getAllPages();
 const homepage = pages[0];
 const info = pages[1];
 
-function handleShowAndHideCards() {
-    console.log('ben er');
-}
-
 export function HomeContent( props ) {
     const [ qotd , setQuote ] = useState();
     const [ error , setError ] = useState();
@@ -31,7 +27,7 @@ export function HomeContent( props ) {
     useEffect(() => {
         axios(randomQuote)
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 setQuote(response.data);
             })
             .catch((er) => {
@@ -41,7 +37,6 @@ export function HomeContent( props ) {
     }, []);
 
     if (error) homepage.content.quote = false;
-
     homepage.content.quote = { qotd };
 
     homepage.content.missions = {

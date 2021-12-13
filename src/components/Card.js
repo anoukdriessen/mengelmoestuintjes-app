@@ -1,4 +1,5 @@
 import './styles/Card.css';
+import {useState} from "react";
 
 
 function Card( props ) {

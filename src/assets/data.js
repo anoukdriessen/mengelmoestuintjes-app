@@ -199,5 +199,5 @@ export function getCurrentSeasonImage() {
 }
 
 export function getRandomInt(max) {
-    return Math.floor(Math.random() * max) + 2;
+    return Math.floor(Math.random() * max);
 }

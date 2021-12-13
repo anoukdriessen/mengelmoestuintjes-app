@@ -1,14 +1,4 @@
 .quote {
-    color: var(--main-light);
-}
-
-/*.quote-wrapper {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*}*/
-/*.quote-wrapper div {*/
-
-.quote {
     color: var(--main-dark);
     margin: 1vw;
 }
@@ -28,13 +18,9 @@
     display: flex;
     flex-direction: column;
     margin: var(--basic-margin);
-    font-size: 2vw;
+    font-size: 1.1em;
     color: var(--green);
-
-/*    display: flex;*/
-/*    flex-direction: row;*/
-/*    justify-content: space-around;*/
-/*    font-size: 2vw;*/
+    max-width: 100%;
 }
 
 .ribbon div {
@@ -108,7 +94,7 @@
 }
   
 .ribbon::after {
-    top: 1em;
+    top: 1.5em;
     right:-2em;
     border-width: 1.1em 1em 1.1em 3em;
     border-color: var(--orange) transparent var(--orange) var(--orange);
