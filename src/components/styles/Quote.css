@@ -30,8 +30,6 @@
     margin: var(--basic-margin);
     font-size: 2vw;
     color: var(--green);
-    font-family: var(--writing);
-    position: relative;
 
 /*    display: flex;*/
 /*    flex-direction: row;*/

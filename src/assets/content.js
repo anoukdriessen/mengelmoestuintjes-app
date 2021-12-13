@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 
 // data
 import {
-    getAllPages,
+    getAllPages, getAllQuotes,
     getCurrentSeasonImage,
-    getQOTD
+    getQOTD, getRandomInt
 } from "./data";
 
 // components
@@ -22,8 +23,27 @@ function handleShowAndHideCards() {
 }
 
 export function HomeContent( props ) {
-    // content
-    homepage.content.hasQuote = true;
+    const [ qotd , setQuote ] = useState();
+    const [ error , setError ] = useState();
+
+    const randomQuote = "http://localhost:8080/quotes/random";
+
+    useEffect(() => {
+        axios(randomQuote)
+            .then((response) => {
+                console.log(response.data);
+                setQuote(response.data);
+            })
+            .catch((er) => {
+                console.error("Error occured fetching random quote: ", er);
+                setError(er);
+            });
+    }, []);
+
+    if (error) homepage.content.quote = false;
+
+    homepage.content.quote = { qotd };
+
     homepage.content.missions = {
         organizing: {
             title: 'organiseren',
@@ -71,7 +91,7 @@ export function HomeContent( props ) {
 
         <main>
             <Quote
-                quote = { getQOTD( props.content.hasQuote ) }
+                quote = { props.content.quote.qotd }
                 styling = 'ribbon'
             />
 

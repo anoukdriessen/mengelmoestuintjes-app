@@ -198,23 +198,6 @@ export function getCurrentSeasonImage() {
     return seasonalImage[1];
 }
 
-/**
- * Methode om de Quote van de dag op te halen
- * TODO voeg API call toe
- */
-export function getQOTD( hasQuote ) {
-    // list of quotes TODO from DB
-    let quotes = [
-        ['Iedere dag heb je twee keuzes, groeien of herhalen.', '@mengelmoestuintjes'],
-        ['Wat met liefde is geplant raakt nooit uitgebloeid', '@ireen_boerderijgeluk'],
-        ['Als jij een bloem was, zou ik jou plukken', '@claudia.mytowergarden'],
-    ];
-
-    // select random item from array
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-
-    // quote wordt alleen getoond als de quote variabele van object true is
-    if ( hasQuote ) {
-        return randomQuote;
-    }
+export function getRandomInt(max) {
+    return Math.floor(Math.random() * max) + 2;
 }

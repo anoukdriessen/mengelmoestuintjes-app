@@ -6,6 +6,7 @@ import {
     ImQuotesLeft as QL,
     ImQuotesRight as QR
 } from "react-icons/im";
+import {useState} from "react";
 
 /*
 * no quote -> return error string
@@ -19,11 +20,11 @@ function Quote( props ){
         return <p className='error'>'no quote'</p>;
     }
 
-    const author = props.quote[1];
-    const text = props.quote[0];
+    const author = props.quote.author;
+    const text = props.quote.text;
 
     return (
-        <blockquote className={props.styling}>
+        <blockquote className={props.styling} key={props.quote.id}>
             <div>
                 <QL className = 'quote'/>
                     { text }
