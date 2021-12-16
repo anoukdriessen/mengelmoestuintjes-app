@@ -38,7 +38,7 @@
     */
     --roboto: 'Roboto', sans-serif;
     --lato: 'Lato', sans-serif;
-    --reto: 'Press Start 2P', cursive;
+    --retro: 'Press Start 2P', cursive;
     --writing: 'Amatic SC', cursive;
 
     --warning-text: monospace;
@@ -60,6 +60,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 /*
@@ -72,6 +73,7 @@ html, body, div#root, div#container {
     height: var(--full-height);
     background-color: var(--main-light);
     overflow: hidden;
+    overflow-y: scroll;
 }
 
 /*
@@ -89,6 +91,19 @@ a, p, span { font-family: var(--lato); }
 */
 
 /*
+    SPACING
+*/
+.spacing-s {
+    padding: 5vh 0;
+}
+.spacing-m {
+    padding: 10vh 0;
+}
+.spacing-l {
+    padding: 25vh 0;
+}
+
+/*
     FANCY THINGS
 */
 .hover-shadow {
@@ -99,3 +114,5 @@ a, p, span { font-family: var(--lato); }
 .mirrored {
     transform: rotateY(180deg);
 }
+
+

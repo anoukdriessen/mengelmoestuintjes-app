@@ -1,9 +1,9 @@
-import './styles/Content.css';
-import { getAllPages } from "../assets/data";
+import './styles/MainContent.css';
+import { getAllPages } from "../../assets/data";
 import {
-    HomeContent,
     InfoContent
-} from "../assets/content";
+} from "../../assets/content";
+import { HomeContent } from "../../pages/Home";
 
 function PageContent( props ) {
     const pages = getAllPages();

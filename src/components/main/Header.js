@@ -1,26 +1,30 @@
 import './styles/Header.css';
-import { getAllPages } from "../assets/data";
+
+import {
+    getAllPages
+} from "../../assets/data";
 
 function PageTitle( props ) {
     const pages = getAllPages();
     const page = props.thisPage;
     const homepage = pages[0];
 
+    let wrapper = 'title-wrapper';
+    let id = '';
+    let icon = 'title-icon';
+
     if ( page === homepage ) {
-        // homepage has larger title & no icon / no wrapper
-        return <h1
-                id='mmt'
-                className='title'>
-                    { page.title }
-        </h1>
+        wrapper += ' home';
+        id = 'mmt';
+        icon = 'no-icon';
     }
 
     return <>
-        <div className='title-wrapper'>
-            <h1 className='title'>
+        <div className={wrapper}>
+            <h1 id={id} className='title'>
                 { page.title }
             </h1>
-            <span className='title-icon'>{ page.icon }</span>
+            <span className={icon}>{ page.icon }</span>
         </div>
         { page.subtitle && <h3 className='sub-title'> { page.subtitle } </h3> }
     </>

@@ -1,0 +1,225 @@
+.cards {
+    padding: 2.5vh 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: var(--full-width);
+    height: 10vh;
+    cursor: pointer;
+    position: relative;
+    margin: 3px var(--basic-margin);
+    padding: 0 var(--basic-padding);
+}
+.panel div {
+    align-self: center;
+    width: var(--full-width);
+    padding: var(--basic-padding);
+    margin: var(--basic-margin);
+}
+.panel h3 {
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--main-light);
+    font-family: var(--retro);
+    font-size: 0.8em;
+    letter-spacing: 10px;
+    padding: var(--basic-padding);
+}
+.panel p {
+    opacity: 0;
+}
+.panel.active {
+    align-items: center;
+    height: fit-content;
+    transition: height 1s ease-in-out;
+}
+.panel.active h3 {
+    text-align: center;
+    color: var(--main-light);
+    background: var(--green);
+    font-size: 1em;
+    transition: font-size 1s ease-in;
+}
+.panel.active p {
+    font-size: 0.7em;
+    margin:  0 5%;
+    padding: 5%;
+    opacity: 1;
+    transition: opacity 1s ease-in;
+    color: var(--main-dark);
+    background: rgba(255, 255, 255, 0.9);
+    letter-spacing: 1px;
+    font-family: var(--roboto);
+    text-align: center;
+}
+
+.steps h3, .steps.active h3 {
+    background-color: transparent;
+    color: var(--green);
+    font-size: 0.45em;
+    letter-spacing: 0;
+}
+.steps h3 {
+    text-align: left;
+}
+.steps p, .steps.active p {
+    background-color: transparent;
+    text-align: left;
+}
+
+.months {
+    padding: 0;
+    margin: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: fit-content;
+    background-color: var(--darker-blue);
+}
+.months.active {
+}
+.months h3, .months.active h3 {
+    background-color: transparent;
+    font-size: 0.1em;
+    padding: 0;
+    margin: 0;
+}
+.months p, .months.active p {
+    font-size: 0.1em;
+    background-color: transparent;
+}
+.months ul li {
+    display: none;
+}
+.months.active ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.months.active ul li {
+    display: block;
+    font-size: 0.1em;
+    min-width: 15vw;
+    line-height: 1vh;
+}
+
+.organized {
+    background-image: url("https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1468&q=80");
+    opacity: 0.8;
+}
+.sharing {
+    background-image: url("https://images.unsplash.com/photo-1438109382753-8368e7e1e7cf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80");
+    opacity: 0.8;
+}
+.learning {
+    background-image: url("https://images.unsplash.com/photo-1584062134595-dacde0a2336d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=866&q=80");
+    opacity: 0.8;
+}
+.paper {
+    background-image: url("https://images.unsplash.com/photo-1586076100131-32505c71d0d2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGFwZXIlMjB0ZXh0dXJlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60");
+}
+
+/* tablet */
+@media screen and (min-width: 768px) {
+    .cards {
+        width: 100vw;
+    }
+    .panel {
+        flex-wrap: wrap;
+        min-height: 50vh;
+        justify-content: center;
+        min-width: 5vw;
+        border-radius: 25px;
+        cursor: pointer;
+        flex: 0.5;
+        margin: 5px;
+        position: relative;
+        transition: flex 0.7s ease-in;
+    }
+    .panel div {
+        width: inherit;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .panel h3 {
+        width: 50vh;
+        font-size: 1em;
+        margin-left: -95vw;
+        margin-top: 10vw;
+        transform: rotate(90deg);
+        transition: transform 0.5s ease-in;
+        letter-spacing: 0;
+        border-radius: 0 0 25px 25px;
+    }
+    .panel.active {
+        height: 50vh;
+        width: 100%;
+        flex: 5;
+    }
+    .panel.active h3 {
+        border-radius: 0;
+        margin-left: 0;
+        margin-top: 0;
+        width: 100%;
+        font-size: 1.25em;
+        transform: rotate(0);
+        letter-spacing: 10px;
+    }
+    .panel.active p {
+        opacity: 0;
+        padding: 2.25%;
+        margin: 0 1.25%;
+        font-size: 0.95em;
+        display: inline-block;
+        transition: opacity 0.5s ease-in;
+    }
+
+    .panel.active p {
+        opacity: 1;
+    }
+
+    .paper h3 {
+        text-align: center;
+    }
+    .paper.active p {
+        font-size: 1.15em;
+    }
+}
+/* laptop */
+@media screen and (min-width: 1024px) {
+    .panel h3 {
+        font-size: 1.3em;
+    }
+    .panel.active p {
+        font-size: 1.3em;
+    }
+    .panel.active h3 {
+        font-size: 1.8em;
+    }
+}
+/* larger screens */
+@media screen and (min-width: 1950px) {
+    .panel {
+        max-height: 500px;
+    }
+    .panel h3 {
+        font-size: 35px;
+    }
+    .panel.active p {
+        font-size: 33px;
+    }
+}
