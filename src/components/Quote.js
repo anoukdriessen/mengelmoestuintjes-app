@@ -1,25 +1,34 @@
+// styling
 import './styles/Quote.css';
 
-import { ImQuotesLeft } from "react-icons/im";
-import { ImQuotesRight } from "react-icons/im";
+// icons
+import {
+    ImQuotesLeft as QL,
+    ImQuotesRight as QR
+} from "react-icons/im";
+import {useState} from "react";
 
-function Quote( { quote } ){
-    // return empty if quote is not set
-    if (!quote) {
-        return 'no quote';
+/*
+* no quote -> return error string
+* quote is an array of [ author , text ]
+* quote is wrapped inside a blockquote with a specified className
+* the text of quote is wrapped inside a div and quote icons
+* the author is wrapped inside a strong tag
+*/
+function Quote( props ){
+    if (!props.quote) {
+        return <p className='error'>'no quote'</p>;
     }
 
-    const author = quote[1];
-    const text = quote[0];
+    const author = props.quote.author;
+    const text = props.quote.text;
 
-    // return a blockquote with class .quote-wrapper
-    // inside is a div with two quote icons with class .quote
     return (
-        <blockquote className='quote-wrapper'>
+        <blockquote className={props.styling} key={props.quote.id}>
             <div>
-                <ImQuotesLeft className = 'quote'/>
+                <QL className = 'quote'/>
                     { text }
-                <ImQuotesRight className = 'quote'/>
+                <QR className = 'quote'/>
             </div>
             <strong className = 'author'>
                 { author }

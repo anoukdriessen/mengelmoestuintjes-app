@@ -1,61 +1,45 @@
-import './styles/Container.css';
 import './styles/Header.css';
-
-// components
-import Button from  './Button'
-
-// data
-import {getAllPages} from "../assets/data";
-import {Icon} from "./BottomNav";
+import { getAllPages } from "../assets/data";
 
 function PageTitle( props ) {
-    const title = props.thisPage.title;
+    const pages = getAllPages();
+    const page = props.thisPage;
+    const homepage = pages[0];
 
-    // homepage has larger title
-    if ( props.thisPage === props.pages[0] ) {
+    if ( page === homepage ) {
+        // homepage has larger title & no icon / no wrapper
         return <h1
                 id='mmt'
                 className='title'>
-                    { title }
+                    { page.title }
         </h1>
     }
 
-    // all the other pages
-    return <div className='title-wrapper'>
-        <h1 className='title'>
-            { title }
-        </h1>
-        <Icon
-            className = 'title-icon'
-            page = { props.thisPage }
-        />
-    </div>
+    return <>
+        <div className='title-wrapper'>
+            <h1 className='title'>
+                { page.title }
+            </h1>
+            <span className='title-icon'>{ page.icon }</span>
+        </div>
+        { page.subtitle && <h3 className='sub-title'> { page.subtitle } </h3> }
+    </>
 }
 
 function Header(props) {
-    const pages = getAllPages();
+    const page = props.thisPage;
 
-    // check if page props exist
-    if (props.thisPage) {
+    if (page) {
         return (
-            <div id="header">
-                <PageTitle
-                    thisPage = { props.thisPage }
-                    pages = { pages }
-                />
-
-                <Button
-                    classStyle = 'user-action'
-                    type = 'button'
-                    action = 'user-login'
-                    checkValue = { props.isLoggedIn }
-                />
+            <div id="header" className={ page.className }>
+                <PageTitle thisPage = { page} />
             </div>
         );
     }
 
-    return <div className='header'>
-        empty header
+    // page does not exist / is undefined
+    return <div id="header" className='page-undefined'>
+        <p className='error'> empty header </p>
     </div>
 
 }

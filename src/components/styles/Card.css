@@ -1,61 +1,46 @@
+#cards {
+    background-color: var(--main-light);
+    margin: var(--basic-margin);
+    padding: var(--basic-padding);
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
 .card {
-    /*border: var(--debug-border);*/
-    width: 100vw;
+    flex: 1;
+    /*min-width: 100%;*/
+    margin: var(--basic-margin) 0;
     display: flex;
     flex-direction: column;
-    padding: 1%;
+    align-items: center;
+    padding: var(--basic-padding);
 }
 
-.card .card-header {
-    display: flex;
-    flex-direction: row;
-    font-size: 2vw;
-    color: var(--green);
-}
-
-.card h3 {
+.card-header h3 {
     text-transform: uppercase;
-    padding-left: 2%;
+    color: var(--green);
+    font-size: 1.5vw;
 }
 
-.card p {
-    font-size: 1vw;
+.card-body {
+    font-size: 1.2vw;
     text-align: justify;
     border-radius: 15px
 }
 
-.speech-bubble {
-    position: relative;
-    top: -8vw;
-    left: -10vw;
-    min-height: 10vw;
-    margin: 2.5%;
-    background: var(--green);
-    border-radius: 15px;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
+.mission h3 {
+    font-family: var(--reto);
 }
-.speech-bubble::before {
-    content: "";
-    position: absolute;
-    right: 96%;
-    top: 94%;
-    transform: rotate(-50deg);
-    border-top: 13px solid transparent;
-    border-right: 26px solid var(--green);
-    border-bottom: 13px solid transparent;
+.mission h3:hover {
+    transform: scale(1.5);
 }
 
-.checked {
-    color: var(--blue);
-}
-
-.number {
-    color: var(--blue)!important;
-}
-
-.number::before {
-    content: 'STAP ';
-    color: var(--main-light);
-    font-size: 2vw;
+/* tablet / desktop */
+@media screen and (min-width: 767px) {
+    #cards {
+        border-radius: var(--basic-round-corners) 0 0 var(--basic-round-corners);
+    }
+    #cards .card {
+        min-width: 20%;
+    }
 }

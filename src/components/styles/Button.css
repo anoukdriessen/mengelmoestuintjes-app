@@ -1,43 +1,72 @@
-.user-action {
-    margin: 1%;
-    width: 3vw;
-    height: 3vw;
-    border: none;
+button {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    width: 15vw;
+    background: transparent;
+    color: var(--main-dark);
+}
+button:hover {
+    color: var(--main-light);
+}
+
+.link-text {
+    text-decoration: none;
+}
+
+.call-to-action a {
+    position: absolute;
+    top: 3px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 0;
+    margin: 0 0 0 1.85rem;
+    line-height: 2;
+    text-align: center;
+    text-transform: uppercase;
+}
+.circle {
+    position: relative;
+    margin: 0;
+    display: block;
+    width: 4vw;
+    height: 4vh;
+    background-color: var(--darker-blue);
+    border-radius: 50%;
+}
+.circle .arrow {
+    position: relative;
+    display: block;
+    transition: all 0.5s cubic-bezier(0.6, 0, 0.076, 1);
+    left: 0.6em;
+    width: 23px;
+    height: 23px;
     background: none;
 }
-
-.login, .profile {
-    color: var(--blue);
+.circle .arrow::before {
     position: absolute;
-    top: 0;
-    right: 0;
+    content: '';
+    top: 1.25rem;
+    right: -0.2rem;
+    width: 12px;
+    height: 12px;
+    border-top: 0.125rem solid var(--main-light);
+    border-right: 0.125rem solid var(--main-light);
+    transform: rotate(45deg);
+}
+button:hover .circle {
+    width: 100%;
+    border-radius: 25px;
+    transition: all 0.5s cubic-bezier(0.6, 0, 0.076, 1);
+}
+button:hover .circle .arrow {
+    transform: translate(1vw, 0);
 }
 
-.login:hover, .profile:hover {
-    color: var(--orange);
-}
-
-.call-to-action {
+#cta-home {
     align-self: center;
-    color: var(--green);
-    text-transform: uppercase;
-    font-size: 1.3vw;
-    padding: 0.5% 2.5%;
-    background-color: var(--main-light);
-    border: 3px solid var(--green);
-    border-radius: 50px;
-}
-
-.call-to-action:hover {
-    transform: scale(1.1);
-    background-color: var(--orange);
-    border-color: var(--yellow);
-}
-
-.lid-worden {
-
-}
-
-.go-to-profile {
-
 }

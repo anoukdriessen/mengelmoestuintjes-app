@@ -1,24 +1,60 @@
 :root {
+    /*
+        COLORS
+        - main LIGHT / DARK
+        - identity colors BLUE / ORANGE / YELLOW / GREEN
+            each color has a lighter and darker shade
+        - for success / warning and failure messages show GREEN / YELLOW / RED
+    */
     --main-light: #f5f5f5;
     --main-dark: #1e2a34;
 
     --lighter-blue: #bee1ee;
     --blue: #8dcbe2;
-    --darker-blue: #71a5b8;
-    --orange: #f2a202;
-    --yellow: #ffde5c;
-    --green: #157145;
+    --darker-blue: #5c97ad;
 
-    --success: #2ecc71;
-    --warning: #f1c40f;
+    --lighter-orange: #fdc149;
+    --orange: #f2a202;
+    --darker-orange: #a26c02;
+
+    --lighter-yellow: #ffefad;
+    --yellow: #ffde5c;
+    --darker-yellow: #f5c400;
+
+    --lighter-green: #4d8c2b;
+    --green: #157145;
+    --darker-green: #0c452a;
+
+    --success: var(--lighter-green);
+    --warning: var(--darker-yellow);
     --failure: #e74c3c;
 
-    --box-shadow: 0px 5px 12.5px -2.5px var(--main-dark);
-    /* reminder:
-        box-shadow: ...
-        -webkit-box-shadow: ...
-        moz-box-shadow: ...
+    --light-50: rgba(245, 245, 245, 0.5);
+
+    /*
+        FONTS
+        Headings and special text will be displayed in Roboto
+        All other text will be displayed in Lato
     */
+    --roboto: 'Roboto', sans-serif;
+    --lato: 'Lato', sans-serif;
+    --reto: 'Press Start 2P', cursive;
+    --writing: 'Amatic SC', cursive;
+
+    --warning-text: monospace;
+
+
+    /*
+        NUMERIC
+    */
+    --full: 100%;
+    --full-width: 100vw;
+    --full-height: 100vh;
+
+    --basic-padding: 2.5%;
+    --basic-margin: 2.5%;
+    --basic-round-corners: 25px;
+
 }
 
 * {
@@ -29,31 +65,37 @@
 /*
     use 100% of viewport height
     use 100% of viewport width
-    hide everything that overflows
-    TODO horizontal scroll overflow-x: scroll
     default theme is LIGHT-MODE
-    TODO dark-mode
 */
 html, body, div#root, div#container {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    width: var(--full-width);
+    height: var(--full-height);
     background-color: var(--main-light);
+    overflow: hidden;
 }
 
-/* Backgrounds */
-.background {
-    animation: gradientAnimation 25s ease-in-out infinite;
-    background-image: linear-gradient(
-            120deg,
-            var(--main-light),
-            var(--lighter-blue),
-            var(--main-light));
-    background-size: 500% 500%;
-    backdrop-filter: blur(10px);
+/*
+    TEXT
+*/
+h1, h2, h3, h4 { font-family: var(--roboto); }
+a, p, span { font-family: var(--lato); }
+
+.error { color: var(--failure); }
+.warning { color: var(--warning); }
+.success { color: var(--success); }
+
+/*
+    BACKGROUNDS
+*/
+
+/*
+    FANCY THINGS
+*/
+.hover-shadow {
+    box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
 }
-@keyframes gradientAnimation {
-    0% { background-position: 0 0; }
-    50% { background-position: 50% 50%; }
-    100% { background-position: 0 100%; }
+.mirrored {
+    transform: rotateY(180deg);
 }

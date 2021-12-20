@@ -4,129 +4,134 @@ import zomer from "./zomer.jpg";
 import herfst from "./herfst.jpg";
 import winter from "./winter.jpg";
 
+// importeer iconen
+import  {
+    IoHome as HomeIcon,
+    IoLeaf as LeafIcon,
+    IoDocumentAttachSharp as InstructionIcon,
+} from "react-icons/io5";
+import {
+    RiPlantFill as PlantDBIcon,
+    RiDashboardFill as DashboardIcon,
+} from "react-icons/ri";
+import {
+    GiPlantSeed as InGardenIcon,
+    GiWoodenSign as SignIcon,
+} from "react-icons/gi";
+import {
+    MdLogin as LoginIcon,
+    MdPersonPin as ProfileIcon,
+    MdMessage as MessageIcon,
+    MdOutlineWindow as GridIcon
+} from "react-icons/md";
+import {
+    BsBookmarkHeartFill as FavoritesIcon,
+} from "react-icons/bs"
+
 /**
- * Elke pagina heeft een:
- * - titel      [ verplicht ]
- * - url        [ verplicht ]
- * - content    [ verplicht ]
+ * Elke pagina heeft verplicht:
+ * - titel
+ * - url
+ * - icoon
+ * - content
  */
 let home = {
     title: 'Mengelmoestuintjes',
     url: '/',
-    content: {
-        hasQuote: true,
-        missions: {
-            organize: {
-                title: 'organiseren',
-                // TODO aanpassen
-                description: 'Mengelmoestuintjes helpt je het overzicht te houden in je (moes)tuin, jij bepaalt de grootte, jij bepaalt de naam, jij bepaalt wat er geplant is en wij houden je op de hoogte en motiveren je taken en werkzaamheden uit te voeren op basis van de planten die je hebt geplant of het seizoen dat het momenteel is. \n' +
-                    '\n' +
-                    'Je leert het overzicht te houden en prioriteiten te maken voor wat voor jou belangrijk is.'
-            },
-            share: {
-                title: 'delen',
-                // TODO aanpassen
-                description: 'Mengelmoestuintjes geeft je de ruimte te delen wat jij wilt! \n' +
-                    '\n' +
-                    'Deel je tuin, oogst of mijlpaal\n' +
-                    '\n' +
-                    'Stel een vraag aan je medetuinierders\n' +
-                    'of\n' +
-                    'Laat een notitie achter voor toekomst jij\n' +
-                    '\n' +
-                    'Samen wordt het leuker!\n' +
-                    '& daar helpen wij je graag mee '
-            },
-            learn: {
-                title: 'leren',
-                // TODO aanpassen
-                description: 'Mengelmoestuintjes begrijpt dat we allemaal (nog) geen expert zijn en we altijd nog wel iets kunnen leren, je kunt leren van onze geselecteerde experts of je kunt leren van elkaar.\n' +
-                    '\n' +
-                    'Voor alle leden bieden wij de mogelijkheid meer te leren over de basisbeginselen van het tuinieren en de moestuin.\n' +
-                    '\n' +
-                    '& samen groeien we verder'
-            }
-        }
-    }
+    icon: <HomeIcon />,
+    content: {},
+    className: 'home',
 }
 let info = {
     title: 'Maak een tuintje',
-    url: '/about-me',
-    content: {
-        subtitle: 'in 3 stappen',
-        howto: {
-            step1: 'stap 1',
-            step2: 'stap 2',
-            step3: 'stap 3'
-        }
-    },
+    subtitle: 'in 3 stappen',
+    url: '/info',
+    icon: <LeafIcon className='mirrored'/>,
+    content: {},
+    className: 'info',
 }
 let plantDB = {
     title: 'plant database',
     url: '/plant-database',
-    content: '',
+    icon: <PlantDBIcon />,
+    content: {},
+    className: 'plant-db',
 }
 let singlePlant = {
     title: 'single plant',
     url: '/single-plant',
-    content: '',
+    icon: <LeafIcon className='mirrored'/>,
+    content: {},
+    className: 'plant-single',
 }
 let plantInGarden = {
     title: 'plant in garden',
     url: '/plant-in-garden',
-    content: '',
+    icon: <InGardenIcon />,
+    content: {},
+    className: 'plant-garden',
 }
 let plantInstructions = {
     title: 'plant instructies',
     url: '/plant-instructions',
-    content: '',
+    icon: <InstructionIcon />,
+    content: {},
+    className: 'plant-instr',
 }
 let moderatorDashboard = {
     title: 'moderator dashboard',
     url: '/dashboard',
-    content: '',
+    icon: <DashboardIcon />,
+    content: {},
+    className: 'mod-dashboard',
 }
 let registerLogin = {
     title: 'Wordt lid of Login',
     url: '/register-and-login',
-    content: {
-        begin: '',
-        step1: 'stap 1',
-        step2: 'stap 2',
-        step3: 'stap 3',
-        step4: 'stap 4',
-    }
+    icon: <LoginIcon />,
+    content: {},
+    className: 'register-login',
 }
 let profile = {
     title: 'Profiel',
     url: '/profile',
-    content: ''
+    icon: <ProfileIcon />,
+    content: {},
+    className: 'profile',
 }
 let messages = {
     title: 'berichten',
     url: '/profile-messages',
-    content: ''
+    icon: <MessageIcon />,
+    content: {},
+    className: 'msg',
 }
 let gardens = {
     title: 'tuintjes',
     url: '/profile-gardens',
-    content: ''
+    icon: <GridIcon />,
+    content: {},
+    className: 'gardens',
 }
 let singleGarden = {
     title: 'name of garden',
     url: '/profile-garden-name',
-    content: ''
+    icon: <SignIcon />,
+    content: {},
+    className: 'gardens-single',
 }
 let favorites = {
     title: 'favorieten',
     url: '/profile-favorites',
-    content: ''
+    icon: <FavoritesIcon />,
+    content: {},
+    className: 'favo',
 }
 
 /**
  * Methode om alle pagina's op te halen
  * 0 = home
- * 1 = about
+ * 1 = info
  * 2 = plantDB
  * 3 = singlePlant
  * 4 = plantInGarden
@@ -137,8 +142,6 @@ let favorites = {
  *
  */
 export function getAllPages() {
-    home.hasNext = info;
-
     return [
         home,
         info,
@@ -195,23 +198,6 @@ export function getCurrentSeasonImage() {
     return seasonalImage[1];
 }
 
-/**
- * Methode om de Quote van de dag op te halen
- * TODO voeg API call toe
- */
-export function getQOTD( hasQuote ) {
-    // list of quotes TODO from DB
-    let quotes = [
-        ['Iedere dag heb je twee keuzes, groeien of herhalen.', '@mengelmoestuintjes'],
-        ['Wat met liefde is geplant raakt nooit uitgebloeid', '@ireen_boerderijgeluk'],
-        ['Als jij een bloem was, zou ik jou plukken', '@claudia.mytowergarden'],
-    ];
-
-    // select random item from array
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-
-    // quote wordt alleen getoond als de quote variabele van object true is
-    if ( hasQuote ) {
-        return randomQuote;
-    }
+export function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
 }
