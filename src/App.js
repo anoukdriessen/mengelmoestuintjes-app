@@ -28,36 +28,30 @@ function App() {
             <Switch>
                 <Route exact path={pages[0].url}>
                     <Home
-                        date = { today }
                         isLoggedIn = { isUserLoggedIn }
                         isMod = { isMod }
                     />
                 </Route>
                 <Route path={pages[1].url}>
                     <Info
-                        date = { today }
                         isLoggedIn = { isUserLoggedIn }
                         isMod = { isMod }
                     />
                 </Route>
                 <Route path={pages[2].url}>
                     <PlantDB
-                        date = { today }
                         isLoggedIn = { isUserLoggedIn }
                         isMod = { isMod }
                     />
                 </Route>
                 <Route path={pages[3].url}>
                     <RegisterLogin
-                        date = { today }
                         isLoggedIn = { isUserLoggedIn }
                         isMod = { isMod }
                     />
                 </Route>
-
                 <Route path={pages[4].url}>
                     <Profile
-                        date = { today }
                         isLoggedIn = { isUserLoggedIn }
                         isMod = { isMod }
                     />

@@ -1,18 +1,16 @@
 import React from 'react';
 
 // components
-import Container from "../components/Container";
+import Container from "../components/main/Container";
 
-function Profile(
-    { current, nextPage, today, isLoggedIn}
-) {
+function Profile( props ) {
 
     return (
         <Container
-            page = { current }
-            next = { nextPage }
-            today = { today }
-            isLoggedIn = { isLoggedIn }
+            page = { props.current }
+            next = { props.nextPage }
+            today = { props.today }
+            isLoggedIn = { props.isLoggedIn }
         />
     );
 }

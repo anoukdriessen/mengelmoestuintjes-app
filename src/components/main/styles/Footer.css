@@ -1,0 +1,125 @@
+footer {
+    position: absolute;
+    bottom: 0;
+}
+
+nav {
+    width: 100vw;
+    position: absolute;
+    bottom: 15%;
+    padding: 12px;
+    transition: 1s;
+    overflow: hidden;
+    background-color: var(--main-light);
+    border-radius: 25px 25px 0 0;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-around;
+}
+
+li {
+    list-style: none;
+}
+
+.nav-icon {
+    font-size: 1em;
+    color: var(--main-light);
+}
+
+ul li:hover {
+    transform: scale(2);
+}
+.nav-icon:hover {
+    color: var(--green);
+}
+.nav-icon-title {
+    opacity: 0;
+}
+#menu {
+    margin: 0;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 1s;
+    opacity: 0;
+    background-color: var(--lighter-blue);
+}
+
+input[type=checkbox] {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    height: 25px;
+}
+
+input[type=checkbox]:checked ~ #menu {
+    opacity: 1;
+    background-color: var(--lighter-blue);
+    transition: opacity 1s ease-in;
+}
+input[type=checkbox] ~ #menu {
+    opacity: 0;
+    background-color: var(--main-light);
+}
+
+input[type=checkbox] ~ #menu li  {
+    display: none;
+}
+input[type=checkbox]:checked ~ #menu li  {
+    display: flex;
+}
+
+.hamburger {
+    width: 100%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 30px;
+    right: 0;
+}
+
+.hamburger-bar, .hamburger-bar::before, .hamburger-bar::after {
+    background-color: var(--darker-blue);
+    position: absolute;
+    height: 2px;
+    width: 20px;
+}
+.hamburger-bar {
+    transition: 1s ease;
+    bottom: 25px;
+}
+.hamburger-bar::before {
+    content: '';
+    top: -6px;
+    transition: 1s ease;
+}
+.hamburger-bar::after {
+    content: '';
+    top: 6px;
+}
+
+#toggle:checked + label #active {
+    transform: rotate(45deg);
+}
+#toggle:checked + label #active::before {
+    transform: rotate(-90deg) translateX(-6px);
+}
+#toggle:checked + label #active::after {
+    opacity: 0;
+}
+
+#copyright {
+    letter-spacing: 2px;
+    font-size: 0.5em;
+    padding-left: 10px;
+}
+#copyright a {
+    text-transform: lowercase;
+    padding-left: 5px;
+    text-decoration: none;
+    color: #FFB6C1;
+}

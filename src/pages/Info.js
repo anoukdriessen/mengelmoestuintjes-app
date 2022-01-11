@@ -1,7 +1,9 @@
+import '../components/styles/pages/Info.css';
+
 import React from 'react';
 
 // components
-import Container from "../components/Container";
+import Container from "../components/main/Container";
 
 
 // data
@@ -13,7 +15,7 @@ const info = pages[1];
 
 function Info(props) {
     return (
-        <div className='background round-right'>
+        <div id='info' className='background round-right'>
             <Container
                 page = { info }
                 date = { props.date }

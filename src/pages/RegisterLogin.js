@@ -1,7 +1,7 @@
 import React from 'react';
 
 // components
-import Container from "../components/Container";
+import Container from "../components/main/Container";
 
 function RegisterLogin(
     { prevPage, current, nextPage, today, isLoggedIn}

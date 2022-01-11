@@ -2,21 +2,25 @@
 div#container {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 div#header {
     align-self: flex-start;
     padding: 0 var(--basic-padding);
-    width: 95vw;
+    width: 100vw;
 }
 
 div#main {
     align-self: flex-start;
-
 }
 
-div#footer {
+div footer {
     height: 8vh;
+}
+
+div#info {
+    overflow-y: scroll;
 }
 
 /* extra large screens */

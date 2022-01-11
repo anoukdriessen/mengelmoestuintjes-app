@@ -1,0 +1,38 @@
+function addClassNames(className) {
+    const main = document.getElementById('main');
+    console.log(main);
+    main.classList.add(className);
+
+    const footer = document.getElementById('footer');
+    console.log(footer);
+    footer.classList.add(className);
+
+    return '';
+}
+
+            <div id='cards' className='hover-shadow'>
+                { missions.map( ( item, key ) => {
+                    return <Card
+                        key = { key }
+                        styling = { 'mission' }
+                        title = { item.title }
+                        description = { item.description }
+                    />
+                })}
+            </div>
+
+<Button
+                id = 'cta-home'
+                className = 'call-to-action'
+                // type = 'circle-arrow'
+                linkTo = { info.url }
+                text = 'Meer info'
+            />
+
+
+        <span id='copyright'>
+            © { year }, designed by
+            <a href='https://www.anoukdriessen.nl'>
+                Anouk Driessen
+            </a>
+        </span>

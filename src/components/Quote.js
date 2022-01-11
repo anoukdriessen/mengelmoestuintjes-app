@@ -3,10 +3,8 @@ import './styles/Quote.css';
 
 // icons
 import {
-    ImQuotesLeft as QL,
-    ImQuotesRight as QR
-} from "react-icons/im";
-import {useState} from "react";
+    MdOutlineFormatQuote as Q
+} from "react-icons/md";
 
 /*
 * no quote -> return error string
@@ -17,7 +15,16 @@ import {useState} from "react";
 */
 function Quote( props ){
     if (!props.quote) {
-        return <p className='error'>'no quote'</p>;
+        return  <blockquote className='quote'>
+            <div>
+                <Q className = 'quote-icon mirrored'/>
+                <span>Je hebt iedere dag twee keuzes: Groeien of Herhalen</span>
+                <Q className = 'quote-icon'/>
+            </div>
+            <strong className = 'author'>
+                mengelmoestuintjes
+            </strong>
+        </blockquote>;
     }
 
     const author = props.quote.author;
@@ -26,9 +33,9 @@ function Quote( props ){
     return (
         <blockquote className={props.styling} key={props.quote.id}>
             <div>
-                <QL className = 'quote'/>
-                    { text }
-                <QR className = 'quote'/>
+                <Q className = 'quote-icon mirrored'/>
+                    <span>{ text }</span>
+                <Q className = 'quote-icon'/>
             </div>
             <strong className = 'author'>
                 { author }
