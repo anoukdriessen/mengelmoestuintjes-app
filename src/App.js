@@ -15,7 +15,10 @@ import {
 
 
 // data
-import { getAllPages } from './assets/data'
+import { getAllPages } from './assets/data';
+
+const accessToken = '';
+const apiUrl = '';
 
 function App() {
     const pages = getAllPages();     // lijst met alle pagina's
@@ -23,6 +26,8 @@ function App() {
 
     const [ isUserLoggedIn, setUserLoggedIn ] = useState(false);
     const [ isMod, setUserIsMod ] = useState(false);
+
+
 
     return (
             <Switch>
@@ -51,6 +56,12 @@ function App() {
                     />
                 </Route>
                 <Route path={pages[4].url}>
+                    <Profile
+                        isLoggedIn = { isUserLoggedIn }
+                        isMod = { isMod }
+                    />
+                </Route>
+                <Route path={pages[5].url}>
                     <Profile
                         isLoggedIn = { isUserLoggedIn }
                         isMod = { isMod }

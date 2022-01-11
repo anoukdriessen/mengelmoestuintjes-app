@@ -107,6 +107,12 @@ let favorites = {
     icon: <FavoritesIcon />,
     content: {},
 }
+let test = {
+    title: 'testing',
+    url: '/testing',
+    icon: <FavoritesIcon />,
+    content: {}
+}
 
 /**
  * Methode om alle pagina's op te halen
@@ -123,6 +129,7 @@ let favorites = {
  */
 export function getAllPages() {
     return [
+        test,
         home,
         info,
         plantDB,

@@ -115,4 +115,42 @@ a, p, span { font-family: var(--lato); }
     transform: rotateY(180deg);
 }
 
+#api {
+    min-width: 800px;
+    padding: 0 5%;
+}
+#api hr {
+    padding: 0.5% 0;
+    border: hidden;
+}
+#api div {
+    margin-top: 10px;
+    width: 100%;
+    padding: 1%;
+    border-top: 6px solid lightblue;
+    border-left: 6px solid lightblue;
+    border-right: 6px solid lightpink;
+    border-bottom: 6px solid lightpink;
+}
+#api section {
+    margin-top: 10px;
+    width: 100%;
+    padding: 1%;
+    border-top: 6px solid lightpink;
+    border-left: 6px solid lightpink;
+    border-right: 6px solid lightblue;
+    border-bottom: 6px solid lightblue;
+}
+#api div div {
+    border: hidden;
+    padding: 0.5%;
+}
+#api div section {
+    border: hidden;
+    padding: 0.5%;
+}
+#api ul li {
+    padding-left: 1%;
+}
+
 
