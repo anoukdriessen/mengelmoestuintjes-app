@@ -5,66 +5,121 @@ import {
 } from "./data";
 import Cards from "../components/Cards";
 import CallToAction from "../components/CallToAction";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import MainContent from "../components/main/MainContent";
 
 const pages = getAllPages();
 const info = pages[1];
 
-function HowTo( { handleChange } ) {
-    // content
-    info.content.howTo = {
-        first: {
-            title: 'Stap 1. Info',
-            description: 'Vul jouw email in en kies een passende gebruikersnaam. ' +
-                'Verzin zelf een veilig wachtwoord OF laat het door ons genereren' +
-                ' bij het aanmaken van je profiel vragen we je naam en geboortedatum in te vullen' +
-                ' dit is optioneel en mag je leeg laten. ' +
-                'Ook zullen wij je niet vragen onder welk gender jij jezelf vind passen, kom opdagen als jezelf dat vinden we belangrijk genoeg. ' +
-                'Wij vragen je alleen noodzakelijke data in te vullen, bij optionele data geven we jou de keuze wat je wel of niet met ons deelt,' +
-                ' wij beloven je data veilig te bewaren en niet te delen met derden voor welke doeleinden dan ook.'
-            ,
-            background: 'paper',
-        },
-        second: {
-            title: 'Stap 2. Profiel',
-            description: 'Maak je profiel compleet door een profielfoto, je kunt een van onze foto\'s kiezen als profielfoto ' +
-                'maar je kunt er ook zelf een uploaden, dat is wel zo persoonlijk. Op je profiel kun je (indien je dit leuk vind)' +
-                'wat meer vertellen over jou als persoon, als je hier een profiel aanmaakt kunnen we ervan uitgaan dat je van tuinieren houdt' +
-                'maar wat zijn nou die dingen die jou uniek maken als persoon? Je bepaalt overigens zelf wie jou persoonlijke profiel mag bekijken.',
-            background: 'paper',
-        },
-        third: {
-            title: 'Stap 3. Tuin',
-            description: 'En dan waar het eigenlijk allemaal op draait: Jouw tuintje! Kies een passende naam voor je tuin, ' +
-                'zo kun je ervoor kiezen een \'voortuin\', \'achtertuin\' en \'volkstuin\' te maken maar je kunt ook gewoon alles ' +
-                'samen op een plek bewaren. Het is jouw feestje. Per tuin kies je een afmeting, vul de lengte en breedte van je tuin in ' +
-                'en wij berekenen de vierkante meter voor je. Het veld dat je ziet wordt opgedeeld in vakken van ieder 1 vierkante meter. ' +
-                'Ieder vak kun je beplanten met een plantje uit de database of veranderen in een tegel of grasveld. ' +
-                'Voor ieder mengelmoestuintje hebben we geprobeerd zo veel mogelijk opties te geven, mis je nog iets neem dan contact met ons op',
-            background: 'paper',
-        }
-    }
+function HowTo( props ) {
+    const [error, setError] = useState(0);
+    const [text, setText] = useState();
 
-    // card content
-    const c = info.content.howTo;
-    const howTos = [c.first, c.second, c.third];
-    console.log(howTos)
+    const [numberOfQuotes, setNumberOfQuotes] = useState(0);
+    const [quote, setQuote] = useState("");
+    const [author, setAuhtor] = useState("");
+
+    const [numberOfUsers, setNumberOfUsers] = useState(0);
+    const [allUsers, setAllUsers] = useState({});
+    const [currentUsername, setCurrentUsername] = useState("");
+
+
+    useEffect(() => {
+        axios("https://localhost:8443/")
+            .then((response) => {
+                setText(response.data)
+            }).catch((er) => {
+            console.error("Error occurred fetching random quote: ", er);
+            setError(er);
+        });
+
+        // quotes
+        axios("https://localhost:8443/api/quotes")
+            .then((response) => {
+                setNumberOfQuotes(response.data.length);
+                // console.log(numberOfQuotes)
+            }).catch((er) => {
+            console.error("Error occurred fetching random quote: ", er);
+            setError(er);
+        });
+        axios("https://localhost:8443/api/quotes/random")
+            .then((response) => {
+                // console.log(response.data)
+                setQuote(response.data.text);
+                setAuhtor(response.data.author);
+            }).catch((er) => {
+            console.error("Error occurred fetching random quote: ", er);
+            setError(er);
+        });
+
+        // gebruikers
+        axios("https://localhost:8443/api/gebruikers")
+            .then((response) => {
+                    setNumberOfUsers(response.data.length);
+            }).catch((er) => {
+            console.error("Error occurred fetching random quote: ", er);
+            setError(er);
+        });
+
+        axios("https://localhost:8443/api/gebruikers/vivalanouk")
+            .then((response) => {
+                // console.log(response.data)
+                setCurrentUsername(response.data.username);
+            }).catch((er) => {
+            console.error("Error occurred fetching random quote: ", er);
+            setError(er);
+        });
+
+        let url = "https://localhost:8443/api/gebruikers/vivalanouk/authorities"
+        axios(url)
+            .then((response) => {
+                let all = [ [response.data], '2'];
+                console.log(all)
+            }).catch((er) => {
+            console.error("Error occurred fetching random quote: ", er);
+            setError(er);
+        });
+
+
+        }, []);
 
     return <>
-        <Cards id='how-to'
-               items = { howTos }
-               styling = 'steps'
-        />
-        <p onClick={
-            () => {
-                console.log('clicked')
-                handleChange(2)
-            }} className='btn call-to-action'>
-            Lees verder
-        </p>
+        <div id='api'>
+            <h2>{text}</h2>
+            <hr/>
+
+            <div>
+                <h3>Quotes</h3>
+                <hr/>
+                <p>Total quotes = {numberOfQuotes} </p>
+                <hr/>
+                <div>
+                    <p> {author} - {quote}  </p>
+                </div>
+                <hr/>
+            </div>
+
+            <section>
+                <h3>Gebruikers</h3>
+                <hr/>
+                <p>Total gebruikers = { numberOfUsers } <br/> current user = {currentUsername} </p>
+            </section>
+
+        </div>
     </>
 }
-
+// <Cards id='how-to'
+//        items = { howTos }
+//        styling = 'steps'
+// />
+// <p onClick={
+//     () => {
+//         console.log('clicked')
+//         handleChange(2)
+//     }} className='btn call-to-action'>
+//     Lees verder
+// </p>
 function Gardening( { handleChange } ) {
     // card content
     const months = [
