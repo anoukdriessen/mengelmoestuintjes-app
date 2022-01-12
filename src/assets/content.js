@@ -8,314 +8,232 @@ import CallToAction from "../components/CallToAction";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import MainContent from "../components/main/MainContent";
+import Learning, {DeveloperDash, Hello, PostsFromUser, TasksFromUser, Users} from "./learning";
 
 const pages = getAllPages();
 const info = pages[1];
 
 function HowTo( props ) {
-    const [error, setError] = useState(0);  // error message
-    const [serverRunning, isServerRunning] = useState(true);
+    const [error, setError] = useState(0);                      // error message
+    const [serverRunning, isServerRunning] = useState(true);    // see if the server is running // TODO /actuator
+    const [title, setTitle] = useState();                                // welcome message
 
-    const [text, setText] = useState();              // welcome message
+    const [numberOfUsers, setNumberOfUsers] = useState(0);      // count users
+    const [current, setCurrent] = useState();                            // current user
+    const [stats, setStats] = useState();                                // current user
+    const [provinces, setProvinces] = useState(null);           // all provinces
+    const [birthdays, setBirthdays] = useState(null);           // all usernames who have their birthday today
+    const [authorities, setAuthorities] = useState(null);       // all authorities from current user
 
+    const [sameLevel, setSameLevel] = useState(null);           // all with same level
+    const [sameEmail, setSameEmail] = useState(null);           // all with same email
+    const [sameProvince, setSameProvince] = useState(null);     // all from same province
 
-    const [numberOfQuotes, setNumberOfQuotes] = useState(0);
-    const [quote, setQuote] = useState("");
-    const [author, setAuhtor] = useState("");
+    const [publicPosts, setPublicPosts] = useState(null);       // posts from user where published = TRUE
+    const [privatePosts, setPrivatePosts] = useState(null);     // posts from user where published = FALSE
 
-    const [numberOfUsers, setNumberOfUsers] = useState(0);
-    const [allUsers, setAllUsers] = useState({});
-    const [currentUsername, setCurrentUsername] = useState("");
-    const [userRoles, setUserRoles] = useState();
-    const [allProvinces, setAllProvinces] = useState();
-    const [xp, setXp] = useState();
-    const [birthday, setBirthday] = useState([]);
-
-    // function isServerRunning() {
-        // axios("https://localhost:8443/actuator/health")
-        //     .then((response) => {
-        //         console.log(response.data);
-        //         isServerRunning(response.data)
-        //     }).catch((er) => {
-        // setError("" + er);
-        // console.error("Error occurred fetching random quote: ", er);
-        // });
-    // }
-
-    // function getWelcome() {
-        // see if server is running -> TODO for developer
-        // isServerRunning(GET https://localhost:8443/actuator/health) -> show info "status": "UP"
-        // axios("https://localhost:8443/actuator/health")
-        //     .then((response) => {
-        //         console.log(response.data.status)
-        //     }).catch((er) => {
-        //     setError("" + er);
-        //     console.error("Error occurred fetching random quote: ", er);
-        // });
-    // }
+    const [tasks, setTasks] = useState(null);                   // tasks to do
 
     useEffect(() => {
-        // getWelcome();
+        let baseUrl = 'https://localhost:8443/';
 
-        axios("https://localhost:8443/")
-            .then((response) => {
-                setText(response.data)
-            }).catch((er) => {
-            setError("" + er);
-            console.error("Error occurred fetching random quote: ", er);
-        });
-
-        // quotes
-        axios("https://localhost:8443/api/quotes")
-            .then((response) => {
-                setNumberOfQuotes(response.data.length);
-                // console.log(numberOfQuotes)
-            }).catch((er) => {
-            console.error("Error occurred fetching random quote: ", er);
-            setError(er);
-        });
-        axios("https://localhost:8443/api/quotes/random")
+    // welkom
+        axios(baseUrl)
             .then((response) => {
                 // console.log(response.data)
-                setQuote(response.data.text);
-                setAuhtor(response.data.author);
-            }).catch((er) => {
-            console.error("Error occurred fetching random quote: ", er);
+                setTitle(response.data)
+            })
+            .catch((er) => {
             setError("" + er);
+            console.error("Error occurred fetching welcome: ", er);
         });
 
-        // gebruikers
+    // USERS
         axios("https://localhost:8443/api/gebruikers")
             .then((response) => {
-                    setNumberOfUsers(response.data.length);
-            }).catch((er) => {
-            console.error("Error occurred fetching random quote: ", er);
+                setNumberOfUsers(response.data.length)
+            })
+            .catch((er) => {
             setError("" + er);
+            console.error("Error occurred fetching all users: ", er);
         });
 
-        axios("https://localhost:8443/api/gebruikers/vivalanouk")
+        // current user info
+        axios("https://localhost:8443/api/gebruikers/itiskevin/info")
             .then((response) => {
                 // console.log(response.data)
-                setCurrentUsername(response.data.username);
-            }).catch((er) => {
-            console.error("Error occurred fetching random quote: ", er);
-            setError(er);
+                setCurrent(response.data)
+            })
+            .catch((er) => {
+            setError("" + er);
+            console.error("Error occurred fetching current user: ", er);
         });
-
-        axios("https://localhost:8443/api/gebruikers/vivalanouk/authorities")
+        // current user authorities
+        axios("https://localhost:8443/api/gebruikers/itiskevin/authorities")
             .then((response) => {
-                let roles = response.data;
-                let out = "";
-                for (let i = 0; i < roles.length; i++) {
-                    out += roles[i].authority + "//"
-                }
-                setUserRoles(out);
-            }).catch((er) => {
-            console.error("Error occurred fetching random quote: ", er);
-            setError(er);
-        });
-
+                setAuthorities(response.data)
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching current user authorities: ", er);
+            });
+        // current user stats
+        axios("https://localhost:8443/api/gebruikers/itiskevin/xp")
+            .then((response) => {
+                // console.log(response.data)
+                setStats(response.data)
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching current user xp: ", er);
+            });
+        // all provincies
         axios("https://localhost:8443/api/gebruikers/provincies")
             .then((response) => {
-                let provincies = "";
-                for (let i = 0; i < response.data.length; i++) {
-                    provincies += response.data[i].toLowerCase() + " ";
-                }
-                setAllProvinces(provincies);
-            }).catch((er) => {
-            console.error("Error occurred fetching random quote: ", er);
-            setError(er);
-        });
-
-        axios("https://localhost:8443/api/gebruikers/vivalanouk/xp")
-            .then((response) => {
-                // console.log(response.data);
-                setXp(response.data);
-            }).catch((er) => {
-            console.error("Error occurred fetching random quote: ", er);
-            setError(er);
-        });
-
+                // console.log(response.data)
+                setProvinces(response.data)
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching provinces: ", er);
+            });
+        // who has its birthday today
         axios("https://localhost:8443/api/gebruikers/birthdays")
             .then((response) => {
-                setBirthday(response.data[0].username);
-            }).catch((er) => {
-            console.error("Error occurred fetching random quote: ", er);
-            setError(er);
-        });
+                // console.log(response.data)
+                setBirthdays(response.data)
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching birthday people: ", er);
+            });
+        // all with specified lvl
+        axios("https://localhost:8443/api/gebruikers?level=1")
+            .then((response) => {
+                // console.log(response.data)
+                setSameLevel(response.data)
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching users with same level: ", er);
+            });
+        // all with specified email
+        axios("https://localhost:8443/api/gebruikers?email=mengelmoestuintjes.nl")
+            .then((response) => {
+                // console.log(response.data);
+                setSameEmail(response.data);
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching users with same email: ", er);
+            });
+        axios("https://localhost:8443/api/gebruikers?province=OVERIJSSEL")
+            .then((response) => {
+                // console.log(response.data);
+                setSameProvince(response.data);
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching users from same province: ", er);
+            });
+        // gepubliseerde berichten
+        axios("https://localhost:8443/api/gebruikers/itiskevin/berichten?published=TRUE")
+            .then((response) => {
+                // console.log(response.data);
+                setPublicPosts(response.data);
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching public posts : ", er);
+            });
+        // prive berichten
+        axios("https://localhost:8443/api/gebruikers/itiskevin/berichten?published=FALSE")
+            .then((response) => {
+                // console.log(response.data);
+                setPrivatePosts(response.data);
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching private posts: ", er);
+            });
+        // to do tasks
+        axios("https://localhost:8443/api/gebruikers/gebruiker/taken/TODO")
+            .then((response) => {
+                // console.log(response.data);
+                let tasks = [];
+                for(let task in response.data) {
+                    tasks[task] = response.data[task]
+                    // console.log(response.data[task])
+                }
+                setTasks(tasks);
+            })
+            .catch((er) => {
+                setError("" + er);
+                console.error("Error occurred fetching to do tasks : ", er);
+            });
 
+        // axios("https://localhost:8443/api/")
+        //     .then((response) => {
+        //         // console.log(response.data);
+        //
+        //     })
+        //     .catch((er) => {
+        //         setError("" + er);
+        //         console.error("Error occurred fetching : ", er);
+        //     });
 
         }, []);
 
-    function Error( {error} ) {
-        //TODO add role === developer
-        let isDeveloper = true;
-        if (isDeveloper) {
-            if (error !== 0) {
-                return <span>ERROR: {error} </span>
-            } else {
-                return <>
-                    <span>NO ERRORS :-)</span><br/>
-                </>
-            }
-        } else {
-            return null
-        }
-    }
-    function Welcome( props ) {
-            if (props.serverRunning) {
-                let title = props.text
-                // const title = props.text.toUpperCase();
-
-                let userIsDeveloper = true;
-                if (userIsDeveloper) { //TODO userRole === developer
-                    return <>
-                        <Padding/>
-                        <Error error={props.error}/>
-                        <Padding/>
-                        <span>STATUS [ UP ]</span>
-                        <Padding/>
-                        <h2>{title}</h2>
-                    </>
-                }
-                // success
-                return <>
-                    <h2>{title}</h2>
-                </>
-            } else { // error on server side
-                return <h2>API niet online</h2>
-            }
-    }
-    function Padding( {size} ) {
-        if (size) {
-            return <hr className='m'/>
-        } else {
-            return <hr/>
-        }
-    }
-    function TitleAndTotal( props ) {
-
-        return <>
-            <h3>{props.title}</h3>
-            <Padding/>
-            <p>Total {props.title} = {props.count} </p>
-            <Padding/>
-        </>
-    }
-    function Quote( props){
-        return <>
-            <div>
-                <p> {props.author} </p>
-                <p> {props.text} </p>
-            </div>
-            <Padding/>
-        </>
-    }
-
-    // function Section( props ) {
-    //     switch (props.isType) {
-    //         case 0:
-    //             return <>
-    //                 <div>
-    //                     <Content
-    //                     title = {props.title}
-    //                     count = {props.count}
-    //                     author ={props.author}
-    //                     text = {props.text}/>
-    //                     <Padding/>
-    //                 </div>
-    //             </>
-    //         case 1:
-    //             return <>
-    //                 <section>
-    //                     <Content
-    //                         title = {props.title}
-    //                         count = {props.count}
-    //                     />
-    //                 </section>
-    //             </>
-    //         default:
-    //             break;
-    //     }
-    //     return <></>
-    // }
-
-    function UserRoles( {roles} ) {
-        let arr = String(roles);
-        arr = arr.split("//");
-        return <>
-            <ul>
-                <li><code>
-                    {arr[0]} {arr[1]}
-                </code></li>
-                <li><code>{arr[2]} {arr[3]}</code></li>
-            </ul>
-        </>
-    }
-    function Provincies( {provincies} ) {
-        let arr = String(provincies.toUpperCase());
-        arr = arr.split(" ");
-        return <>
-            <ul>
-                <li><code>
-                    {arr[0]} {arr[1]} {arr[2]} {arr[3]} {arr[4]} {arr[5]} {arr[6]}
-                </code></li>
-                <li><code>
-                    {arr[7]} {arr[8]} {arr[9]} {arr[10]} {arr[11]} {arr[12]}
-                </code></li>
-            </ul>
-        </>
-    }
     return <>
         <div id='api'>
-            <Welcome
-                error={error}
-                serverRunning={serverRunning}
-                text={text}/>
 
-            <Padding/>
+            <DeveloperDash
+                isDeveloper = {true}
+                isServerRunning = {serverRunning}
+                error = {error}
+            />
 
-            <div>
-                <TitleAndTotal
-                    title = "QUOTES"
-                    count = {numberOfQuotes}/>
-                <Quote
-                    author={author}
-                    text={quote}/>
-                <Padding/>
-            </div>
+            <hr/>
 
-            <Padding/>
+            <Hello
+                user={current}
+                title={title}
+            />
 
-            <section>
-                <TitleAndTotal
-                    title = "GEBRUIKERS"
-                    count = {numberOfUsers}/>
-                <Padding/>
-                <UserRoles
-                    roles = {userRoles}
-                />
-                <Padding/>
-                <Provincies
-                    provincies={allProvinces}/>
-
-                <p>Gebruiker die vandaag jarig is: <span>@{birthday}</span></p>
-            </section>
+            <Users
+                title = {"GEBRUIKERS"}
+                count = {numberOfUsers}
+                user = {current}
+                stats = {stats}
+                provinces = {provinces}
+                birthdays = {birthdays}
+                authorities = {authorities}
+                withLevel = {sameLevel}
+                withEmail = {sameEmail}
+                fromProvince = {sameProvince}
+            />
+            <hr/>
+            <h3>Public posts</h3>
+            <PostsFromUser
+                posts = {publicPosts}
+            />
+            <hr/>
+            <h3>Private posts</h3>
+            <PostsFromUser
+                posts = {privatePosts}
+            />
+            <hr/>
+            <h3>Taken van gebruiker</h3>
+            <hr/>
+            <h4>TODO</h4>
+            <TasksFromUser
+                tasks = {tasks}
+            />
 
         </div>
     </>
 }
-// <Cards id='how-to'
-//        items = { howTos }
-//        styling = 'steps'
-// />
-// <p onClick={
-//     () => {
-//         console.log('clicked')
-//         handleChange(2)
-//     }} className='btn call-to-action'>
-//     Lees verder
-// </p>
+
 function Gardening( { handleChange } ) {
     // card content
     const months = [
@@ -485,7 +403,6 @@ function Gardening( { handleChange } ) {
         />
     </>
 }
-
 function Content( { step, handleChange } ) {
     switch (step) {
         case 1:
@@ -500,7 +417,6 @@ function Content( { step, handleChange } ) {
             />
     }
 }
-
 export function InfoContent( props ) {
     const [ step, setStep ] = useState(1);
 

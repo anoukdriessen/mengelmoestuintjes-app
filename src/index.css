@@ -152,5 +152,8 @@ a, p, span { font-family: var(--lato); }
 #api ul li {
     padding-left: 1%;
 }
+#api input .task {
+    background-color: pink;
+}
 
 
