@@ -13,8 +13,11 @@ const pages = getAllPages();
 const info = pages[1];
 
 function HowTo( props ) {
-    const [error, setError] = useState(0);
-    const [text, setText] = useState();
+    const [error, setError] = useState(0);  // error message
+    const [serverRunning, isServerRunning] = useState(true);
+
+    const [text, setText] = useState();              // welcome message
+
 
     const [numberOfQuotes, setNumberOfQuotes] = useState(0);
     const [quote, setQuote] = useState("");
@@ -23,15 +26,43 @@ function HowTo( props ) {
     const [numberOfUsers, setNumberOfUsers] = useState(0);
     const [allUsers, setAllUsers] = useState({});
     const [currentUsername, setCurrentUsername] = useState("");
+    const [userRoles, setUserRoles] = useState();
+    const [allProvinces, setAllProvinces] = useState();
+    const [xp, setXp] = useState();
+    const [birthday, setBirthday] = useState([]);
 
+    // function isServerRunning() {
+        // axios("https://localhost:8443/actuator/health")
+        //     .then((response) => {
+        //         console.log(response.data);
+        //         isServerRunning(response.data)
+        //     }).catch((er) => {
+        // setError("" + er);
+        // console.error("Error occurred fetching random quote: ", er);
+        // });
+    // }
+
+    // function getWelcome() {
+        // see if server is running -> TODO for developer
+        // isServerRunning(GET https://localhost:8443/actuator/health) -> show info "status": "UP"
+        // axios("https://localhost:8443/actuator/health")
+        //     .then((response) => {
+        //         console.log(response.data.status)
+        //     }).catch((er) => {
+        //     setError("" + er);
+        //     console.error("Error occurred fetching random quote: ", er);
+        // });
+    // }
 
     useEffect(() => {
+        // getWelcome();
+
         axios("https://localhost:8443/")
             .then((response) => {
                 setText(response.data)
             }).catch((er) => {
+            setError("" + er);
             console.error("Error occurred fetching random quote: ", er);
-            setError(er);
         });
 
         // quotes
@@ -50,7 +81,7 @@ function HowTo( props ) {
                 setAuhtor(response.data.author);
             }).catch((er) => {
             console.error("Error occurred fetching random quote: ", er);
-            setError(er);
+            setError("" + er);
         });
 
         // gebruikers
@@ -59,7 +90,7 @@ function HowTo( props ) {
                     setNumberOfUsers(response.data.length);
             }).catch((er) => {
             console.error("Error occurred fetching random quote: ", er);
-            setError(er);
+            setError("" + er);
         });
 
         axios("https://localhost:8443/api/gebruikers/vivalanouk")
@@ -71,11 +102,43 @@ function HowTo( props ) {
             setError(er);
         });
 
-        let url = "https://localhost:8443/api/gebruikers/vivalanouk/authorities"
-        axios(url)
+        axios("https://localhost:8443/api/gebruikers/vivalanouk/authorities")
             .then((response) => {
-                let all = [ [response.data], '2'];
-                console.log(all)
+                let roles = response.data;
+                let out = "";
+                for (let i = 0; i < roles.length; i++) {
+                    out += roles[i].authority + "//"
+                }
+                setUserRoles(out);
+            }).catch((er) => {
+            console.error("Error occurred fetching random quote: ", er);
+            setError(er);
+        });
+
+        axios("https://localhost:8443/api/gebruikers/provincies")
+            .then((response) => {
+                let provincies = "";
+                for (let i = 0; i < response.data.length; i++) {
+                    provincies += response.data[i].toLowerCase() + " ";
+                }
+                setAllProvinces(provincies);
+            }).catch((er) => {
+            console.error("Error occurred fetching random quote: ", er);
+            setError(er);
+        });
+
+        axios("https://localhost:8443/api/gebruikers/vivalanouk/xp")
+            .then((response) => {
+                // console.log(response.data);
+                setXp(response.data);
+            }).catch((er) => {
+            console.error("Error occurred fetching random quote: ", er);
+            setError(er);
+        });
+
+        axios("https://localhost:8443/api/gebruikers/birthdays")
+            .then((response) => {
+                setBirthday(response.data[0].username);
             }).catch((er) => {
             console.error("Error occurred fetching random quote: ", er);
             setError(er);
@@ -84,26 +147,159 @@ function HowTo( props ) {
 
         }, []);
 
+    function Error( {error} ) {
+        //TODO add role === developer
+        let isDeveloper = true;
+        if (isDeveloper) {
+            if (error !== 0) {
+                return <span>ERROR: {error} </span>
+            } else {
+                return <>
+                    <span>NO ERRORS :-)</span><br/>
+                </>
+            }
+        } else {
+            return null
+        }
+    }
+    function Welcome( props ) {
+            if (props.serverRunning) {
+                let title = props.text
+                // const title = props.text.toUpperCase();
+
+                let userIsDeveloper = true;
+                if (userIsDeveloper) { //TODO userRole === developer
+                    return <>
+                        <Padding/>
+                        <Error error={props.error}/>
+                        <Padding/>
+                        <span>STATUS [ UP ]</span>
+                        <Padding/>
+                        <h2>{title}</h2>
+                    </>
+                }
+                // success
+                return <>
+                    <h2>{title}</h2>
+                </>
+            } else { // error on server side
+                return <h2>API niet online</h2>
+            }
+    }
+    function Padding( {size} ) {
+        if (size) {
+            return <hr className='m'/>
+        } else {
+            return <hr/>
+        }
+    }
+    function TitleAndTotal( props ) {
+
+        return <>
+            <h3>{props.title}</h3>
+            <Padding/>
+            <p>Total {props.title} = {props.count} </p>
+            <Padding/>
+        </>
+    }
+    function Quote( props){
+        return <>
+            <div>
+                <p> {props.author} </p>
+                <p> {props.text} </p>
+            </div>
+            <Padding/>
+        </>
+    }
+
+    // function Section( props ) {
+    //     switch (props.isType) {
+    //         case 0:
+    //             return <>
+    //                 <div>
+    //                     <Content
+    //                     title = {props.title}
+    //                     count = {props.count}
+    //                     author ={props.author}
+    //                     text = {props.text}/>
+    //                     <Padding/>
+    //                 </div>
+    //             </>
+    //         case 1:
+    //             return <>
+    //                 <section>
+    //                     <Content
+    //                         title = {props.title}
+    //                         count = {props.count}
+    //                     />
+    //                 </section>
+    //             </>
+    //         default:
+    //             break;
+    //     }
+    //     return <></>
+    // }
+
+    function UserRoles( {roles} ) {
+        let arr = String(roles);
+        arr = arr.split("//");
+        return <>
+            <ul>
+                <li><code>
+                    {arr[0]} {arr[1]}
+                </code></li>
+                <li><code>{arr[2]} {arr[3]}</code></li>
+            </ul>
+        </>
+    }
+    function Provincies( {provincies} ) {
+        let arr = String(provincies.toUpperCase());
+        arr = arr.split(" ");
+        return <>
+            <ul>
+                <li><code>
+                    {arr[0]} {arr[1]} {arr[2]} {arr[3]} {arr[4]} {arr[5]} {arr[6]}
+                </code></li>
+                <li><code>
+                    {arr[7]} {arr[8]} {arr[9]} {arr[10]} {arr[11]} {arr[12]}
+                </code></li>
+            </ul>
+        </>
+    }
     return <>
         <div id='api'>
-            <h2>{text}</h2>
-            <hr/>
+            <Welcome
+                error={error}
+                serverRunning={serverRunning}
+                text={text}/>
+
+            <Padding/>
 
             <div>
-                <h3>Quotes</h3>
-                <hr/>
-                <p>Total quotes = {numberOfQuotes} </p>
-                <hr/>
-                <div>
-                    <p> {author} - {quote}  </p>
-                </div>
-                <hr/>
+                <TitleAndTotal
+                    title = "QUOTES"
+                    count = {numberOfQuotes}/>
+                <Quote
+                    author={author}
+                    text={quote}/>
+                <Padding/>
             </div>
 
+            <Padding/>
+
             <section>
-                <h3>Gebruikers</h3>
-                <hr/>
-                <p>Total gebruikers = { numberOfUsers } <br/> current user = {currentUsername} </p>
+                <TitleAndTotal
+                    title = "GEBRUIKERS"
+                    count = {numberOfUsers}/>
+                <Padding/>
+                <UserRoles
+                    roles = {userRoles}
+                />
+                <Padding/>
+                <Provincies
+                    provincies={allProvinces}/>
+
+                <p>Gebruiker die vandaag jarig is: <span>@{birthday}</span></p>
             </section>
 
         </div>
