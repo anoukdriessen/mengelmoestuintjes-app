@@ -8,23 +8,37 @@ import {
 
 import Home from "./pages/Home";
 import Info from "./pages/Info";
+import Login from "./pages/Login";
+
+
 
 function App() {
+    const [isLoggedIn, toggleIsLoggedIn] = useState(false);
+    const [user, setUser] = useState({
+        username: 'vivalanouk',
+    });
+
+    console.log('isloggedin =', isLoggedIn);
+    console.log('my user', user);
 
     return (
             <Switch>
                 <Route exact path={'/'}>
                     <Home
                         title = "Mengelmoestuintjes"
-                        isloggedIn = {true}
-                        user = "vivalanouk"
+                        isloggedIn = {isLoggedIn}
+                        user = {user}
                     />
                 </Route>
-                <Route exact path={'/info'}>
+                <Route path={'/registreren'}>
                     <Info
                         title = "in 4 stappen jouw tuintje"
-                        isloggedIn = {true}
-                        user = "vivalanouk"
+                        isloggedIn = {isLoggedIn}
+                        user = {user}
+                    />
+                </Route>
+                <Route path={'/login'}>
+                    <Login
                     />
                 </Route>
 

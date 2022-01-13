@@ -3,7 +3,7 @@ import {FiLogIn as Login, FiUser as User} from "react-icons/fi";
 
 
 function UpperLink( props ) {
-    if (props.link === '/registreren-login') {
+    if (props.link === '/login') {
         return <Link className='top-right' to={props.link}>
             <Login/>
         </Link>

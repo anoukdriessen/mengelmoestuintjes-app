@@ -6,9 +6,16 @@ import {
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import Header from "../assets/components/Header";
-import Footer from "../assets/components/Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
+function getLink( isLoggedIn, user ) {
+    let link = '/login';
+    if (isLoggedIn && user) {
+        link = '/profile/' + user.username;
+    }
+    return link;
+}
 
 function Missions( props ) {
     if (props.missions) {
@@ -27,11 +34,6 @@ function Missions( props ) {
     return null
 }
 
-export function getLink( isLoggedIn, user ) {
-    let link = '/registreren-login';
-    if (isLoggedIn && user) link = '/profile/' + user;
-    return link;
-}
 function Home( props ) {
     const [quote, setQuote] = useState(null);
 
@@ -98,7 +100,7 @@ function Home( props ) {
 
         <Footer
             callToAction = {'Maak een tuintje!'}
-            link = {'/info'}
+            link = {'/registreren'}
         />
 
     </>
