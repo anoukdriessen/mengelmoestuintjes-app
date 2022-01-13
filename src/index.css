@@ -1,11 +1,16 @@
 html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
     height: 100%;
+    overflow-y: scroll;
 }
 body {
     display: flex;
     flex-direction: column;
 }
 .page-content {
+    padding: 0 2%;
 }
 
 main {
@@ -13,12 +18,8 @@ main {
 }
 
 footer {
-    background-color: white;
-    width: 96%;
-    position: absolute;
-    bottom: 0;
     text-align: center;
-    padding: 5px 0;
+    padding: 10% 0;
 }
 
 .title {
@@ -29,10 +30,16 @@ footer {
     text-transform: uppercase;
 }
 .top-right {
-    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(225,225,225,55%);
+    font-size: 24px;
+    text-align: right;
     position: absolute;
-    top: 1%;
-    right: 2%;
+    top: 2px;
+    right: 2px;
+    margin: 2px 2px;
+    border-bottom-left-radius: 25px;
 }
 .centered {
     display: flex;
@@ -45,10 +52,47 @@ footer {
 p {
     text-align: justify;
 }
+.header-img {
+    width: 100%;
+    border-radius: 50px;
+    border-bottom-left-radius: 0px;
+}
 
 #quote {
     padding: 2.5%;
 }
 #quote .text {
     text-align: center;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+form {
+    padding: 5px;
+    margin: 5px;
+}
+
+input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: 25px;
+}
+.left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.right .left-bottom {
+    border-bottom-left-radius: 0;
+}
+.right .left-top {
+    border-top-left-radius: 0;
 }

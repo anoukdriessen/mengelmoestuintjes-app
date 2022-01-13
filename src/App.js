@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 
 import Home from "./pages/Home";
+import Info from "./pages/Info";
 
 function App() {
 
@@ -15,7 +16,14 @@ function App() {
                 <Route exact path={'/'}>
                     <Home
                         title = "Mengelmoestuintjes"
-                        loggedIn = {true}
+                        isloggedIn = {true}
+                        user = "vivalanouk"
+                    />
+                </Route>
+                <Route exact path={'/info'}>
+                    <Info
+                        title = "in 4 stappen jouw tuintje"
+                        isloggedIn = {true}
                         user = "vivalanouk"
                     />
                 </Route>

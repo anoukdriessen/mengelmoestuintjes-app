@@ -6,21 +6,10 @@ import {
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-function Content( props ) {
+import Header from "../assets/components/Header";
+import Footer from "../assets/components/Footer";
 
-}
 
-function UpperLink( props ) {
-    if (props.link === '/registreren-login') {
-        return <Link className='top-right' to={props.link}>
-            <Login/>
-        </Link>
-    } else {
-        return <Link className='top-right' to={props.link}>
-            <User/>
-        </Link>
-    }
-}
 function Missions( props ) {
     if (props.missions) {
         // console.log(props.missions);
@@ -37,29 +26,12 @@ function Missions( props ) {
     }
     return null
 }
-function Quote( props ) {
-    if (props.quote) {
-        return <div id='quote'>
-            <span className='text'>{props.quote.text}</span>
-            <br/>
-            <span>{props.quote.author}</span>
-        </div>
-    }
-    return <div id='quote'>
-        <span className='text'>hello world</span>
-        <br/>
-        <span>every programmer at the start</span>
-    </div>
-}
-function CallToAction(props) {
-    if (props.link) {
-        return <Link to={props.link}>
-            {props.action}
-        </Link>
-    }
-    return null
-}
 
+export function getLink( isLoggedIn, user ) {
+    let link = '/registreren-login';
+    if (isLoggedIn && user) link = '/profile/' + user;
+    return link;
+}
 function Home( props ) {
     const [quote, setQuote] = useState(null);
 
@@ -72,8 +44,7 @@ function Home( props ) {
                 .catch((er) => { console.error("Error occurred fetching random quote: ", er); });
     }, []);
 
-    let link = '/registreren-login';
-    if (props.loggedIn && props.user) link = '/profile/' + props.user;
+    let link = getLink( props.loggedIn, props.user)
 
     let content = {
         missions: {
@@ -107,17 +78,17 @@ function Home( props ) {
                     ' en de moestuin. & samen groeien we verder',
                 background: 'learning',
             }
-        }
-    }
+        }}
     let missions = [ content.missions.organize, content.missions.share, content.missions.learn ]
 
     return <>
         <div className='page-content'>
-            <h1 className='title'>{props.title}</h1>
-
-            <UpperLink link={link}/>
-
-            <Quote quote={quote}/>
+            <Header
+                page = {'home'}
+                link = {link}
+                quote = {quote}
+                title = {'Mengelmoestuinjtes'}
+            />
 
             <main className='centered'>
                 <h2>Onze missie</h2>
@@ -125,9 +96,10 @@ function Home( props ) {
             </main>
         </div>
 
-        <footer className='footer'>
-            <CallToAction link={'/info'} action={'maak een tuintje'}/>
-        </footer>
+        <Footer
+            callToAction = {'Maak een tuintje!'}
+            link = {'/info'}
+        />
 
     </>
 }
