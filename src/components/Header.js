@@ -1,34 +1,43 @@
 import {Link} from "react-router-dom";
-import {FiLogIn as Login, FiUser as User} from "react-icons/fi";
+import IconNavLink from "./IconNavLink";
+import {useContext, useState} from "react";
+import {FiLoader} from "react-icons/fi";
+import ListDataContext, {ListDataProvider} from "../context/ListDataContext";
+import QuotesList from "./listitems/Quotes/QuotesList";
 
 
-function UpperLink( props ) {
-    if (props.link === '/login') {
-        return <Link className='top-right' to={props.link}>
-            <Login/>
-        </Link>
-    } else {
-        return <Link className='top-right' to={props.link}>
-            <User/>
-        </Link>
+function Navigation( { link, title, userId } ) {
+    if (!userId) {
+        userId = 'vivalanouk'
     }
-}
-
-function Navigation( props ) {
     return <>
-        <UpperLink link={props.link}/>
-        <h1 className='title'>{props.title}</h1>
+        <nav>
+            <IconNavLink
+                link={'/profiel/' + userId}
+                size={30}/>
+            <IconNavLink
+                link='/login'
+                size={30}/>
+            <IconNavLink
+                link='/terms-and-privacy'
+                size={30}/>
+            <IconNavLink
+                link='/'
+                size={30}/>
+        </nav>
+        <h1 className='title'>{title}</h1>
     </>
 }
 
-function Quote( props ) {
-    if (props.quote) {
+function Quote() {
+    const {randomQuote} = useContext(ListDataContext)
+    if (randomQuote) {
         return <div id='quote'>
-            <span className='text'>{props.quote.text}</span>
-            <br/>
-            <span>{props.quote.author}</span>
-        </div>
-    }
+             <span className='text'>{randomQuote.text}</span>
+             <br/>
+             <span>{randomQuote.author}</span>
+         </div>
+     }
     return <div id='quote'>
         <span className='text'>hello world</span>
         <br/>
@@ -36,21 +45,29 @@ function Quote( props ) {
     </div>
 }
 
-function Header( props ) {
-    if (props.page === 'home') {
-        return <>
+function Header({ title, page, isLoggedIn, user }) {
+    // TODO userID
+    // console.log('pageitems in header', pageitems)
+    // homepage has quote in header
+    if (page === 'home') {
+        return <ListDataProvider>
             <Navigation
-                link = {props.link}
-                title = {props.title}
+                link = {page}
+                title = {title}
             />
-            <Quote quote={props.quote}/>
-        </>
-    } else {
-        return <Navigation
-            link = {props.link}
-            title = {props.title}
-        />
+            <Quote />
+        </ListDataProvider>
     }
+
+    return <Navigation
+        link = {page}
+        title = {title}
+    />
+}
+
+Header.defaultProps = {
+    page: '/',
+    title: 'Mengelmoestuintjes',
 }
 
 export default Header;

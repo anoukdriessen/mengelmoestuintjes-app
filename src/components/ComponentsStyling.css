@@ -1,0 +1,53 @@
+.btn {
+    background-color: transparent;
+    border: transparent;
+    font-family: var(--writing);
+    padding: var(--basic-padding);
+    margin-bottom: 7%;
+    font-size: 1em;
+}
+
+.btn-call-to-action {
+    border-radius: var(--s-round-borders);
+    font-family: var(--retro);
+    letter-spacing: 2px;
+    font-size: 0.6em;
+    color: var(--main-dark);
+    background-color: var(--main-light);
+    border: 5px solid var(--lighter-orange);
+    padding: 10px 30px;
+    box-shadow: -4px 5px 0 0 var(--orange);
+    transition: transform 1s ease, box-shadow 1s ease;
+}
+.btn-call-to-action:hover {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 0 var(--orange);
+}
+.btn-call-to-action:hover::after {
+    content: " >>>";
+    transition: 2s;
+}
+.btn-call-to-action:active {
+    outline: none;
+    color: white;
+    background-color: var(--lighter-blue);
+    border-color: var(--lighter-blue);
+}
+.btn-call-to-action:focus {
+    outline: none;
+}
+
+.post-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--basic-padding);
+    margin: var(--basic-padding);
+    border-top: 3px solid var(--orange);
+    border-right: 3px solid var(--blue);
+    border-bottom: 3px solid var(--orange);
+    border-left: 3px solid var(--blue);
+}
+.post-card img {
+    width: 100%;
+    height: 100%;
+}

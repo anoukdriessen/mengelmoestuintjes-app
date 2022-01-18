@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import './components/ComponentsStyling.css';
 // routing
 import {
     Switch,
@@ -7,43 +7,70 @@ import {
 } from 'react-router-dom';
 
 import Home from "./pages/Home";
-import Info from "./pages/Info";
-import Login from "./pages/Login";
-
-
+import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
+import Garden from "./pages/Garden";
+import Mengelmoes from "./pages/Mengelmoes";
+import TermsAndPrivacy from "./pages/TermsAndPrivacy";
+import Profile from "./pages/Profile";
+import Dashboard from "./pages/Dashboard";
+import NotFound from "./pages/NotFound";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+import Contact from "./pages/Contact";
 
 function App() {
-    const [isLoggedIn, toggleIsLoggedIn] = useState(false);
-    const [user, setUser] = useState({
-        username: 'vivalanouk',
-    });
-
-    console.log('isloggedin =', isLoggedIn);
-    console.log('my user', user);
-
-    return (
-            <Switch>
-                <Route exact path={'/'}>
+    return <>
+        <Route exact path={'/'}>
                     <Home
                         title = "Mengelmoestuintjes"
-                        isloggedIn = {isLoggedIn}
-                        user = {user}
+                        page = {'/'}
                     />
                 </Route>
                 <Route path={'/registreren'}>
-                    <Info
+                    <SignUp
                         title = "in 4 stappen jouw tuintje"
-                        isloggedIn = {isLoggedIn}
-                        user = {user}
+                        page={'/registreren'}
                     />
                 </Route>
                 <Route path={'/login'}>
-                    <Login
+                    <SignIn
+                        title = "SignIn"
+                        page={'/login'}
                     />
                 </Route>
-
-            </Switch>
-    );
+                <Route path={'profiel/tuintje/:id'}>
+                    <Garden
+                        title="Naam van tuintje"
+                        page = {'/tuintje'}
+                    />
+                </Route>
+                <Route path={'/profiel/:id'}>
+                    <Profile
+                        title="Naam van gebruiker"
+                        page = {'/profiel'}
+                    />
+                </Route>
+                <Route path={'profiel/dashboard'}>
+                    <Dashboard
+                        title="Naam van gebruiker"
+                        page = {'/profiel'}
+                    />
+                </Route>
+                <Route path={'/mengelmoes'}>
+                    <Mengelmoes/>
+                </Route>
+                <Route path='/terms-and-privacy'>
+                    <TermsAndPrivacy />
+                </Route>
+                <Route path='/terms-and-privacy'>
+                    <Contact />
+                </Route>
+                <Route path='/404'>
+                    <NotFound/>
+                </Route>
+        <ToastContainer/>
+    </>;
 }
 
 export default App;
