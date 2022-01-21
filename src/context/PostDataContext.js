@@ -19,20 +19,7 @@ export const PostDataContextProvider = ({children}) => {
         item: null,
         searchedFor: false,
     });
-
-    useEffect(() => {
-        fetchRecentBlogPosts()
-    }, [])
-
-    const fetchRecentBlogPosts = async () => {
-        const response = await axios.get("https://localhost:8443/api/berichten?published=TRUE&category=BLOG")
-        setBlogPosts(response.data);
-        setIsLoading(false);
-    }
-
     const contextData = {
-        blogPosts,
-
     }
 
     return <PostDataContext.Provider value={contextData}>

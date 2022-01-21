@@ -3,8 +3,11 @@ import React, {useContext, useState} from "react";
 import AuthContextProvider, {AuthDataContext} from "../../context/AuthDataContext";
 import {NavLink} from "react-router-dom";
 import {GiBookshelf, GiMushroomHouse, GiWoodenSign} from "react-icons/gi";
+import ListDataContext from "../../context/ListDataContext";
 
-function NavLinks({button}) {
+
+
+function NavLinks() {
     const {auth, logout} = useContext(AuthDataContext)
     const loggedIn = auth.isAuth;
 
@@ -16,24 +19,39 @@ function NavLinks({button}) {
     const privatePages = [
         { title: 'Dashboard', icon: <GiMushroomHouse/>, link: '/home' },
     ]
+
     return <nav>
-        {button}
-        <ul>
+        <ul id='primary-nav'>
             {
                 pages.map((page) => {
-                    return <li>
-                        <NavLink key={page.link} id={page.link} to={page.link} activeClassName='active-link'>
-                            {page.icon} {page.title}
-                        </NavLink>
-                    </li>
+                    if (page.link === '/') {
+                        return <li key={page.title}>
+                            <NavLink activeClassName='active'  id={page.link} exact to={page.link}>
+                                <span className='nav-icon'>{page.icon}</span>{page.title}
+                            </NavLink>
+                        </li>
+                    } else {
+                        return <li key={page.title}>
+                            <NavLink activeClassName='active' id={page.link} to={page.link}>
+                                <span className='nav-icon'>{page.icon}</span> {page.title}
+                            </NavLink>
+                        </li>
+                    }
                 })
             }
-            {loggedIn ? <li>
-                <NavLink to={`/`} onClick={logout}>Uitloggen</NavLink>
-            </li> : <li>
-                <NavLink to={'/login'}>Inloggen</NavLink>
-            </li>}
         </ul>
+
+        <img src='https://images.unsplash.com/photo-1603729336521-9bff55419157?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80' alt='bord in community garden'/>
+
+        {loggedIn ? <ul id='secondary-nav'>
+            <li>
+                <NavLink activeClassName='active' to={`/`} onClick={logout}>Uitloggen</NavLink></li>
+        </ul> : <ul id='secondary-nav'>
+            <li>
+                <NavLink activeClassName='active' to={'/login'}>Inloggen</NavLink>
+                <NavLink activeClassName='active' to={'/registreren'}>Registreren</NavLink>
+            </li>
+        </ul>}
     </nav>
 }
 
@@ -51,18 +69,26 @@ function Navigation({pageTitle}) {
             { showMenu ? <FiX id='menu'/> : <FiMenu id='menu'/>}
         </span>
     )
+
+    if (showMenu) {
+        if (document.getElementById('post-cards') !== null) {
+            document.getElementById('post-cards').style.zIndex = "-1";
+        }
+    } else {
+        if (document.getElementById('post-cards') !== null) {
+            document.getElementById('post-cards').style.zIndex = "0";
+        }
+    }
     return <>
         <AuthContextProvider>
         {
             <div id='page-navigation'>
-                <div className='overlay'>
                     {menuBtn}
                     { showMenu && (
                         <div className='overlay-content'>
-                                <NavLinks button={menuBtn}/>
+                                <NavLinks/>
                         </div>
                     )}
-                </div>
             </div>
         }
             <h1 id='page-title'>{pageTitle}</h1>
@@ -76,6 +102,7 @@ function PageHeader({title}) {
         <Navigation
             pageTitle = {title}
         />
+
     </div>
 }
 

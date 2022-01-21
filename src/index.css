@@ -21,7 +21,7 @@
     --failure: #e74c3c;
 
     --light50: rgba(255,255,255,50%);
-    --dark50: rgba(0,0,0,60%);
+    --blue90: rgba(190, 225, 238, 90%);
 
     --roboto: 'Roboto Condensed', sans-serif;
     --lato: 'Lato', sans-serif;
@@ -58,15 +58,24 @@ body {
 h1, h2, h3 { font-family: var(--roboto); }
 .retro { font-family: var(--retro)}
 h4 { font-family: var(--writing)}
-a, p, span { font-family: var(--lato); }
+a, p, span, sub, sup { font-family: var(--lato); }
 
 h1 { font-size: 1.7em }
 h2 { font-size: 1.5em }
-h3 { font-size: 1em }
+h3 {
+    font-size: 1em;
+}
 h4 { font-size: 1.5em }
 
 svg {
     font-size: 1.7em;
+}
+
+a {
+    color: var(--green);
+}
+.active {
+    color: var(--main-dark);
 }
 
 .error { color: var(--failure); }

@@ -4,27 +4,44 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: flex-end;
+    overflow: hidden;
+    background-color: var(--lighter-blue);
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 1;
+}
+#page-header #primary-nav {
+    font-size: 1em;
+    padding-left: 5%;
+    align-items: flex-start;
+    padding-bottom: 10px;
+}
+#page-header #secondary-nav {
+    font-size: 0.5em;
+    padding-right: 5%;
+    align-items: flex-end;
+    padding-bottom: 10%;
+}
+#page-header #secondary-nav li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 
 #page-navigation .overlay-content {
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    z-index: 1;
+    width: 100vw;
+    min-height: 100vh;
+    position: sticky;
     top: 0;
     left: 0;
     background-color: var(--lighter-blue);
     overflow-x: hidden;
 }
-
 #page-navigation .overlay-content ul {
-    padding-left: 20px;
-    height: 100vh;
+    list-style: none;
     display: flex;
     flex-direction: column;
-    list-style: none;
-    align-items: flex-start;
-    justify-content: center;
 }
 #page-navigation .overlay-content ul li a {
     width: 100%;
@@ -33,23 +50,32 @@
     flex-wrap: nowrap;
     align-items: flex-end;
     text-decoration: none;
-    color: var(--green);
     font-family: var(--retro);
     text-transform: uppercase;
-    font-size: 1.4em;
-    padding: var(--basic-padding);
+    padding: 5px;
 }
-#page-navigation .overlay-content ul li a svg {
-    font-size: 2em;
-    padding-right: 2.5%;
+#page-navigation .overlay-content ul li a .nav-icon {
+    font-size: 15px;
 }
+#page-navigation .overlay-content ul li a:hover  {
+    padding-left: 25px;
+    text-decoration: underline 1px solid var(--orange);
+    cursor: pointer;
+}
+#page-navigation .overlay-content ul li a:hover::after {
+    content: " >>>";
+    color: var(--orange);
+}
+
 #menu, #profile {
     font-size: 1.7em;
     height: 20px;
 }
 
-.active-link {
-    color: var(--orange);
+nav img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
 }
 
 #page-title {
@@ -59,12 +85,36 @@
     letter-spacing: 1px;
 }
 #page-content {
+    margin-top: 50px;
     min-height: 100%;
-    padding: 5% 2.5%;
+    padding: 1.5% 2.5%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 #page-footer {
+}
+
+@media screen and (min-width: 768px) {
+    #page-title {
+        letter-spacing: 3px;
+    }
+    #page-header #primary-nav {
+        padding-bottom: 0;
+    }
+    nav img {
+
+        height: 400px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    * {
+        max-width: 1500px;
+    }
+
+    html, body {
+        margin: 0 auto;
+    }
 }

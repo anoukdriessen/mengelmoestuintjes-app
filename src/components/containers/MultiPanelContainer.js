@@ -1,7 +1,5 @@
-import { getUniqueId } from "../../helpers/functions";
 import './multipanel.css';
-import {useState} from "react";
-import {FiBook, FiBookOpen} from "react-icons/all";
+import React, {useState} from "react";
 
 function getMissions() {
     let content = {
@@ -41,8 +39,8 @@ function getMissions() {
 
 }
 
-function MultiPanelContainer({title, type}) {
-    const [active, setActive] = useState(null);
+function MultiPanelContainer({ type }) {
+    const [active, setActive] = useState();
 
     const changeActive = (e) => {
         setActive(e.target);
@@ -53,22 +51,24 @@ function MultiPanelContainer({title, type}) {
         list = getMissions();
     }
 
-    return <div className='container'>
-        <h3 className='container-header'>{title}</h3>
-        {
-            list.map((item) => {
-                let activeItem;
-                activeItem = active === document.getElementById(item.title);
+    return <>
+        <div className='container'>
+            {
+                list.map((item) => {
+                    let activeItem;
+                    activeItem = active === document.getElementById(item.title);
 
-                return <div key={item.title} className={'panel ' + item.background}>
-                    <div className={activeItem ? 'panel-header active' : 'panel-header'} id={item.title} onClick={(e) => changeActive(e)}>
-                        <h3 className='uppercase'>{item.title}</h3>
+                    return <div key={item.title} className={'panel ' + item.background}>
+                        <div className={activeItem ? 'panel-header active' : 'panel-header'} id={item.title}
+                             onClick={(e) => changeActive(e)}>
+                            <h3 className='uppercase'>{item.title}</h3>
+                        </div>
+                        {activeItem ? <p className={'active'}>{item.description}</p> : <p/>}
                     </div>
-                    {activeItem && <p>{item.description}</p>}
-                </div>
-            })
-        }
-    </div>
+                })
+            }
+        </div>
+    </>
 }
 
 export default MultiPanelContainer;

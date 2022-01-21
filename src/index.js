@@ -7,15 +7,17 @@ import './index.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import AuthContextProvider from "./context/AuthDataContext";
+import UserDataContextProvider from "./context/UserDataContext";
 
 ReactDOM.render(
-    <Router>
-        <React.StrictMode>
-            <Switch>
-            <App />
-            </Switch>
-        </React.StrictMode>
-    </Router>,
+    <React.StrictMode>
+        <Router>
+            <AuthContextProvider>
+                    <App />
+            </AuthContextProvider>
+        </Router>
+    </React.StrictMode>,
   document.getElementById('root')
 );
 

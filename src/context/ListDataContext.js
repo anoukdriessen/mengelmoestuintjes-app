@@ -10,7 +10,6 @@ export const ListDataProvider = ({children}) => {
     const {header, auth} = useContext(AuthDataContext)
 
     const [isLoading, setIsLoading] = useState(true)
-    const [randomQuote, setRandomQuote] = useState(null)
     const [quotes, setQuotes] = useState([])
     const [tasks, setTasks] = useState([
         {
@@ -38,21 +37,13 @@ export const ListDataProvider = ({children}) => {
     });
 
     useEffect(() => {
-        fetchRandomQuote()
         fetchQuotes()
     }, [toUpdate])
 
-    const fetchRandomQuote = async () => {
-        const response = await axios.get(`/api/quotes/random`, {
-            header
-        })
-        // console.log('fetch random quote',response.data)
-        setRandomQuote(response.data);
-        setIsLoading(false);
-    }
+
     const fetchQuotes = async () => {
             const response = await axios.get(`/api/quotes`, {
-                header
+                headers: header
             })
             // console.log('fetch all quotes',response.data)
             setQuotes(response.data);
@@ -141,7 +132,6 @@ export const ListDataProvider = ({children}) => {
     const contextData = {
         toUpdate,
         toFind,
-        randomQuote,
         quotes,
         findQuote,
         createQuote,

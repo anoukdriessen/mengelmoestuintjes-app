@@ -1,42 +1,60 @@
-import axios from "axios";
+import './postcard.css';
 import {useContext, useState} from "react";
-import {FiX} from "react-icons/fi";
-import PostDataContext from "../../context/PostDataContext";
+import {getUniqueId, parseMyDate} from "../../helpers/functions";
+import {FiPenTool} from "react-icons/all";
 
 function PostCard({item}) {
     const [readMore, toggleReadMore] = useState(false);
-    console.log('in postcard', item);
+    const [active, toggleActive] = useState(false);
+
     if (item) {
-        return <div className='post-card'>
-            <h4>{item.title}</h4>
-            <sub>{item.author}</sub>
-            <span>{item.modified !== null ? item.modified : item.created}</span>
+        return <div className='post-card'
+                    onMouseEnter={e => {toggleActive(true)}}
+                    onMouseLeave={e => {toggleActive(false)}}
+        >
             <img src={item.imageUrl} alt={'image for post ' + item.title}/>
-            {!readMore && <p>{item.summary}</p>}
-            <span onClick={() => {
-                toggleReadMore((prevState) => !prevState)
-            }}>
-            {!readMore && 'Lees verder' }
-        </span>
-            {readMore && <div><p>{item.summary}</p><br/><p>{item.description}</p></div>}
+            <h4>{item.title}</h4>
+            {
+                active && <p>
+                    { item.summary }
+                    <hr/>
+                    <span onClick={() => {
+                        toggleReadMore((prevState) => !prevState)
+                    }}>Lees verder</span>
+                </p>
+            }
+            <span className='info'>
+                <span><FiPenTool/>{item.author}</span>
+                <span>{item.modified !== null ? parseMyDate(item.modified) : parseMyDate(item.created)}</span>
+            </span>
+
         </div>
     }
     return null;
 }
 
-function PostCards({title, type, num}) {
-    const { blogPosts } = useContext(PostDataContext);
+function PostCards({title, type, blogPosts, num }) {
     let list = [];
-    for (let i = 0; i < num; i++) {
-        list[i] = blogPosts[i]
-    }
+    let listNotEmpty = blogPosts.length !== 0;
+
+
     if (type === 'blog') {
+        if (listNotEmpty) {
+            for (let i = 0; i < num; i++) {
+                list[i] = blogPosts[i]
+            }
+        }
         return <div id='post-cards'>
-            <h4>{title}</h4>
+                <h3>{title}</h3>
+                {
+                listNotEmpty && (
+                    list.map((item) => {
+                        return <PostCard key={getUniqueId()} item={item}/>
+                    })
+                )
+            }
             {
-                list.map((item) => {
-                    return <PostCard item={item}/>
-                })
+                !listNotEmpty && <p><sub>Geen berichten gevonden</sub></p>
             }
         </div>
     }

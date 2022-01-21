@@ -50,15 +50,16 @@ export const CommentProvider = ({children}) => {
         }
     }
 
-    return <CommentContext.Provider
-        value={{
-            data,
-            isLoading,
-            toUpdate,
-            createComment,
-            updateComment,
-            deleteComment,
-        }}>
+    const contextData = {
+        data,
+        isLoading,
+        toUpdate,
+        createComment,
+        updateComment,
+        deleteComment,
+    }
+
+    return <CommentContext.Provider value={contextData}>
         {children}
     </CommentContext.Provider>
 }

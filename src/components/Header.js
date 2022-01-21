@@ -29,21 +29,7 @@ function Navigation( { link, title, userId } ) {
     </>
 }
 
-function Quote() {
-    const {randomQuote} = useContext(ListDataContext)
-    if (randomQuote) {
-        return <div id='quote'>
-             <span className='text'>{randomQuote.text}</span>
-             <br/>
-             <span>{randomQuote.author}</span>
-         </div>
-     }
-    return <div id='quote'>
-        <span className='text'>hello world</span>
-        <br/>
-        <span>every programmer at the start</span>
-    </div>
-}
+
 
 function Header({ title, page, isLoggedIn, user }) {
     // TODO userID
@@ -55,7 +41,6 @@ function Header({ title, page, isLoggedIn, user }) {
                 link = {page}
                 title = {title}
             />
-            <Quote />
         </ListDataProvider>
     }
 
