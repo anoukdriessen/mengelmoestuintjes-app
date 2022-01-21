@@ -1,6 +1,5 @@
 import {ListDataProvider} from "../context/ListDataContext";
 import QuotesList from "../components/listitems/Quotes/QuotesList";
-import Header from "../components/Header";
 import UsersList from "../components/listitems/Users/UsersList";
 import TasksList from "../components/listitems/Users/Tasks/TasksList";
 
@@ -56,12 +55,6 @@ function Dashboard(props) {
 
     let today = new Date().toDateString();
     return <ListDataProvider>
-            <Header
-                title={title}
-                page={props.page}
-                isLoggedIn={props.isLoggedIn}
-                user = {user}
-            />
             <div id='dashboard-nav'>
                 <ul>
                 {

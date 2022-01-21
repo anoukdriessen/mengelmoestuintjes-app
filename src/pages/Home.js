@@ -4,11 +4,7 @@ import PageHeader from "../components/pageitems/PageHeader";
 import PageContent from "../components/pageitems/PageContent";
 import Button from "../components/Button";
 import React, {useContext, useEffect, useState} from "react";
-import {GiWheat, GiWoodenFence, RiPlantLine} from "react-icons/all";
 import PostCards from "../components/containers/PostCards";
-import {GiWoodenSign} from "react-icons/gi";
-import {PostDataContextProvider} from "../context/PostDataContext";
-import ListDataContext, {ListDataProvider} from "../context/ListDataContext";
 import axios from "axios";
 import {AuthDataContext} from "../context/AuthDataContext";
 import {Link} from "react-router-dom";
@@ -41,7 +37,7 @@ function Home() {
     const fetchBlogPosts = async () => {
         isLoading(true);
         try {
-            const response = await axios.get(`https://localhost:8443/api/berichten/top3`, {
+            const response = await axios.get(`https://localhost:8443/api/berichten/top4`, {
                     params: {published: true, category: "BLOG"}
             })
             setBlogPosts(response.data.reverse());
@@ -68,7 +64,7 @@ function Home() {
                 title='Recente blogberichten'
                 type='blog'
                 blogPosts={blogPosts}
-                num={3}
+                num={4}
             />
 
             <Link to={'/blog'}><Button version='call-to-action'>

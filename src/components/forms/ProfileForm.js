@@ -1,12 +1,19 @@
 import './forms.css'
-import {useState} from "react";
-import {FiImage, FiSave, FiSettings, FiUserCheck, GiPartyPopper} from "react-icons/all";
+import {useContext, useState} from "react";
+import {FiImage, FiMapPin, FiSave, FiSettings, FiUserCheck, GiPartyPopper} from "react-icons/all";
 import {InputFieldWithIcon} from "./FormItems";
 import {FiMail, FiUser} from "react-icons/fi";
+import axios from "axios";
+import {toast} from "react-toastify";
+import UserDataContext from "../../context/UserDataContext";
+import {convertProvince} from "../../helpers/functions";
+import * as fs from "fs";
 
 function ProfileForm({thisUser}) {
+    const { provinces } = useContext(UserDataContext);
+
     const [formData, setFormData] = useState({
-        image: null,
+        image: thisUser.image,
         displayName: thisUser.displayName,
         email: thisUser.email,
         birthday: thisUser.details.birthday,
@@ -17,8 +24,31 @@ function ProfileForm({thisUser}) {
 
     let iconSize = 20;
 
-    const handleSubmit = () => {
-        console.log('clicked submit')
+    const handleSubmit = async (e) => {
+        // console.log(formData.image)
+        // console.log(formData.displayName)
+        // console.log(formData.email)
+        // console.log(formData.birthday)
+        // console.log(formData.province)
+        // const imageFormData = new FormData();
+        // imageFormData.append('file', btoa(formData.image));
+        try {
+            const result = await axios.patch(`https://localhost:8443/api/gebruikers/${thisUser.username}`, {
+                "name": `${formData.displayName}`,
+                "email": `${formData.email}`,
+                "birthday": `${formData.birthday}`,
+                "provinces": `${formData.province}`
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            console.log(result);
+        } catch (e) {
+            console.error(e);
+            console.log(e.response);
+        }
     }
 
     const handleChange = (e) => {
@@ -38,21 +68,7 @@ function ProfileForm({thisUser}) {
                 { changeDetails ? <FiSave size={15}/> : <FiSettings size={15}/> }
                 { changeDetails ? 'Opslaan' : 'Aanpassen' }
             </span>
-            <form id='profile-details-form' onSubmit={handleSubmit} className={ !changeDetails && 'hidden' }>
-                <div className='details'>
-                    <InputFieldWithIcon icon = {<FiImage size={iconSize} />}>
-                        <input
-                            id='image'
-                            type='file'
-                            value={image}
-                            placeholder={'Profielfoto'}
-                            onChange={handleChange}
-                            accept="image/png, image/jpeg"
-                            disabled={!changeDetails}
-                        />
-                    </InputFieldWithIcon>
-                    <p>Je profielfoto wordt getoont bij gedeelde taken en tuintjes.<br/>Je bent niet verplicht een profielfoto te uploaden maar staat wel een stuk persoonlijker</p>
-                </div>
+            <form id='profile-details-form' onSubmit={handleSubmit} className={ !changeDetails ? 'hidden' : '' }>
                 <div className='details'>
                     <InputFieldWithIcon icon = {<FiUserCheck size={iconSize} />}>
                         <input
@@ -95,6 +111,22 @@ function ProfileForm({thisUser}) {
                     </InputFieldWithIcon>
                     <p>Je mede tuinierders kunnen zien dat je jarig bent<br/>
                     Je bent niet verplicht om je verjaardag in te vullen</p>
+                </div>
+                <div className='details'>
+                    <InputFieldWithIcon icon = {<FiMapPin size={iconSize} />}>
+                        <select name='province' id='province' onChange={handleChange} defaultValue={province}>
+                            <option value='HIDDEN'>Kies een Provincie</option>
+                            {
+                                provinces && ( provinces.map((p) => {
+                                    let thisProvince = convertProvince(p);
+                                    if (p !== 'HIDDEN') {
+                                        return <option key={p} value={p}>{thisProvince}</option>
+                                    }
+                                }))
+                            }
+                        </select>
+                    </InputFieldWithIcon>
+                    <p>Waar zijn jij en je tuintje gevestigd? Deel dit met je mede tuinierders en wordt getoont in de lokale berichten</p>
                 </div>
             </form>
         </div>

@@ -4,18 +4,33 @@ import axios from "axios";
 export const UserDataContext = createContext({});
 
 export const UserDataContextProvider = ({ children }) => {
-    const [user, setUser] = useState({
-        username: '',
-    });
-    const [allUsers, setAllUsers] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
+    const [allProfiles, setAllProfiles] = useState([]);
+    const [provinces, setProvinces] = useState([]);
 
-    const contextData = {
-        user,
+    useEffect(() => {
+        fetchProvinces()
+    }, [])
+
+    const fetchProvinces = async () => {
+        const response = await axios.get(`https://localhost:8443/api/gebruikers/provincies`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        // console.log(response);
+        setProvinces(response.data);
     }
 
-    return <UserDataContextProvider.Provider value={contextData}>
+    const contextData = {
+        allProfiles,
+        provinces,
+    }
+
+    return <UserDataContext.Provider value={contextData}>
             {children}
-    </UserDataContextProvider.Provider>
+    </UserDataContext.Provider>
 }
 
 export default UserDataContext;

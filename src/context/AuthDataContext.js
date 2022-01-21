@@ -23,7 +23,7 @@ function AuthContextProvider({ children }) {
         const userResult = await axios.get(`https://localhost:8443/api/gebruikers/${username}`,
             {
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": 'application/json',
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
             })
@@ -34,6 +34,7 @@ function AuthContextProvider({ children }) {
                 username: username,
                 displayName: userData.name,
                 email: userData.email,
+                image: userData.profileImg,
                 authorities: userData.authorities,
                 details: {
                     birthday: userData.birthday,

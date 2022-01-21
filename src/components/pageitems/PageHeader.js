@@ -2,7 +2,7 @@ import {FiMenu, FiUser, FiX} from 'react-icons/fi'
 import React, {useContext, useState} from "react";
 import AuthContextProvider, {AuthDataContext} from "../../context/AuthDataContext";
 import {NavLink} from "react-router-dom";
-import {GiBookshelf, GiMushroomHouse, GiWoodenSign} from "react-icons/gi";
+import {GiBookshelf, GiMushroomHouse, GiNotebook, GiWoodenSign} from "react-icons/gi";
 import ListDataContext from "../../context/ListDataContext";
 
 
@@ -13,8 +13,10 @@ function NavLinks() {
 
     const pages = [
         { title: 'Home', icon: <GiMushroomHouse/>, link: '/' },
+        { title: 'Profiel', icon: <FiUser/>, link: `/profiel/${auth.user.username}` },
         { title: 'Tuintjes', icon: <GiWoodenSign/>, link: '/profiel/tuintjes' },
         { title: 'Academy', icon: <GiBookshelf/>, link: '/academy' },
+        { title: 'Blog', icon: <GiNotebook/>, link: '/blog' },
     ]
     const privatePages = [
         { title: 'Dashboard', icon: <GiMushroomHouse/>, link: '/home' },
@@ -30,6 +32,14 @@ function NavLinks() {
                                 <span className='nav-icon'>{page.icon}</span>{page.title}
                             </NavLink>
                         </li>
+                    } else if (page.title === 'Profiel') {
+                        if (auth.isAuth) {
+                            return <li key={page.title}>
+                                <NavLink activeClassName='active'  id={page.link} exact to={page.link}>
+                                    <span className='nav-icon'>{page.icon}</span>{page.title}
+                                </NavLink>
+                            </li>
+                        }
                     } else {
                         return <li key={page.title}>
                             <NavLink activeClassName='active' id={page.link} to={page.link}>

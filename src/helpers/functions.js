@@ -81,3 +81,18 @@ export function convertToMyDateFormat(d) {
     let day = d.getDate();
     return "" + year + '-' + month + '-' + day;
 }
+
+export function convertProvince(province) {
+    let converted;
+    if (province.includes("NOORD")) {
+        // province contains NOORD
+        converted = province[0] + province.substring(1, 5).toLowerCase() + "-" + province[5] + province.substring(6).toLowerCase()
+    } else if (province.includes("ZUID")) {
+        // province contains ZUID
+        converted = province[0] + province.substring(1, 4).toLowerCase() + "-" + province[4] + province.substring(5).toLowerCase()
+    } else {
+        // other provinces
+        converted = province[0] + province.substring(1).toLowerCase();
+    }
+    return converted;
+}

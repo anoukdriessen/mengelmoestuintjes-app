@@ -1,14 +1,14 @@
 
-function Card({children, reverse}) {
+function Card({children, retro}) {
     // console.log(reverse);
 
-    return <div className={`card ${reverse && 'reverse'}`}>
+    return <div className={`card ${retro ? 'retro-style' : ''}`}>
         {children}
     </div>
 }
 
 Card.defaultProps = {
-    reverse: false
+    retro: false
 }
 
 export default Card;
