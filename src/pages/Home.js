@@ -1,77 +1,78 @@
-import React, {useEffect, useState} from 'react';
-import '../components/styles/pages/Info.css';
-
-import Container from "../components/main/Container";
-
-import {
-    getAllPages
-} from "../assets/data";
+import '../components/pageitems/PageStyling.css'
+import MultiPanelContainer from "../components/containers/MultiPanelContainer";
+import PageHeader from "../components/pageitems/PageHeader";
+import PageContent from "../components/pageitems/PageContent";
+import Button from "../components/Button";
+import React, {useContext, useEffect, useState} from "react";
+import PostCards from "../components/containers/PostCards";
 import axios from "axios";
+import {AuthDataContext} from "../context/AuthDataContext";
+import {Link} from "react-router-dom";
 import Quote from "../components/Quote";
-import Cards from "../components/Cards";
-import CallToAction from "../components/CallToAction";
 
-const pages = getAllPages();
-const homepage = pages[0];
-
-export function HomeContent( props ) {
-    const [qotd, setQuote] = useState();
-    const [error, setError] = useState();
-
-    const randomQuote = "http://localhost:8080/quotes/random";
+function Home() {
+    const { header } = useContext(AuthDataContext)
+    const [randomQuote, setRandomQuote] = useState(null)
+    const [blogPosts, setBlogPosts] = useState([])
+    const [loading, isLoading] = useState(true);
 
     useEffect(() => {
-        axios(randomQuote)
-            .then((response) => {
-                // console.log(response.data);
-                setQuote(response.data);
+        fetchRandomQuote()
+        fetchBlogPosts()
+    }, [])
+
+    const fetchRandomQuote = async () => {
+        isLoading(true);
+        try {
+            const response = await axios.get(`https://localhost:8443/api/quotes/random`, {
             })
-            .catch((er) => {
-                console.error("Error occurred fetching random quote: ", er);
-                setError(er);
-            });
-    }, []);
-
-    if (error) homepage.content.quote = false;
-    homepage.content.quote = {qotd};
-
-
-    // card content
-    const missions = [
-        props.content.missions.organizing,
-        props.content.missions.sharing,
-        props.content.missions.learning
-    ]
-
+            // console.log('fetch random quote',response.data)
+            setRandomQuote(response.data);
+            isLoading(false);
+        } catch (e) {
+            console.error(e);
+            console.log(e.response);
+        }
+    }
+    const fetchBlogPosts = async () => {
+        isLoading(true);
+        try {
+            const response = await axios.get(`https://localhost:8443/api/berichten/top4`, {
+                    params: {published: true, category: "BLOG"}
+            })
+            setBlogPosts(response.data.reverse());
+            isLoading(false);
+        } catch (e) {
+            console.error(e);
+            console.log(e.response);
+        }
+    }
 
     return <>
-        <main>
-            <Quote
-                quote={props.content.quote.qotd}
-                styling='quote'
+        <PageHeader title='Mengelmoestuintjes'/>
+
+        <PageContent>
+            <Quote quote={randomQuote}/>
+
+            <MultiPanelContainer type='missions'/>
+
+            <Link to={'/registreren'}><Button version='call-to-action'>
+                Maak een Tuintje
+            </Button></Link>
+
+            <PostCards
+                title='Recente blogberichten'
+                type='blog'
+                blogPosts={blogPosts}
+                num={4}
             />
 
-            <Cards
-                items={missions}
-            />
+            <Link to={'/blog'}><Button version='call-to-action'>
+                lees verder
+            </Button></Link>
 
-            <CallToAction
-                type={0}
-                title={'lees meer over onze missie'}
-                linkTo={pages[1].url}
-            />
-        </main>
+        </PageContent>
     </>
-}
-
-function Home( props ) {
-  return (
-      <Container
-        page = { homepage }
-        isLoggedIn = { props.isLoggedIn }
-        isMod = { props.isMod }
-      />
-  );
 }
 
 export default Home;

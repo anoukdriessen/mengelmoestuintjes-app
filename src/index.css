@@ -1,26 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Lato:wght@300&family=Press+Start+2P&family=Roboto+Condensed&display=swap');
+
 :root {
-    /*
-        COLORS
-        - main LIGHT / DARK
-        - identity colors BLUE / ORANGE / YELLOW / GREEN
-            each color has a lighter and darker shade
-        - for success / warning and failure messages show GREEN / YELLOW / RED
-    */
     --main-light: #f5f5f5;
     --main-dark: #1e2a34;
-
     --lighter-blue: #bee1ee;
     --blue: #8dcbe2;
     --darker-blue: #5c97ad;
-
     --lighter-orange: #fdc149;
     --orange: #f2a202;
     --darker-orange: #a26c02;
-
     --lighter-yellow: #ffefad;
     --yellow: #ffde5c;
     --darker-yellow: #f5c400;
-
     --lighter-green: #4d8c2b;
     --green: #157145;
     --darker-green: #0c452a;
@@ -29,32 +20,19 @@
     --warning: var(--darker-yellow);
     --failure: #e74c3c;
 
-    --light-50: rgba(245, 245, 245, 0.5);
+    --light50: rgba(255,255,255,50%);
+    --blue90: rgba(190, 225, 238, 90%);
 
-    /*
-        FONTS
-        Headings and special text will be displayed in Roboto
-        All other text will be displayed in Lato
-    */
-    --roboto: 'Roboto', sans-serif;
+    --roboto: 'Roboto Condensed', sans-serif;
     --lato: 'Lato', sans-serif;
     --retro: 'Press Start 2P', cursive;
     --writing: 'Amatic SC', cursive;
 
     --warning-text: monospace;
 
-
-    /*
-        NUMERIC
-    */
-    --full: 100%;
-    --full-width: 100vw;
-    --full-height: 100vh;
-
+    --round-borders: 25px;
+    --s-round-borders: 10px;
     --basic-padding: 2.5%;
-    --basic-margin: 2.5%;
-    --basic-round-corners: 25px;
-
 }
 
 * {
@@ -63,97 +41,43 @@
     box-sizing: border-box;
 }
 
-/*
-    use 100% of viewport height
-    use 100% of viewport width
-    default theme is LIGHT-MODE
-*/
-html, body, div#root, div#container {
-    width: var(--full-width);
-    height: var(--full-height);
+html, body {
     background-color: var(--main-light);
-    overflow: hidden;
-    overflow-y: scroll;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
 }
 
-/*
-    TEXT
-*/
-h1, h2, h3, h4 { font-family: var(--roboto); }
-a, p, span { font-family: var(--lato); }
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+h1, h2, h3 { font-family: var(--roboto); }
+.retro { font-family: var(--retro)}
+h4 { font-family: var(--writing)}
+a, p, span, sub, sup { font-family: var(--lato); }
+
+h1 { font-size: 1.7em }
+h2 { font-size: 1.5em }
+h3 {
+    font-size: 1em;
+}
+h4 { font-size: 1.5em }
+
+svg {
+    font-size: 1.7em;
+}
+
+a {
+    color: var(--green);
+}
+.active {
+    color: var(--main-dark);
+}
 
 .error { color: var(--failure); }
 .warning { color: var(--warning); }
 .success { color: var(--success); }
-
-/*
-    BACKGROUNDS
-*/
-
-/*
-    SPACING
-*/
-.spacing-s {
-    padding: 5vh 0;
-}
-.spacing-m {
-    padding: 10vh 0;
-}
-.spacing-l {
-    padding: 25vh 0;
-}
-
-/*
-    FANCY THINGS
-*/
-.hover-shadow {
-    box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
-    -webkit-box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
-    -moz-box-shadow: 0 0 20px 5px rgba(0,0,0,0.5);
-}
-.mirrored {
-    transform: rotateY(180deg);
-}
-
-#api {
-    min-width: 800px;
-    padding: 0 5%;
-}
-#api hr {
-    padding: 0.5% 0;
-    border: hidden;
-}
-#api div {
-    margin-top: 10px;
-    width: 100%;
-    padding: 1%;
-    border-top: 6px solid lightblue;
-    border-left: 6px solid lightblue;
-    border-right: 6px solid lightpink;
-    border-bottom: 6px solid lightpink;
-}
-#api section {
-    margin-top: 10px;
-    width: 100%;
-    padding: 1%;
-    border-top: 6px solid lightpink;
-    border-left: 6px solid lightpink;
-    border-right: 6px solid lightblue;
-    border-bottom: 6px solid lightblue;
-}
-#api div div {
-    border: hidden;
-    padding: 0.5%;
-}
-#api div section {
-    border: hidden;
-    padding: 0.5%;
-}
-#api ul li {
-    padding-left: 1%;
-}
-#api input .task {
-    background-color: pink;
-}
-
-
