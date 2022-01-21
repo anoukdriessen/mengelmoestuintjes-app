@@ -74,17 +74,33 @@ hr {
 
 /* CARDS */
 .card {
-    width: 90%;
+    min-width: 400px;
+    max-width: 600px;
     border-radius: var(--round-borders);
     padding: var(--basic-padding);
     color: var(--main-light);
     background-color: var(--main-dark);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
-.card.retro-style {
-    text-transform: uppercase;
-    font-size: 0.7em;
-    font-family: var(--retro);
-    border: 3px solid var(--orange);
-    background-color: var(--blue);
-    color: var(--main-dark);
+
+.card img {
+    flex: 1;
+    min-width: 20%;
+    outline: 5px solid var(--lighter-blue);
+    margin-right: 15px;
+}
+
+.card .user-card-header {
+    flex: 1;
+    min-width: 70%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.card .user-card-body {
+    flex-grow: 1;
 }

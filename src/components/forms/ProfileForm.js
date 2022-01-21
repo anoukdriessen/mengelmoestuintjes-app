@@ -8,30 +8,59 @@ import {toast} from "react-toastify";
 import UserDataContext from "../../context/UserDataContext";
 import {convertProvince} from "../../helpers/functions";
 import * as fs from "fs";
+import ProfileImageForm from "./ProfileImageForm";
 
-function ProfileForm({thisUser}) {
+function ProfileForm({thisUser, image, }) {
     const { provinces } = useContext(UserDataContext);
-
     const [formData, setFormData] = useState({
-        image: thisUser.image,
         displayName: thisUser.displayName,
         email: thisUser.email,
         birthday: thisUser.details.birthday,
         province: thisUser.details.province,
     })
     const [changeDetails, setChangeDetails] = useState(false);
-    const {image, displayName, email, birthday, province} = formData;
-
+    const { displayName, email, birthday, province} = formData;
+    const [selected, setSelected] = useState({});
     let iconSize = 20;
 
+    const handleChange = (e) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.id]: e.target.value
+        }))
+    }
+    const handleImageChange = async (e) => {
+        setSelected(e.target.files[0])
+        // show image to user
+        let file = URL.createObjectURL(e.target.files[0]);
+        let out = document.getElementById('profile-img');
+        out.src = file;
+        out.onload = function() {
+            URL.revokeObjectURL(out.src) // free memory
+        }
+    }
+    const handleImageSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        let file = selected
+        formData.append('photo', file, 'image');
+        try {
+            const result = await axios.post(`https://localhost:8443/api/gebruikers/${thisUser.username}/upload`,
+                formData,
+                { headers: {
+                        'Content-Type': `multipart/form-data; boundary=photo`,
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                    }, params: {
+                        photo: file
+                    }
+                });
+            console.log(result);
+        } catch (e) {
+            console.error(e);
+            console.log(e.response);
+        }
+    }
     const handleSubmit = async (e) => {
-        // console.log(formData.image)
-        // console.log(formData.displayName)
-        // console.log(formData.email)
-        // console.log(formData.birthday)
-        // console.log(formData.province)
-        // const imageFormData = new FormData();
-        // imageFormData.append('file', btoa(formData.image));
         try {
             const result = await axios.patch(`https://localhost:8443/api/gebruikers/${thisUser.username}`, {
                 "name": `${formData.displayName}`,
@@ -51,13 +80,6 @@ function ProfileForm({thisUser}) {
         }
     }
 
-    const handleChange = (e) => {
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.id]: e.target.value
-        }))
-    }
-
     return <>
         <div id='profile-details'>
             <span id='change-details'
@@ -68,6 +90,12 @@ function ProfileForm({thisUser}) {
                 { changeDetails ? <FiSave size={15}/> : <FiSettings size={15}/> }
                 { changeDetails ? 'Opslaan' : 'Aanpassen' }
             </span>
+            <ProfileImageForm
+                image={image}
+                handleSubmit={handleImageSubmit}
+                handleChange={handleImageChange}
+                changeDetails={changeDetails}
+            />
             <form id='profile-details-form' onSubmit={handleSubmit} className={ !changeDetails ? 'hidden' : '' }>
                 <div className='details'>
                     <InputFieldWithIcon icon = {<FiUserCheck size={iconSize} />}>

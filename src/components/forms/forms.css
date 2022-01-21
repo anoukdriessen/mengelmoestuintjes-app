@@ -103,7 +103,7 @@ form#sign-in .inputField, form#sign-up .inputField  {
     padding: 0;
     margin: 0;
 }
-#profile-details-form.hidden {
+#profile-details-form.hidden, #upload-image.hidden {
     display: none;
 }
 #profile-details #change-details {
@@ -123,20 +123,23 @@ form#sign-in .inputField, form#sign-up .inputField  {
 }
 
 .profile-image {
-    padding-bottom: 25px;
+    display: flex;
+    justify-content: space-evenly;
+    min-width: 100%;
 }
 
 #upload-image {
     margin: 0;
     padding: 0;
-    width: 100%;
-    max-width: 350px;
+    min-width: 100%;
+    max-width: 500px;
     border: transparent;
     box-shadow: 0 0 0 0 transparent;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
+    justify-content: space-evenly;
 }
 #upload-image input[type=file]::file-selector-button, #upload-image input[type=file], #upload-image button {
     border: none;
