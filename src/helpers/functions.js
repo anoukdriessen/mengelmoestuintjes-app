@@ -96,3 +96,11 @@ export function convertProvince(province) {
     }
     return converted;
 }
+
+export function calcProgress(current, limit) {
+    return Math.round(((current / limit ) * 100))
+}
+
+export function refreshPage() {
+    window.location.reload(false);
+}

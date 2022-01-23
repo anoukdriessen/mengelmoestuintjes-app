@@ -6,7 +6,7 @@ import {FiMail, FiUser} from "react-icons/fi";
 import axios from "axios";
 import {toast} from "react-toastify";
 import UserDataContext from "../../context/UserDataContext";
-import {convertProvince} from "../../helpers/functions";
+import {convertProvince, refreshPage} from "../../helpers/functions";
 import * as fs from "fs";
 import ProfileImageForm from "./ProfileImageForm";
 
@@ -66,7 +66,7 @@ function ProfileForm({thisUser, image, }) {
                 "name": `${formData.displayName}`,
                 "email": `${formData.email}`,
                 "birthday": `${formData.birthday}`,
-                "provinces": `${formData.province}`
+                "province": `${formData.province}`
             }, {
                 headers: {
                     "Content-Type": "application/json",
@@ -74,6 +74,7 @@ function ProfileForm({thisUser, image, }) {
                 }
             })
             console.log(result);
+            refreshPage()
         } catch (e) {
             console.error(e);
             console.log(e.response);

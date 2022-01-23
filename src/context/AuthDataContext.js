@@ -27,7 +27,7 @@ function AuthContextProvider({ children }) {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
             })
-        // console.log('resultaat', userResult.data);
+        console.log('resultaat', userResult.data);
         const userData = userResult.data
         setAuth({
             user: {
