@@ -1,23 +1,23 @@
-import './forms.css'
+import './style/forms.css'
 import {AuthDataContext} from "../../context/AuthDataContext";
 import Button from "../Button";
 import {useContext, useState} from "react";
 import {FiEye, FiEyeOff, FiMail, FiSend, FiUser} from "react-icons/fi";
 import {Link, useHistory} from "react-router-dom";
 import {toast} from "react-toastify";
-import {Action, CheckBox, InputFieldWithIcon, SingleCheckBox} from "./FormItems";
+import {Action, CheckBox, InputFieldWithIcon, Mail, Password, SingleCheckBox, SubmitBtn, Username} from "./FormItems";
 import {FiLock} from "react-icons/all";
 import {
     containsLowerCaseCharacter,
     containsSpecialChar,
     containsUpperCaseCharacter,
-    isValidEmail, isValidPassword, isValidUsername
+    isValidEmail, isValidPassword, isValidUsername, refreshPage
 } from "../../helpers/functions";
 import {UserDataContext} from "../../context/UserDataContext";
 import axios from "axios";
 
 function SignUpForm() {
-    const { login } = useContext(AuthDataContext);
+    const { fetchUserData, login } = useContext(AuthDataContext);
 
     const [formData, setFormData] = useState({
         username: '',
@@ -86,14 +86,14 @@ function SignUpForm() {
                         }
                         try {
                             const result = await axios.post(`https://localhost:8443/api/gebruikers`, newUser)
-                            console.log('result', result)
+                            console.log('post new user', result.data);
+                            let username = result.data.username;
                             const authenticate = await axios.post(`https://localhost:8443/authenticate`, {
-                                "username": `${username}`,
-                                "password": `${formData.password}`
-                            })
+                                "username": username,
+                                "password": formData.password,
+                            });
                             console.log('jwt token', authenticate);
                             login(authenticate.data.jwt);
-                            history.push(`/profiel/${username}`)
                         } catch (e) {
                             console.error(e);
                             console.log(e.response)
@@ -116,55 +116,39 @@ function SignUpForm() {
     }
 
     return <>
-        <h2>In 4 stappen</h2>
-        <h3>jouw mengelmoestuintje</h3>
-
         <form onSubmit={handleSubmit} id='sign-up'>
             <Action
                 linkTo='/login'
                 linkTitle='Heb je al een account?'
                 showOnHover='Ga naar inloggen >>>'
             />
-            <InputFieldWithIcon icon = {<FiUser size={iconSize} />}>
-                <input
-                    id='username'
-                    type='text'
-                    value={username}
-                    placeholder={'Gebruikersnaam'}
-                    onChange={onChange}
-                    autoComplete='off'
-                    required
-                />
-            </InputFieldWithIcon>
-            <InputFieldWithIcon icon = {<FiMail size={iconSize} />}>
-                <input
-                    id='email'
-                    type='email'
-                    value={email}
-                    placeholder={'Email'}
-                    onChange={onChange}
-                    autoComplete='off'
-                    required
-                />
-            </InputFieldWithIcon>
-            <InputFieldWithIcon icon={<FiLock size={iconSize} />}>
-                <input
-                    id='password'
-                    type={showPassword ? 'text' : 'password'}
-                    value={password}
-                    placeholder={'Wachtwoord'}
-                    onChange={onChange}
-                    autoComplete='off'
-                    required
-                />
-                <span onClick={() => {setShowPassword((prevState) => !prevState)}}>
-                    { showPassword ? ( <FiEye size={iconSize}/> ) : ( <FiEyeOff size={iconSize}/> ) }
-                </span>
-            </InputFieldWithIcon>
 
-            <SingleCheckBox type={'tap'} id={'terms'} value={accepted}/>
+            <Username
+                iconSize={iconSize}
+                username={username}
+                onChange={onChange}
+            />
+            <Mail
+                iconSize={iconSize}
+                email={email}
+                onChange={onChange}
+            />
+            <Password
+                iconSize={iconSize}
+                showPassword={showPassword}
+                password={password}
+                onChange={onChange}
+                setShowPassword={setShowPassword}
+            />
 
-            <Button type='submit' version='send'><span>Maak een account aan </span><FiSend/></Button>
+            <SingleCheckBox
+                type={'tap'}
+                id={'terms'}
+                value={accepted}
+            />
+
+            <SubmitBtn> Maak een account aan </SubmitBtn>
+
         </form>
     </>
 }
