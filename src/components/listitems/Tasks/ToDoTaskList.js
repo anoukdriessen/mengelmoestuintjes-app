@@ -3,6 +3,8 @@ import {useContext, useState} from "react";
 import UserDataContext from "../../../context/UserDataContext";
 import {FiEdit, FiSmile, GiChatBubble, GiCheckMark} from "react-icons/all";
 import {FiEye, FiEyeOff, FiX} from "react-icons/fi";
+import PostsDataContext from "../../../context/TasksDataContext";
+import TasksDataContext from "../../../context/TasksDataContext";
 
 function ShowAndHide({setShowToday, showToday, setShowTomorrow, showTomorrow, setShowSoon, showSoon}){
     const getElement = (setShow, show, title) => (
@@ -38,7 +40,8 @@ function ToDoTask({toggleShowForm, taskId, handleFinished, isDone, title, handle
 }
 
 function ToDoTaskList({formActive, showForm, handleEdit, handleDelete, handleFinished}) {
-    const {toDoTasks} = useContext(UserDataContext);
+    const {toDoTasks} = useContext(TasksDataContext);
+
     const [today, setToday] = useState(0)
     const [showToday, setShowToday] = useState(true);
     const [tomorrow, setTomorrow] = useState(0)
@@ -46,11 +49,12 @@ function ToDoTaskList({formActive, showForm, handleEdit, handleDelete, handleFin
     const [soon, setSoon] = useState(0)
     const [showSoon, setShowSoon] = useState(false);
 
-    const ToDoList = ({title, list, condition, handleEdit, handleDelete, handleFinished, toggleShowForm, setCount}) => {
+    console.log(toDoTasks)
+    const ToDoList = ({title, toDoTasks, condition, handleEdit, handleDelete, handleFinished, toggleShowForm, setCount}) => {
         let count = 0;
         return <>
             <h2 className='to-do-title'>TO DO {title}</h2>
-            { list.map((task) => {
+            { toDoTasks.map((task) => {
                 let parseCondition;
                 switch (condition) {
                     case 'today':
@@ -96,7 +100,7 @@ function ToDoTaskList({formActive, showForm, handleEdit, handleDelete, handleFin
         { showToday && <div className='to-do'>
             <ToDoList
                 title={'VAnDaAG'}
-                list={toDoTasks}
+                toDoTasks={toDoTasks}
                 condition={'today'}
                 handleEdit={() => handleEdit}
                 handleDelete={() => handleDelete}
@@ -112,7 +116,7 @@ function ToDoTaskList({formActive, showForm, handleEdit, handleDelete, handleFin
         }{ showTomorrow && <div className='to-do'>
             <ToDoList
                 title={'MORGEN'}
-                list={toDoTasks}
+                toDoTasks={toDoTasks}
                 condition={'tomorrow'}
                 handleEdit={() => handleEdit}
                 handleDelete={() => handleDelete}
@@ -128,7 +132,7 @@ function ToDoTaskList({formActive, showForm, handleEdit, handleDelete, handleFin
         }{ showSoon && <><div className='to-do'>
             <ToDoList
                 title={'toekomst'}
-                list={toDoTasks}
+                toDoTasks={toDoTasks}
                 condition={'soon'}
                 handleEdit={() => handleEdit}
                 handleDelete={() => handleDelete}
