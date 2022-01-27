@@ -1,85 +1,10 @@
-/* POST CARD */
-#post-cards {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    max-width: 100%;
-    height: 100%;
-}
-.post-card {
-    flex: 1 auto 320px;
+#dashboard #main-content .btn-show-hide {
+    flex: 1;
     min-width: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding: 10px 0;
-    margin-bottom: 25px;
-    word-break: break-word;
+    padding-top: 20px;
+    line-height: 15px;
 }
-.post-card h4 {
-    padding: 10px;
-    font-size: 1em;
-    word-wrap: break-word;
-    max-width: 320px;
-    letter-spacing: 3px;
-    background-color: var(--main-dark);
-    color: var(--main-light);
-    font-family: var(--roboto);
-}
-.post-card img {
-    border: 3px solid var(--main-dark);
-    width: 100%;
-    height: 100%;
-    max-height: 320px;
-    max-width: 320px;
-}
-.post-card span.info {
-    background-color: var(--main-dark);
-    color: var(--lighter-blue);
-    width: 100%;
-    max-width: 320px;
-    padding: 0 5px;
-    font-size: 0.9em;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    text-transform: uppercase;
-}
-.post-card .info svg {
-    font-size: 15px;
-}
-.post-card p {
-    min-width: 320px;
-    max-width: 320px;
-    padding: 10px;
-    border: 3px solid var(--main-dark);
-}
-/*.post-card p {*/
-/*    position: absolute;*/
-/*    padding: 20px 15px;*/
-/*    width: 90%;*/
-/*    top: 110px;*/
-/*    left: 160px;*/
-/*    transform: translate(-50%, -50%);*/
-/*    background-color: rgba(255, 255, 255, 92%);*/
-/*}*/
-/*.post-card p span:hover {*/
-/*    text-decoration: underline 1px solid var(--orange);*/
-/*    cursor: pointer;*/
-/*}*/
-/*.post-card p span:hover::after {*/
-/*    content: " >>>";*/
-/*    color: var(--orange);*/
-/*}*/
 
-/* SINGLE POST CARD */
-.single-post-card {
-    max-width: 800px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-}
 .is-author {
     display: flex;
     flex-direction: row;
@@ -88,52 +13,57 @@
     min-width: 100%;
     cursor: pointer;
 }
-.single-post-card h4 {
-    font-size: 2em;
-    flex: 1;
-    min-width: 100%;
-    text-align: center;
-}
-.single-post-card img {
-    box-shadow: 0 0 5px 5px var(--orange);
-    margin: 10px 0;
-}
-.single-post-card .info {
-    font-size: 0.7em;
-    flex: 1;
-    min-width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-.single-post-card .summary {
-    padding-top: 10px;
-    font-family: var(--retro);
-    text-align: center;
-    font-size: 0.75em;
-}
-.single-post-card hr {
-    flex: 1;
-    min-width: 50%;
-    margin: 10px 0;
-    border: transparent;
-}
-.single-post-card .body {
-    padding-top: 10px;
-    text-align: justify;
-}
 
-.note-card {
-    flex: 1;
-    background-color: var(--yellow);
-    margin: 10px 0;
-    padding: 10px;
+/* POST / NOTE CARDS */
+#post-cards {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-auto-rows: 200px;
+}
+.post-card, .note-card {
+    cursor: pointer;
+    word-break: break-word;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    width: 100%;
-    height: 100%;
+    padding: 10px;
+}
+.post-card:hover {
+    transform: translateY(-1px) scale(1.05);
+    transition: 1s;
+}
+.post-card p, .note-card .body {
+    align-self: flex-start;
+    overflow: hidden;
+    overflow-y: auto;
+    justify-content: space-evenly;
+    padding: 3px;
+}
+.post-card {
+    margin: 10px;
+    max-width: 320px;
+    box-shadow: 3px 3px 2px 0.1px var(--main-dark);
+    border: 3px solid var(--main-dark);
+    grid-row: span 2 / auto;
+
+}
+.note-card {
     max-width: 320px;
     max-height: 320px;
+    background-color: var(--yellow);
+    padding: 10px;
+    position: relative;
     box-shadow: 3px 3px 2px 0.1px var(--darker-orange);
+}
+.post-card h4 {
+    align-self: flex-start;
+    padding: 10px;
+    font-size: 1em;
+    letter-spacing: 2px;
+    font-family: var(--roboto);
 }
 .note-card::before {
     content: "";
@@ -148,16 +78,117 @@
 .note-card .is-author {
     justify-content: flex-end;
 }
-
-#dashboard #main-content .btn-show-hide {
-    flex: 1;
-    min-width: 100%;
-    padding-top: 20px;
-    line-height: 15px;
+.post-card .info {
+    padding-right: 5px;
+    color: var(--darker-blue);
+    font-weight: bolder;
+}
+.post-card img {
+    max-width: 300px;
+    max-height: 260px;
+}
+.post-card .readmore {
+    cursor: pointer;
+    font-family: var(--retro);
+    font-size: 0.6em;
 }
 
-@media screen and (min-width: 650px) {
+/* SINGLE POST CARD */
+.single-post-card {
+    max-width: 900px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.single-post-card h4 {
+    flex: 1;
+    min-width: 100%;
+    text-align: center;
+    font-size: 1.8em;
+    font-family: var(--roboto);
+}
+.single-post-card .author span {
+    color: var(--main-dark);
+    font-weight: normal;
+    font-family: var(--lato);
+}
+.single-post-card .author {
+    letter-spacing: 1px;
+    flex: 1;
+    min-width: 100%;
+    font-size: 1.2em;
+    padding-right: 5px;
+    color: var(--darker-blue);
+    font-weight: bolder;
+    text-align: center;
+    font-family: var(--retro);
+}
+.single-post-card .body {
+    flex: 1;
+    word-break: break-word;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.single-post-card img {
+    flex: 1;
+    margin: 10px;
+    min-width: 50%;
+    max-width: 320px;
+    max-height: 320px;
+}
+.single-post-card .summary, .single-post-card .description {
+    flex: 1;
+    padding: 0 15px;
+    min-width: 100%;
+}
 
+.single-post-card .summary{
+    font-size: 0.8em;
+    line-height: 2em;
+    font-family: var(--retro);
+    color: var(--darker-blue);
+}
+
+.single-post-card .description {
+    padding: 0 25px;
+    letter-spacing: 0.5px;
+}
+.single-post-card .is-author {
+    padding: 0 20px;
+}
+
+
+/* POSTCARDS + INPUT */
+.note-card input, .note-card textarea {
+    border: none;
+    padding: 5px;
+}
+.note-card input {
+    width: 296px;
+}
+.note-card textarea {
+    width: 296px;
+    height: 100px;
+    resize: none;
+}
+
+
+@media screen and (min-width: 600px) {
+    .post-card {
+        grid-row: span 2 / auto;
+    }
+    .single-post-card .body {
+        align-items: center;
+    }
+    .single-post-card img {
+        min-width: 40%;
+    }
+    .single-post-card .summary {
+        min-width: 50%;
+    }
 }
 
 @media screen and (min-width: 768px) {
@@ -165,6 +196,8 @@
         flex-direction: row;
         flex-wrap: nowrap;
     }
+
+
 }
 
 @media screen and (min-width: 1380px) {

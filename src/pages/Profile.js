@@ -18,6 +18,7 @@ import PostForm from "../components/forms/PostForm";
 import PageContentNav from "../components/pageitems/PageContentNav";
 import ToDoTaskList from "../components/listitems/Tasks/ToDoTaskList";
 import Calendar from "../components/Calendar";
+import {PostsDataContext, PostsDataContextProvider, TasksDataContextProvider} from "../context/TasksDataContext";
 
 export function ProfileCard({image, hasDisplayName, authUser, procentBar, procent}) {
     return <Card useId='user'>
@@ -97,18 +98,21 @@ function Profile() {
                     {
                         !changeUserDetails && <div id='dashboard'>
                             <div id='sidebar'>
+                                <TasksDataContextProvider>
                                 {
                                     !showForm && <Calendar days={24}/>
                                 }
                                 {
                                     !showPost &&
-                                    <ToDoListForm
-                                        formActive={toggleShowForm}
-                                        thisUser={auth.user}
-                                        showForm={showToDo}
-                                        toggleShowToDo={toggleShowToDo}
-                                    />
+                                            <ToDoListForm
+                                                formActive={toggleShowForm}
+                                                thisUser={auth.user}
+                                                showForm={showToDo}
+                                                toggleShowToDo={toggleShowToDo}
+                                            />
+
                                 }
+                                </TasksDataContextProvider>
                             </div>
                             <div id='main-content'>
                                 {

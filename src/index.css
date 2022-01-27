@@ -86,7 +86,7 @@ a {
     cursor: pointer;
 }
 .link:hover, .nav-link:hover {
-    color: var(--blue);
+    color: var(--darker-blue);
     transform: scale(1.2);
     transition: 0.7s;
 }

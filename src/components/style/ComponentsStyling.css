@@ -226,7 +226,8 @@ button[type="submit"] svg {
 }
 
 #calendar {
-    width: 260px;
+    width: 100%;
+    max-width: 350px;
     height: 220px;
     font-family: var(--retro);
     font-size: 13px;
@@ -238,7 +239,7 @@ button[type="submit"] svg {
 }
 #calendar #upcomming{
     width: 100%;
-    max-width: 250px;
+    max-width: 350px;
     background-color: var(--blue);
     color: var(--main-dark);
     display: flex;

@@ -72,15 +72,15 @@ function NavLinks() {
 function ProfileLink(){
     const {auth} = useContext(AuthDataContext)
     const isLoggedIn = auth.isAuth;
-    return <NavLink to={isLoggedIn ? `/profiel/${auth.user.username}` : `/login`}><FiUser id='profile'/></NavLink>
+    return <NavLink className='link' to={isLoggedIn ? `/profiel/${auth.user.username}` : `/login`}><FiUser className='link' id='profile'/></NavLink>
 }
 
 function Navigation({pageTitle}) {
     const [showMenu, toggleShowMenu] = useState(false);
 
     const menuBtn = (
-        <span onClick={() => { toggleShowMenu((prevState) => !prevState)}}>
-            { showMenu ? <FiX id='menu'/> : <FiMenu id='menu'/>}
+        <span className='link' onClick={() => { toggleShowMenu((prevState) => !prevState)}}>
+            { showMenu ? <FiX className='link' id='menu'/> : <FiMenu className='link' id='menu'/>}
         </span>
     )
 

@@ -13,9 +13,11 @@ import {FiXCircle} from "react-icons/all";
 import {FiX} from "react-icons/fi";
 import {toast} from "react-toastify";
 import UserDataContext from "../context/UserDataContext";
+import PostsDataContext from "../context/TasksDataContext";
+import TasksDataContext from "../context/TasksDataContext";
 
 function Calendar({days}) {
-    const {toDoTasks} = useContext(UserDataContext);
+    const {toDoTasks} = useContext(TasksDataContext);
     const [selected, setSelected] = useState(getToday);
     const [modal, setModal] = useState(false);
     let tasksOnDate = fetchXItemsFromList(3, toDoTasks, 'today');

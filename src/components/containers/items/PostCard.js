@@ -1,13 +1,23 @@
 import {useContext, useState} from "react";
 import {useHistory} from "react-router-dom";
-import {FiPenTool} from "react-icons/all";
-import {parseMyDate} from "../../../helpers/functions";
+import {FiPenTool, FiSave} from "react-icons/all";
+import {parseMyDate, refreshPage} from "../../../helpers/functions";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {FiEdit3, FiEye, FiEyeOff, FiX} from "react-icons/fi";
+import axios from "axios";
 
 function PostCard({item, type}) {
     const {auth} = useContext(AuthDataContext);
     const [active, toggleActive] = useState(false);
+    const [changeFields, toggleChangeFields] = useState(false);
+
+    const [postData, setPostData] = useState();
+    const [blogData, setBlogData] = useState();
+    const [noteData, setNoteData] = useState({
+        title: item.title,
+        description: item.description,
+    });
+
     const history = useHistory();
 
     if (item) {
@@ -20,6 +30,7 @@ function PostCard({item, type}) {
             return <div className='post-card'
                         onMouseEnter={e => {toggleActive(true)}}
                         onMouseLeave={e => {toggleActive(false)}}
+                        onClick={() => { history.push(`/berichten/${item.id}`); }}
             >
                 <h4>{item.title}</h4>
                 {
@@ -29,17 +40,16 @@ function PostCard({item, type}) {
                                src='/images/emptypost.jpg'
                                alt='empty post image'/>
                 }
-                {/*<img src={item.imageUrl} alt={'image for post ' + item.title}/>*/}
-                <span className='info'>
+                <p>
+                    <span className='info'>
                     {!item.published
                         ? <span><strong className='retro'>CONCEPT</strong></span>
-                        : <span><FiPenTool className='mirrored'/>@{item.author}</span>
+                        : <span>@{item.author}</span>
                     }
-            </span>
-                <p>
+                </span>
                     { item.summary }
                     <br/>
-                    <span onClick={() => {
+                    <span className='link readmore' onClick={() => {
                         history.push(`/berichten/${item.id}`);
                     }}>Lees verder</span>
                 </p>
@@ -59,6 +69,8 @@ function PostCard({item, type}) {
                     </div>
                 }
                 <h4>{item.title}</h4>
+                <span className='author'><span>Geschreven door: </span>@{item.author}</span>
+                <p className='body'>
                 {
                     item.image !== null
                         ? <img id='post-img' src={`data:image/jpeg;base64,${item.image}`} alt={item.title}/>
@@ -66,36 +78,114 @@ function PostCard({item, type}) {
                                src='/images/emptypost.jpg'
                                alt='empty post image'/>
                 }
-                <span className='info'>
-                    <span><FiPenTool size={15}/>{item.author}</span>
-                    <span>{item.modified !== null ? parseMyDate(item.modified) : parseMyDate(item.created)}</span>
-                </span>
-                <p className='summary'>
-                     { item.summary }
-                </p>
-                <hr className=''/>
-                <p className='body'>
-                     { item.description }
+
+                    <span className='summary'>{ item.summary }</span>
+                    <span className='description'>{ item.description }</span>
                 </p>
             </div>;
         } else if (type === 'note') {
             const handleChange = () => {
+                toggleChangeFields(true)
                 console.log('bewerk')
             }
-            const handleDelete = () => {
-                console.log('verwijder')
+            const handleChangeValue = (e) => {
+                console.log(e.target.value)
+                setNoteData({
+                    ...noteData,
+                    [e.target.id]: e.target.value,
+                })
+            }
+            const handleSave = async (e) => {
+                console.log('update note', noteData, item);
+                let updated = {
+                    title: noteData.title,
+                    summary: item.summary,
+                    description: noteData.description,
+                    image: item.image,
+                    category: item.category,
+                    published: item.published
+                }
+                try {
+                    const result = await axios.put(`https://localhost:8443/api/berichten/${item.id}`,
+                        updated,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${localStorage.getItem('token')}`
+                            }
+                        });
+                    console.log('response: ',result.data)
+                    toggleChangeFields(false)
+                } catch (e) {
+                    console.error(e);
+                    console.log(e);
+                }
+                refreshPage()
+            }
+            const handleDelete = async () => {
+                console.log('verwijder', item.id);
+                if (window.confirm("Je staat op het punt de notitie te verwijderen, weet je het zeker?")) {
+                    try {
+                        const result = await axios.delete(`https://localhost:8443/api/berichten/${item.id}`,
+                            {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                                }
+                            });
+                        console.log('response: ',result.data)
+                        toggleChangeFields(false)
+                    } catch (e){
+                        console.error(e);
+                        console.log(e.response);
+                    }
+                }
+
             }
             return <div className='note-card'>
                 {
                     currentUserIsAuthor && <div className='is-author'>
-                        <span className='link' onClick={handleChange}><FiEdit3/></span>
+                        <span className='link'>
+                            { !changeFields
+                                ? <FiEdit3 onClick={handleChange}/>
+                                : <FiSave onClick={handleSave}/> }
+                        </span>
+                    </div>
+                }
+                {
+                    !changeFields
+                        ? <h4>{item.title}</h4>
+                        : <input
+                            id='title'
+                            type='text'
+                            placeholder='Titel van bericht'
+                            value={noteData.title}
+                            onChange={handleChangeValue}
+                            maxLength={50}
+                            required={true}
+                        />
+                }
+                <p className='body'>
+                    {
+                        !changeFields
+                            ? item.description
+                            : <textarea
+                                id='description'
+                                placeholder='Begin hier met het schrijven van je bericht...'
+                                value={noteData.description}
+                                onChange={handleChangeValue}
+                                maxLength={255}
+                                required={true}
+                            />
+                    }
+
+                </p>
+                {
+                    currentUserIsAuthor &&
+                        changeFields && <div className='is-author'>
                         <span className='link' onClick={handleDelete}><FiX/></span>
                     </div>
                 }
-                <h4>{item.title}</h4>
-                <p className='body'>
-                    { item.description }
-                </p>
             </div>;
         }
 
