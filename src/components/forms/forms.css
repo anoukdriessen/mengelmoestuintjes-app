@@ -233,9 +233,9 @@ input[type=file]::file-selector-button, input[type=file], #upload-image button {
 }
 #new-post #image-form {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
 }
 
 .isDone {

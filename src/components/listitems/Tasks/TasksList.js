@@ -1,8 +1,8 @@
 import {useContext, useState} from "react";
-import ListDataContext from "../../../../context/ListDataContext";
+import ListDataContext from "../../../context/ListDataContext";
 import {FiLoader} from "react-icons/fi";
-import ListStats from "../../ListStats";
-import TaskForm from "./TaskForm";
+import ListStats from "../ListStats";
+import TaskForm from "../../forms/types/TaskForm";
 import TaskItem from "./TaskItem";
 
 function TasksList( {type} ) {

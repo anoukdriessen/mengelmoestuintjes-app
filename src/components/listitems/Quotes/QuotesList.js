@@ -4,7 +4,7 @@ import Card from "../Card";
 import {FiEdit3, FiLoader, FiSend, FiX} from "react-icons/fi";
 import Button from "../../Button";
 import ListStats from "../ListStats";
-import QuoteForm from "./QuoteForm";
+import QuoteForm from "../../forms/types/QuoteForm";
 import QuoteItem from "./QuoteItem";
 
 function QuotesList() {

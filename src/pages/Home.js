@@ -1,10 +1,10 @@
 import '../components/pageitems/PageStyling.css'
-import MultiPanelContainer from "../components/containers/MultiPanelContainer";
+import MultiPanelContainer from "../components/listitems/MultiPanelContainer";
 import PageHeader from "../components/pageitems/PageHeader";
 import PageContent from "../components/pageitems/PageContent";
 import Button from "../components/Button";
 import React, {useContext, useEffect, useState} from "react";
-import PostCards from "../components/containers/PostCards";
+import PostCards from "../components/listitems/Posts/PostCards";
 import axios from "axios";
 import {AuthDataContext} from "../context/AuthDataContext";
 import {Link} from "react-router-dom";
@@ -12,6 +12,7 @@ import Quote from "../components/Quote";
 import {UserDataContextProvider} from "../context/UserDataContext";
 import CallToAction from "../components/CallToAction";
 import {toast} from "react-toastify";
+import {PostsDataContextProvider} from "../context/PostsDataContext";
 
 function Home() {
     const {auth} = useContext(AuthDataContext);
@@ -45,6 +46,9 @@ function Home() {
         }
     }
 
+    const linkToGarden = '/tuintjes'
+    const linkToBlog = '/blog';
+
     return <>
         <PageHeader title='Mengelmoestuintjes'/>
 
@@ -54,22 +58,23 @@ function Home() {
             <MultiPanelContainer type='missions'/>
 
             <CallToAction
-                linkTo={'/registreren'}
+                linkTo={linkToGarden}
                 title={'Maak een tuintje'}
             />
 
             <UserDataContextProvider>
-                <PostCards
-                    title='Recente blogberichten'
-                    type='blog'
-                    posts={blogPosts}
-                    num={4}
-                />
+                <PostsDataContextProvider>
+                    <PostCards
+                        title='Recente blogberichten'
+                        type='blog'
+                        num={4}
+                    />
+                </PostsDataContextProvider>
             </UserDataContextProvider>
 
             <CallToAction
-                linkTo={'/blog'}
-                title={'lees verder'}
+                linkTo={linkToBlog}
+                title={'Lees verder'}
             />
 
         </PageContent>

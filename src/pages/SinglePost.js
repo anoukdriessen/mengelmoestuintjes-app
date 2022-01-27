@@ -4,7 +4,7 @@ import {UserDataContextProvider} from "../context/UserDataContext";
 import {useHistory, useParams} from "react-router-dom";
 import PageContent from "../components/pageitems/PageContent";
 import axios from "axios";
-import PostCard from "../components/containers/items/PostCard";
+import PostCard from "../components/listitems/Posts/PostCard";
 
 export function Post() {
     const [post, setPost] = useState();

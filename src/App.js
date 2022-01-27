@@ -22,6 +22,7 @@ import {AuthDataContext} from "./context/AuthDataContext";
 import SinglePost from "./pages/SinglePost";
 import {UserDataContextProvider} from "./context/UserDataContext";
 import Posts from "./pages/Posts";
+import Gardens from "./pages/Gardens";
 
 function App() {
     const { auth } = useContext(AuthDataContext)
@@ -29,12 +30,14 @@ function App() {
     return <>
         <Switch>
 
-            <Route exact path={'/'}> <Home page = {'/'}/> </Route>
+            <Route exact path={'/'}><Home/></Route>
 
-            <Route path={'/blog'}> <Posts page={'/blog'}/> </Route>
-            <Route exact path={'/berichten/:id'}> <SinglePost page={'/berichten'}/> </Route>
+            <Route path={'/blog'}> <Posts/> </Route>
+            <Route exact path={'/berichten/:id'}> <SinglePost/> </Route>
 
-            <Route path={'/profiel/:id'}> <Profile page = {'/profiel'}/> </Route>
+            <Route path={'/profiel/:id'}> <Profile/> </Route>
+            <Route exact path={'/tuintjes'}> <Gardens/> </Route>
+
 
         <Route path={'/login'}><SignIn page={'/login'}/></Route>
         <Route path={'/registreren'}><SignUp page={'/registreren'}/></Route>

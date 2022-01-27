@@ -95,6 +95,7 @@ a {
 }
 
 .nav-link {
+    font-size: 1.3em;
     padding: 2.5px;
     display: flex;
     align-items: center;
@@ -106,5 +107,19 @@ a {
     transform: scale(1.2);
     transition: 0.5s;
     color: var(--green);
+}
+
+.not-found {
+    line-height: 20px;
+    padding-top: 50px;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: var(--retro);
+    text-decoration: underline var(--orange);
+}
+.not-found svg {
+    font-size: 35px;
+    color: var(--warning)
 }
 

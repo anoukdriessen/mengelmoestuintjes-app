@@ -1,7 +1,7 @@
 import {ListDataProvider} from "../context/ListDataContext";
 import QuotesList from "../components/listitems/Quotes/QuotesList";
 import UsersList from "../components/listitems/Users/UsersList";
-import TasksList from "../components/listitems/Users/Tasks/TasksList";
+import TasksList from "../components/listitems/Tasks/TasksList";
 
 function Dashboard(props) {
     let user = {

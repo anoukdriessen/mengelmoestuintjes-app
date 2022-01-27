@@ -180,3 +180,7 @@ export function fetchXItemsFromList(x ,list, condition) {
     }
     return newList;
 }
+
+export function sortArrayById(list) {
+    return list.sort((a, b) => a.id - b.id)
+}

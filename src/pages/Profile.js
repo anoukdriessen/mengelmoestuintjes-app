@@ -4,21 +4,22 @@ import {AuthDataContext} from "../context/AuthDataContext";
 import PageHeader from "../components/pageitems/PageHeader";
 import PageContent from "../components/pageitems/PageContent";
 import PageFooter from "../components/pageitems/PageFooter";
-import ProfileForm from "../components/forms/ProfileForm";
+import ProfileForm from "../components/forms/types/ProfileForm";
 import UserDataContext, {UserDataContextProvider} from "../context/UserDataContext";
 import Card from "../components/listitems/Card";
 import {InputFieldWithIcon} from "../components/forms/FormItems";
 import {FiChevronsRight, FiImage, FiMapPin, FiSave, FiSettings, GiProgression, GiSave} from "react-icons/all";
 import axios from "axios";
-import ProfileImageForm from "../components/forms/ProfileImageForm";
+import ProfileImageForm from "../components/forms/types/ProfileImageForm";
 import {calcProgress, refreshPage} from "../helpers/functions";
-import ToDoList from "../components/forms/ToDoListForm";
-import ToDoListForm from "../components/forms/ToDoListForm";
-import PostForm from "../components/forms/PostForm";
+import ToDoList from "../components/forms/types/ToDoListForm";
+import ToDoListForm from "../components/forms/types/ToDoListForm";
+import PostForm from "../components/forms/types/PostForm";
 import PageContentNav from "../components/pageitems/PageContentNav";
 import ToDoTaskList from "../components/listitems/Tasks/ToDoTaskList";
 import Calendar from "../components/Calendar";
-import {PostsDataContext, PostsDataContextProvider, TasksDataContextProvider} from "../context/TasksDataContext";
+import {TasksDataContextProvider} from "../context/TasksDataContext";
+import {PostsDataContextProvider} from "../context/PostsDataContext";
 
 export function ProfileCard({image, hasDisplayName, authUser, procentBar, procent}) {
     return <Card useId='user'>
@@ -115,6 +116,7 @@ function Profile() {
                                 </TasksDataContextProvider>
                             </div>
                             <div id='main-content'>
+                                <PostsDataContextProvider>
                                 {
                                     !showToDo && <PostForm
                                         formActive={toggleShowForm}
@@ -123,6 +125,8 @@ function Profile() {
                                         toggleShowPost={toggleShowPost}
                                     />
                                 }
+                                </PostsDataContextProvider>
+
                             </div>
                         </div>
                     }

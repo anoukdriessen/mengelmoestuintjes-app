@@ -1,14 +1,14 @@
-import './style/forms.css'
-import AuthContextProvider, {AuthDataContext} from "../../context/AuthDataContext";
-import Button from "../Button";
+import '../forms.css'
+import AuthContextProvider, {AuthDataContext} from "../../../context/AuthDataContext";
+import Button from "../../Button";
 import {useContext, useState} from "react";
 import axios from "axios";
 import {FiEye, FiEyeOff, FiSend, FiUser} from "react-icons/fi";
 import {Link, Redirect, useHistory} from "react-router-dom";
 import {toast} from "react-toastify";
-import {Action, InputFieldWithIcon, Password, SubmitBtn, Username} from "./FormItems";
+import {Action, InputFieldWithIcon, Password, SubmitBtn, Username} from "../FormItems";
 import {FiLock} from "react-icons/all";
-import {refreshPage} from "../../helpers/functions";
+import {refreshPage} from "../../../helpers/functions";
 
 function SignInForm() {
     const {login} = useContext(AuthDataContext);

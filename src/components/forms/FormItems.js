@@ -1,4 +1,4 @@
-import './style/forms.css'
+import './forms.css'
 import {Link} from "react-router-dom";
 import {useState} from "react";
 import {FiEdit, FiLock, FiUpload, FiUserCheck, GiInvisible, GiSave, GiStabbedNote} from "react-icons/all";

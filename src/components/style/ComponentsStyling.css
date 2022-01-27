@@ -191,15 +191,21 @@ button[type="submit"] svg {
     display: flex;
     flex-wrap: wrap;
 }
-.to-do-container .show-and-hide {
-    max-width: 500px;
+.show-and-hide {
     flex: 1;
-    min-width: 100%;
+    min-width: 90%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 10px 0;
+    text-transform: capitalize;
+    min-height: 55px;
+    max-height: 55px;
 }
-.to-do-container .show-and-hide span {
+.to-do-container.show-and-hide {
+    max-width: 500px;
+}
+.show-and-hide span {
     padding: 5px;
     cursor: pointer;
     display: flex;
@@ -208,13 +214,20 @@ button[type="submit"] svg {
     border-radius: var(--s-round-borders);
     margin: 0 3px;
 }
-.to-do-container .show-and-hide span.selected {
+.show-and-hide span.selected {
     background-color: var(--orange);
     width: 100%;
 }
-.to-do-container .show-and-hide span.hidden {
+.show-and-hide span.hidden {
     background-color: var(--lighter-orange);
     width: 100%;
+}
+#post-cards .show-and-hide {
+    min-width: 100%;
+    max-width: 980px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
 }
 .to-do {
     padding: 5px 0;

@@ -1,19 +1,19 @@
-import './style/forms.css'
-import {AuthDataContext} from "../../context/AuthDataContext";
-import Button from "../Button";
+import '../forms.css'
+import {AuthDataContext} from "../../../context/AuthDataContext";
+import Button from "../../Button";
 import {useContext, useState} from "react";
 import {FiEye, FiEyeOff, FiMail, FiSend, FiUser} from "react-icons/fi";
 import {Link, useHistory} from "react-router-dom";
 import {toast} from "react-toastify";
-import {Action, CheckBox, InputFieldWithIcon, Mail, Password, SingleCheckBox, SubmitBtn, Username} from "./FormItems";
+import {Action, CheckBox, InputFieldWithIcon, Mail, Password, SingleCheckBox, SubmitBtn, Username} from "../FormItems";
 import {FiLock} from "react-icons/all";
 import {
     containsLowerCaseCharacter,
     containsSpecialChar,
     containsUpperCaseCharacter,
     isValidEmail, isValidPassword, isValidUsername, refreshPage
-} from "../../helpers/functions";
-import {UserDataContext} from "../../context/UserDataContext";
+} from "../../../helpers/functions";
+import {UserDataContext} from "../../../context/UserDataContext";
 import axios from "axios";
 
 function SignUpForm() {

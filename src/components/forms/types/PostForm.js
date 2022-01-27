@@ -1,65 +1,28 @@
 import {useContext, useState} from "react";
-import UserDataContext from "../../context/UserDataContext";
-import {getUniqueId, refreshPage} from "../../helpers/functions";
+import UserDataContext from "../../../context/UserDataContext";
+import {getUniqueId, refreshPage, sortArrayById} from "../../../helpers/functions";
 import {FiHash, FiType, FiX} from "react-icons/fi";
 import {FiEdit, GiChecklist, GiSave, GiStabbedNote} from "react-icons/all";
 import {GiNotebook} from "react-icons/gi";
 import axios from "axios";
-import {InputFieldWithIcon, PostCategory, PostVisibility, SubmitBtn} from "./FormItems";
+import {InputFieldWithIcon, PostCategory, PostVisibility, SubmitBtn} from "../FormItems";
 import {useHistory} from "react-router-dom";
-import PostCard from "../containers/items/PostCard";
-import PostCards from "../containers/PostCards";
-
-export function AllPublishedPosts({showConcepts, toggleShowConcepts}) {
-    const { notes } = useContext(UserDataContext);
-    const {publicPosts} = useContext(UserDataContext);
-
-    const allPosts = [...notes, ...publicPosts];
-    allPosts.sort(function (a, b) {
-        return a.id - b.id;
-    })
-    allPosts.reverse()
-
-    return<PostCards title='Berichten' type='profile' posts={allPosts}/>
-}
-export function Notes() {
-    const { notes } = useContext(UserDataContext);
-
-    return <>
-        {
-            notes.map((note) => {
-                // console.log(note)
-                return <PostCard key={getUniqueId()}
-                    item={note} type='note'/>
-            })
-        }
-    </>
-}
-export function PublicPosts() {
-    const {publicPosts} = useContext(UserDataContext);
-
-    return <>
-        {
-            publicPosts.map((post) => {
-                // console.log(post)
-                return <PostCard item={post} type={'preview'}/>
-            })
-        }
-    </>
-}
-
-export function AllPrivatePosts({showConcepts, toggleShowConcepts}) {
-    const {privatePosts} = useContext(UserDataContext);
-    return <PostCards title='Concepten' type='profile' posts={privatePosts}/>
-}
+import PostCard from "../../listitems/Posts/PostCard";
+import PostCards from "../../listitems/Posts/PostCards";
+import PostsDataContext from "../../../context/PostsDataContext";
+import UserNotes from "../../listitems/Posts/UserPosts";
+import UserPosts from "../../listitems/Posts/UserPosts";
 
 function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
+    const [showNote, toggleShowNote] = useState(true);
+    const [showPosts, toggleShowPosts] = useState(false);
+    const [showConcepts, toggleShowConcepts] = useState(false);
+
     const [showMessages, toggleShowMessages] = useState(true);
     const [update, setToUpdate] = useState(false);
     const [type, setType] = useState();
     const [isPrivate, setIsPrivate] = useState(true);
     const [selected, setSelected] = useState()
-    const [showConcepts, toggleShowConcepts] = useState(false);
     const [postData, setPostData] = useState({
         title: '',
         summary: '',
@@ -258,14 +221,15 @@ function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
         </form>
         }
 
-        <span className='btn btn-show-hide' onClick={() => toggleShowConcepts((prevState) => !prevState)}>
-                { showConcepts ? 'mijn Berichten' : 'mijn Concepten'}
-        </span>
-        {
-            showConcepts
-                ? <AllPrivatePosts showConcepts={showConcepts} toggleShowConcepts={toggleShowConcepts}/>
-                : <AllPublishedPosts showConcepts={showForm} toggleShowConcepts={toggleShowConcepts}/>
-        }
+
+        <UserPosts
+            note={showNote}
+            showNotes={toggleShowNote}
+            publ={showPosts}
+            showPublic={toggleShowPosts}
+            priv={showConcepts} s
+            showPrivate={toggleShowConcepts}
+            howPrivate/>
 
     </>
 }

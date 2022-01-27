@@ -11,12 +11,9 @@ function PostCard({item, type}) {
     const [active, toggleActive] = useState(false);
     const [changeFields, toggleChangeFields] = useState(false);
 
-    const [postData, setPostData] = useState();
-    const [blogData, setBlogData] = useState();
-    const [noteData, setNoteData] = useState({
-        title: item.title,
-        description: item.description,
-    });
+    const [postData, setPostData] = useState({});
+    const [blogData, setBlogData] = useState({});
+    const [noteData, setNoteData] = useState({});
 
     const history = useHistory();
 
@@ -84,6 +81,10 @@ function PostCard({item, type}) {
                 </p>
             </div>;
         } else if (type === 'note') {
+            setNoteData({
+                title: item.title,
+                description: item.description,
+            })
             const handleChange = () => {
                 toggleChangeFields(true)
                 console.log('bewerk')
@@ -142,51 +143,7 @@ function PostCard({item, type}) {
                 }
 
             }
-            return <div className='note-card'>
-                {
-                    currentUserIsAuthor && <div className='is-author'>
-                        <span className='link'>
-                            { !changeFields
-                                ? <FiEdit3 onClick={handleChange}/>
-                                : <FiSave onClick={handleSave}/> }
-                        </span>
-                    </div>
-                }
-                {
-                    !changeFields
-                        ? <h4>{item.title}</h4>
-                        : <input
-                            id='title'
-                            type='text'
-                            placeholder='Titel van bericht'
-                            value={noteData.title}
-                            onChange={handleChangeValue}
-                            maxLength={50}
-                            required={true}
-                        />
-                }
-                <p className='body'>
-                    {
-                        !changeFields
-                            ? item.description
-                            : <textarea
-                                id='description'
-                                placeholder='Begin hier met het schrijven van je bericht...'
-                                value={noteData.description}
-                                onChange={handleChangeValue}
-                                maxLength={255}
-                                required={true}
-                            />
-                    }
-
-                </p>
-                {
-                    currentUserIsAuthor &&
-                        changeFields && <div className='is-author'>
-                        <span className='link' onClick={handleDelete}><FiX/></span>
-                    </div>
-                }
-            </div>;
+            return <></>;
         }
 
     }

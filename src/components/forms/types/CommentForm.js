@@ -1,9 +1,9 @@
-import Card from "../listitems/Card";
+import Card from "../../listitems/Card";
 import { FiSend } from 'react-icons/fi';
 import {useContext, useEffect, useState} from "react";
-import Button from "../Button";
-import RatingSelect from "../listitems/RatingSelect";
-import CommentContext from "../../context/CommentContext";
+import Button from "../../Button";
+import RatingSelect from "../../listitems/RatingSelect";
+import CommentContext from "../../../context/CommentContext";
 
 function CommentForm() {
     const {createComment, toUpdate, updateComment} = useContext(CommentContext);

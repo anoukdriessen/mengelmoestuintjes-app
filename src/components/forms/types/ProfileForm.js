@@ -1,12 +1,12 @@
-import './style/forms.css'
+import '../forms.css'
 import {useContext, useState} from "react";
 import {FiImage, FiMapPin, FiSave, FiSettings, FiUserCheck, GiPartyPopper, GiSave} from "react-icons/all";
-import {DetailsInput, InputFieldWithIcon, SubmitBtn} from "./FormItems";
+import {DetailsInput, InputFieldWithIcon, SubmitBtn} from "../FormItems";
 import {FiMail, FiUser} from "react-icons/fi";
 import axios from "axios";
 import {toast} from "react-toastify";
-import UserDataContext from "../../context/UserDataContext";
-import {convertProvince, refreshPage} from "../../helpers/functions";
+import UserDataContext from "../../../context/UserDataContext";
+import {convertProvince, refreshPage} from "../../../helpers/functions";
 import * as fs from "fs";
 import ProfileImageForm from "./ProfileImageForm";
 

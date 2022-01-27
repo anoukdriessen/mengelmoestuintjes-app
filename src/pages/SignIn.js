@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import {AuthDataContext} from "../context/AuthDataContext";
 import PageHeader from "../components/pageitems/PageHeader";
 import PageContent from "../components/pageitems/PageContent";
-import SignInForm from "../components/forms/SignInForm";
+import SignInForm from "../components/forms/types/SignInForm";
 import {Redirect, useHistory} from "react-router-dom";
 
 function SignIn() {

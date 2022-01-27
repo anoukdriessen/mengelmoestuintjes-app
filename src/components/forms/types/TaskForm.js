@@ -1,8 +1,8 @@
 import {useContext, useEffect, useState} from "react";
-import ListDataContext from "../../../../context/ListDataContext";
+import ListDataContext from "../../../context/ListDataContext";
 import {FiSend} from "react-icons/fi";
-import Button from "../../../Button";
-import Card from "../../Card";
+import Button from "../../Button";
+import Card from "../../listitems/Card";
 
 function TaskForm() {
     const {createTask, toUpdate, updateTask} = useContext(ListDataContext);

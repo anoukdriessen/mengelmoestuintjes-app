@@ -2,7 +2,7 @@ import { FiSend } from 'react-icons/fi';
 import {useContext, useEffect, useState} from "react";
 import ListDataContext from "../../../context/ListDataContext";
 import Button from "../../Button";
-import Card from "../Card";
+import Card from "../../listitems/Card";
 import {GiArchiveResearch} from "react-icons/all";
 
 function QuoteForm() {
