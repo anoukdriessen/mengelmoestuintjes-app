@@ -3,18 +3,25 @@ import {AuthDataContext} from "../context/AuthDataContext";
 import PageHeader from "../components/pageitems/PageHeader";
 import PageContent from "../components/pageitems/PageContent";
 import SignUpForm from "../components/forms/SignUpForm";
+import {Redirect, useHistory} from "react-router-dom";
+import SignInForm from "../components/forms/SignInForm";
 
 function SignUp() {
     const {auth} = useContext(AuthDataContext);
+    const history = useHistory();
 
-    console.log('user is logged in =', auth.isAuth);
-    return <>
-        <PageHeader title='Registreren'/>
+    if (auth.isAuth) {
+        history.push(`/profiel/${auth.user.username}`);
+        return null
+    } else {
+        return <>
+            <PageHeader title='Registreren'/>
 
-        <PageContent>
-            <SignUpForm/>
-        </PageContent>
-    </>
+            <PageContent>
+                <SignUpForm/>
+            </PageContent>
+        </>
+    }
 
 }
 

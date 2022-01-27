@@ -75,11 +75,69 @@ export function isValidPassword(password) {
     return false;
 }
 
+export function getToday() {
+    return convertToMyDateFormat(new Date());
+}
+export function getTomorrow() {
+    let date = new Date();
+    date.setDate(date.getDate() + 1);
+    return convertToMyDateFormat(date);
+}
+export function getNextDay(num) {
+    let date = new Date();
+    date.setDate(date.getDate() + num);
+    return convertToMyDateFormat(date);
+}
 export function convertToMyDateFormat(d) {
     let year = d.getFullYear();
     let month = ('0' + (d.getMonth() +1)).slice(-2);
     let day = d.getDate();
     return "" + year + '-' + month + '-' + day;
+}
+export function getTodayHumanFormat() {
+    return "" + getDay(getToday()) + " " + getMonthString(new Date().getMonth() + 1) + " " + getYear(getToday());
+}
+export function getDateHumanFormat(date) {
+    return "" + getDay(date) + " // " + getMonth(date) + " // " + getYear(date);
+}
+export function getDay(date){
+    // date is in my date conversion
+    return date.substr(8);
+}
+export function getMonth(date) {
+    // date is in my date conversion
+    return date.substr(5, 2);
+}
+export function getYear(date) {
+    // date is in my date conversion
+    return date.substr(0, 4);
+}
+export function getMonthString(number) {
+    if (number === 1) {
+        return "Januari"
+    } else if (number === 2) {
+        return "Februari"
+    } else if (number === 3) {
+        return "Maart"
+    } else if (number === 4) {
+        return "April"
+    } else if (number === 5) {
+        return "Mei"
+    } else if (number === 6) {
+        return "Juni"
+    } else if (number === 7) {
+        return "Juli"
+    } else if (number === 8) {
+        return "Augustus"
+    } else if (number === 9) {
+        return "September"
+    } else if (number === 10) {
+        return "Oktober"
+    } else if (number === 11) {
+        return "November"
+    } else {
+        return "December"
+    }
 }
 
 export function convertProvince(province) {
@@ -103,4 +161,22 @@ export function calcProgress(current, limit) {
 
 export function refreshPage() {
     window.location.reload(false);
+}
+
+export function fetchXItemsFromList(x ,list, condition) {
+    let theList = [...list];
+    let newList = [];
+    for ( let i = 0; i < theList.size; i++ ) {
+        if (newList.length < x) {
+            console.log('lengte bereikt', newList);
+            break;
+        } else {
+            if (condition === 'today') {
+                newList[i] = theList[i];
+            } else {
+                newList[i] = theList[i];
+            }
+        }
+    }
+    return newList;
 }

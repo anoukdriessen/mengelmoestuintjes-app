@@ -1,7 +1,7 @@
 import { FiLoader } from 'react-icons/fi'
 import CommentItem from "./CommentItem";
 import ListStats from "./ListStats";
-import CommentForm from "./CommentForm";
+import CommentForm from "../forms/CommentForm";
 import {useContext} from "react";
 import CommentContext from "../../context/CommentContext";
 

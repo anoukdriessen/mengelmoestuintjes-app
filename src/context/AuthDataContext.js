@@ -2,7 +2,8 @@ import {createContext, useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
 import jwt_decode from 'jwt-decode'
-import {convertToMyDateFormat} from "../helpers/functions";
+import {convertToMyDateFormat, refreshPage} from "../helpers/functions";
+import {UserDataContextProvider} from "./UserDataContext";
 
 export const AuthDataContext = createContext({});
 
@@ -27,30 +28,32 @@ function AuthContextProvider({ children }) {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
             })
-        console.log('resultaat', userResult.data);
-        const userData = userResult.data
+        console.log('dit resultaat', userResult.data);
+        console.log('naam', userResult.data.name);
+        console.log('before', auth);
         setAuth({
             user: {
-                username: username,
-                displayName: userData.name,
-                email: userData.email,
-                image: userData.profileImg,
-                authorities: userData.authorities,
+                username,
+                displayName: userResult.data.name,
+                email: userResult.data.email,
+                image: userResult.data.profileImg,
+                authorities: userResult.data.authorities,
                 details: {
-                    birthday: userData.birthday,
-                    lastActivity: userData.lastActivity,
-                    memberSince: userData.memberSince,
+                    birthday: userResult.data.birthday,
+                    lastActivity: userResult.data.lastActivity,
+                    memberSince: userResult.data.memberSince,
+                    province: userResult.data.province,
                     level: {
-                        currentLevel: userData.level,
-                        currentXP: userData.xp,
-                        limit: userData.levelUpLimit,
+                        currentLevel: userResult.data.level,
+                        currentXP: userResult.data.xp,
+                        limit: userResult.data.levelUpLimit
                     },
-                    province: userData.province,
-                }
+                },
             },
             isAuth: true,
             status: 'done',
-        })
+        });
+        console.log('after', auth);
     }
 
     let isNotValid = false;
@@ -63,7 +66,12 @@ function AuthContextProvider({ children }) {
                     if (isTokenNotExpired(decode.exp)) {
                         // not expired set auth
                         let username = decode.sub;
-                        fetchUserData(username);
+                        try {
+                            fetchUserData(username);
+                        } catch (e) {
+                            console.error(e);
+                            console.log(e.response);
+                        }
                     } else {
                         console.log("token expired")
                         // expired
@@ -102,8 +110,8 @@ function AuthContextProvider({ children }) {
         const decoded = jwt_decode(jwtToken);
         // get user info
         let username = decoded.sub;
+        // console.log('jwt token', jwtToken);
         fetchUserData(username);
-        history.push(`/profiel/${username}`)
     }
 
     const logout = () => {
@@ -112,12 +120,13 @@ function AuthContextProvider({ children }) {
             isAuth: false,
         })
         localStorage.clear();
-        // console.log('gebruiker uitgelogd', auth)
-        history.push('/')
+        history.push('/');
+        refreshPage()
     }
 
     const contextData = {
         auth,
+        fetchUserData,
         login,
         logout,
     }

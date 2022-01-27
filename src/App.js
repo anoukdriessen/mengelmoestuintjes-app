@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import './components/ComponentsStyling.css';
+import './components/style/ComponentsStyling.css';
 // routing
 import {
     Switch,
@@ -19,6 +19,9 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import Contact from "./pages/Contact";
 import {AuthDataContext} from "./context/AuthDataContext";
+import SinglePost from "./pages/SinglePost";
+import {UserDataContextProvider} from "./context/UserDataContext";
+import Posts from "./pages/Posts";
 
 function App() {
     const { auth } = useContext(AuthDataContext)
@@ -26,19 +29,21 @@ function App() {
     return <>
         <Switch>
 
-        <Route exact path={'/'}> <Home page = {'/'}/> </Route>
+            <Route exact path={'/'}> <Home page = {'/'}/> </Route>
+
+            <Route path={'/blog'}> <Posts page={'/blog'}/> </Route>
+            <Route exact path={'/berichten/:id'}> <SinglePost page={'/berichten'}/> </Route>
+
+            <Route path={'/profiel/:id'}> <Profile page = {'/profiel'}/> </Route>
 
         <Route path={'/login'}><SignIn page={'/login'}/></Route>
-
         <Route path={'/registreren'}><SignUp page={'/registreren'}/></Route>
 
         <Route path={'profiel/tuintje/:id'}>
             <Garden page = {'/tuintje'}/>
         </Route>
 
-        <Route path={'/profiel/:id'}>
-            <Profile page = {'/profiel'}/>
-        </Route>
+
 
         <Route path={'profiel/dashboard'}>
             <Dashboard page = {'/profiel'}

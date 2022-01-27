@@ -11,13 +11,17 @@ function NavLinks() {
     const {auth, logout} = useContext(AuthDataContext)
     const loggedIn = auth.isAuth;
 
-    const pages = [
+    let pages = [
         { title: 'Home', icon: <GiMushroomHouse/>, link: '/' },
-        { title: 'Profiel', icon: <FiUser/>, link: `/profiel/${auth.user.username}` },
         { title: 'Tuintjes', icon: <GiWoodenSign/>, link: '/profiel/tuintjes' },
         { title: 'Academy', icon: <GiBookshelf/>, link: '/academy' },
         { title: 'Blog', icon: <GiNotebook/>, link: '/blog' },
     ]
+
+    if (auth.isAuth) {
+        pages = [...pages, { title: 'Profiel', icon: <FiUser/>, link: `/profiel/${auth.user.username}` } ]
+    }
+
     const privatePages = [
         { title: 'Dashboard', icon: <GiMushroomHouse/>, link: '/home' },
     ]

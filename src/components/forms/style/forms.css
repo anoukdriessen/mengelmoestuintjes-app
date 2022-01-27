@@ -1,0 +1,292 @@
+#action a {
+    font-family: var(--lato);
+    text-decoration: none;
+    color: var(--main-dark);
+}
+#action {
+    font-size: 12px;
+    padding: 10px 0;
+}
+#action:hover a{
+    border-bottom: 2px solid var(--orange);
+    transition: ease-in-out 0.3s;
+}
+#action:hover strong {
+    color: var(--green);
+}
+
+form input[type="checkbox"] {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+}
+form input, form select {
+    width: 100%;
+    border: none;
+    padding: 5px 0 0 5px;
+    margin: 5px 0;
+    background-color: transparent;
+    font-family: var(--retro);
+    font-size: 10px;
+}
+form input:focus {
+    outline: none!important;
+}
+form .inputField {
+    background-color: var(--light50);
+    border: 3px solid transparent;
+    border-radius: var(--s-round-borders);
+    padding: 5px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+form .inputField:hover {
+    border: 3px solid var(--lighter-blue);
+}
+form .inputField:focus-within {
+    border: 3px solid var(--blue);
+}
+form .inputField:focus-within.checkbox, form .inputField:hover.checkbox {
+    border: 3px solid transparent;
+}
+form .inputField:hover .invalid, form .inputField:focus-within.invalid {
+    border: 3px solid var(--failure);
+}
+form .inputField label {
+    font-family: var(--lato);
+}
+form .inputField label a:hover {
+    border-bottom: 2px solid var(--orange);
+}
+
+#sign-in, #sign-up {
+    margin-top: 20px;
+    background-color: transparent;
+    border-radius: var(--round-borders);
+    border: 5px solid var(--orange);
+    height: 100%;
+    width: 100%;
+    padding: 30px 0;
+    box-shadow: -4px -4px 0 0 var(--darker-orange);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 450px;
+}
+#sign-in:hover, #sign-up:hover {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 0 var(--orange);
+    transition: 2s;
+}
+#sign-in .inputField, #sign-up .inputField  {
+    min-width: 90%;
+    max-width: 400px;
+}
+
+#to-do-list {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    border-bottom: 2px solid var(--orange);
+    border-top: 2px solid var(--orange);
+    border-right: 4px solid var(--blue);
+    border-left: 4px solid var(--blue);
+    border-radius: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#to-do-list .inputField {
+    width: 100%;
+}
+#to-do-list .inputField svg {
+    color: var(--blue);
+}
+#to-do-list .inputField textarea {
+    min-width: 90%;
+    min-height: 75px;
+    border: transparent;
+    resize: none;
+    padding: 5px;
+}
+#to-do-list .inputField textarea:focus-within {
+    outline: none;
+}
+#to-do-list .inputField span {
+    padding: 5px;
+    font-size: 10px;
+    font-family: var(--retro);
+    text-transform: uppercase;
+    color: var(--blue);
+}
+#to-do-list .inputField input[type="date"] {
+    text-align: center;
+}
+
+#profile-details,
+#profile-details-form,
+#upload-image {
+    width: 80%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+#profile-details {
+    padding: 10px;
+    min-width: 100%;
+}
+#profile-details-form {
+    min-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+#profile-details-form.hidden, #upload-image.hidden {
+    display: none;
+}
+#profile-details #change-details {
+    flex: 1;
+    min-width: 100%;
+    cursor: pointer;
+    padding-bottom: 20px;
+}
+#profile-details .details {
+    flex: 1;
+    min-width: 100%;
+    margin-top: 3px;
+    padding: 5px;
+}
+#profile-details .details button[type="submit"] {
+    width: 100%;
+    letter-spacing: 5px;
+    text-align: center;
+}
+#profile-details .inputField:hover, #profile-details .inputField:focus-within {
+    border: 3px solid transparent;
+}
+
+#profile-image {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--blue);
+}
+#upload-image {
+    background-color: var(--blue);
+    max-width: 500px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+input[type=file]::file-selector-button, input[type=file], #upload-image button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-family: var(--roboto);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 12px;
+}
+
+#new-post {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid var(--orange);
+    border-top: 2px solid var(--orange);
+    border-right: 4px solid var(--blue);
+    border-left: 4px solid var(--blue);
+    padding: 10px;
+}
+#new-post .inputField textarea {
+    min-width: 100%;
+    min-height: 100px;
+    border: transparent;
+    overflow-x: scroll;
+    resize: none;
+    padding: 5px;
+}
+#new-post .inputField textarea:focus-within {
+    outline: none;
+}
+#new-post div {
+    background-color: transparent;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+}
+#new-post #image-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.isDone {
+    text-decoration: line-through var(--main-dark);
+}
+.too-long {
+    color: var(--failure);
+}
+
+.link.show-hide:hover {
+    color: var(--orange);
+}
+
+.submit-save, .submit-edit {
+    letter-spacing: 2px;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+}
+.submit-save:hover, .submit-edit:hover {
+    transform: scale(1.3);
+    color: var(--blue);
+    transition: 1s;
+}
+.submit-edit:hover::after, .submit-save:hover::after {
+    content: ">";
+    transition: 2s;
+}
+
+@media screen and (min-width: 768px){
+    #profile-details .details button[type="submit"] {
+        text-align: center;
+        min-width: 100%;
+    }
+    #profile-details .details {
+        min-width: 50%;
+    }
+}
+
+#post-img {
+    width: 320px;
+    height: 320px;
+}
+
+select:hover {
+    cursor: pointer;
+}
+
+@media screen and (min-width: 1000px){
+    #profile-details .details {
+        min-width: 25%;
+    }
+}

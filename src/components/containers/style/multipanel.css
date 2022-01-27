@@ -11,37 +11,39 @@ div.container {
     background-position: center;
     background-repeat: no-repeat;
 }
-div .panel {
+.panel {
     padding: 5% 0;
     cursor: pointer;
 }
-div.panel-header {
+.panel-header {
     padding: 5%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-div.panel-header {
+.panel-header {
     text-transform: uppercase;
     font-size: 1.3em;
     color: var(--main-light);
     background-color: transparent;
     letter-spacing: 10px;
 }
-div.panel-header.active, div.panel p.active {
+.panel-header.active,
+.panel p.active {
     background-color: var(--darker-green);
     color: var(--main-light);
 }
-div.panel h3, div.panel p.active {
+.panel h3,
+.panel p.active {
     pointer-events: none;
 }
-div.panel-header.active {
+.panel-header.active {
     font-size: 1.2em;
     border-top-left-radius: var(--round-borders);
     border-top-right-radius: var(--round-borders);
     transition: ease-in-out 1s;
 }
-div.panel p.active {
+.panel p.active {
     padding: 5%;
     border-bottom-left-radius: var(--round-borders);
     border-bottom-right-radius: var(--round-borders);
@@ -56,10 +58,10 @@ div.panel p.active {
         justify-content: space-between;
     }
 
-    div.panel-header {
+    .panel-header {
         transform: rotate(-90deg);
     }
-    div.panel-header.active {
+    .panel-header.active {
         transform: rotate(0deg);
     }
 }

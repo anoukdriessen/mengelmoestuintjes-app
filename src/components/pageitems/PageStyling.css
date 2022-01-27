@@ -93,10 +93,67 @@ nav img {
     align-items: center;
 }
 
-#page-footer {
+#page-content-nav {
+    font-size: 12px;
+    min-width: 95%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+#page-content-nav div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
 }
 
-@media screen and (min-width: 768px) {
+#dashboard {
+    margin-top: 7px;
+    padding: 15px;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#dashboard #sidebar {
+    flex: 1;
+    min-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+#dashboard #main-content {
+    flex: 1;
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+@media screen and (min-width: 650px) {
+    #page-content #post-cards {
+        min-width: 100%;
+        min-height: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+    #page-content .post-card {
+        min-width: 49%;
+    }
+    #dashboard #main-content {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+}
+
+@media screen and (min-width: 794px) {
     #page-title {
         letter-spacing: 3px;
     }
@@ -104,17 +161,36 @@ nav img {
         padding-bottom: 0;
     }
     nav img {
-
         height: 400px;
+    }
+    #dashboard #sidebar {
+        flex-wrap: nowrap;
     }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 1000px) {
     * {
         max-width: 1500px;
     }
 
     html, body {
         margin: 0 auto;
+    }
+    #dashboard #sidebar {
+        min-width: 30%;
+        flex-direction: column;
+    }
+    #dashboard #main-content, #dashboard #main-content #post-cards {
+        min-width: 68%;
+        padding-left: 5px;
+    }
+    #page-content .post-card {
+        min-width: 33%;
+    }
+}
+
+@media screen and (min-width: 1500px){
+    #dashboard #main-content .post-card, #page-content .post-card{
+        min-width: 25%;
     }
 }

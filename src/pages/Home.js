@@ -9,39 +9,36 @@ import axios from "axios";
 import {AuthDataContext} from "../context/AuthDataContext";
 import {Link} from "react-router-dom";
 import Quote from "../components/Quote";
+import {UserDataContextProvider} from "../context/UserDataContext";
+import CallToAction from "../components/CallToAction";
+import {toast} from "react-toastify";
 
 function Home() {
-    const { header } = useContext(AuthDataContext)
+    const {auth} = useContext(AuthDataContext);
     const [randomQuote, setRandomQuote] = useState(null)
     const [blogPosts, setBlogPosts] = useState([])
-    const [loading, isLoading] = useState(true);
-
     useEffect(() => {
         fetchRandomQuote()
         fetchBlogPosts()
     }, [])
 
     const fetchRandomQuote = async () => {
-        isLoading(true);
         try {
             const response = await axios.get(`https://localhost:8443/api/quotes/random`, {
             })
             // console.log('fetch random quote',response.data)
             setRandomQuote(response.data);
-            isLoading(false);
         } catch (e) {
             console.error(e);
             console.log(e.response);
         }
     }
     const fetchBlogPosts = async () => {
-        isLoading(true);
         try {
             const response = await axios.get(`https://localhost:8443/api/berichten/top4`, {
                     params: {published: true, category: "BLOG"}
             })
             setBlogPosts(response.data.reverse());
-            isLoading(false);
         } catch (e) {
             console.error(e);
             console.log(e.response);
@@ -56,20 +53,24 @@ function Home() {
 
             <MultiPanelContainer type='missions'/>
 
-            <Link to={'/registreren'}><Button version='call-to-action'>
-                Maak een Tuintje
-            </Button></Link>
-
-            <PostCards
-                title='Recente blogberichten'
-                type='blog'
-                blogPosts={blogPosts}
-                num={4}
+            <CallToAction
+                linkTo={'/registreren'}
+                title={'Maak een tuintje'}
             />
 
-            <Link to={'/blog'}><Button version='call-to-action'>
-                lees verder
-            </Button></Link>
+            <UserDataContextProvider>
+                <PostCards
+                    title='Recente blogberichten'
+                    type='blog'
+                    posts={blogPosts}
+                    num={4}
+                />
+            </UserDataContextProvider>
+
+            <CallToAction
+                linkTo={'/blog'}
+                title={'lees verder'}
+            />
 
         </PageContent>
     </>

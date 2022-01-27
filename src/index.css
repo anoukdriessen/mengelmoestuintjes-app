@@ -81,3 +81,30 @@ a {
 .error { color: var(--failure); }
 .warning { color: var(--warning); }
 .success { color: var(--success); }
+
+.link, .nav-link {
+    cursor: pointer;
+}
+.link:hover, .nav-link:hover {
+    color: var(--blue);
+    transform: scale(1.2);
+    transition: 0.7s;
+}
+.link.reversed:hover, .nav-link.reversed:hover {
+    color: var(--main-light);
+}
+
+.nav-link {
+    padding: 2.5px;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.nav-link.active {
+    transform: scale(1.2);
+    transition: 0.5s;
+    color: var(--green);
+}
+
