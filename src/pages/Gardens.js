@@ -2,6 +2,8 @@ import {AuthDataContext} from "../context/AuthDataContext";
 import {useContext} from "react";
 import PageHeader from "../components/pageitems/PageHeader";
 import PageContent from "../components/pageitems/PageContent";
+import GardensList from "../components/listitems/Gardens/GardensList";
+import {GardensDataContextProvider} from "../context/GardensDataContext";
 
 function Gardens() {
     const { auth } = useContext(AuthDataContext);
@@ -10,19 +12,9 @@ function Gardens() {
         <PageHeader title={auth.user.username + '\'s Mengelmoestuintjes'}/>
 
         <PageContent>
-            <div>
-                <h4>Mijn tuintjes</h4>
-                <div>
-                    <div className='garden-preview'>
-                        <p>
-                            <span>TUINNAAM</span>
-                            <span>[ 24m<sup>2</sup> ]</span>
-                            <br/>
-                            <span>[ 0 ] items op to do</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <GardensDataContextProvider>
+                <GardensList/>
+            </GardensDataContextProvider>
         </PageContent>
     </>
 }

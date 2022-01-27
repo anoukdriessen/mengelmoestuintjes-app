@@ -36,31 +36,18 @@ function App() {
             <Route exact path={'/berichten/:id'}> <SinglePost/> </Route>
 
             <Route path={'/profiel/:id'}> <Profile/> </Route>
-            <Route exact path={'/tuintjes'}> <Gardens/> </Route>
+            <Route path={'profiel/dashboard'}><Dashboard page = {'/profiel'}/></Route>
+            <Route path={'/tuintjes'}> <Gardens/> </Route>
+            <Route exact path={'/tuintjes/:id'}><Garden page = {'/tuintje'}/></Route>
 
+            <Route path='/terms-and-privacy'><TermsAndPrivacy /></Route>
+            <Route path='/contact'><Contact /></Route>
 
-        <Route path={'/login'}><SignIn page={'/login'}/></Route>
-        <Route path={'/registreren'}><SignUp page={'/registreren'}/></Route>
+            <Route path={'/login'}><SignIn page={'/login'}/></Route>
+            <Route path={'/registreren'}><SignUp page={'/registreren'}/></Route>
 
-        <Route path={'profiel/tuintje/:id'}>
-            <Garden page = {'/tuintje'}/>
-        </Route>
-
-
-
-        <Route path={'profiel/dashboard'}>
-            <Dashboard page = {'/profiel'}
-            />
-        </Route>
-
-        <Route path={'/mengelmoes'}><Mengelmoes/></Route>
-
-        <Route path='/terms-and-privacy'><TermsAndPrivacy /></Route>
-
-        <Route path='/contact'><Contact /></Route>
-
-        <Route path='/404'><NotFound/></Route>
-        <Route path='/*'><NotFound/></Route>
+            <Route path='/404'><NotFound/></Route>
+            <Route path='/*'><NotFound/></Route>
         </Switch>
 
         <ToastContainer/>
