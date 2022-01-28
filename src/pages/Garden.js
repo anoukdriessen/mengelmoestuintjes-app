@@ -75,10 +75,6 @@ function Garden() {
                 </>
             )}
         </div>
-        <button type='button' onClick={() => {
-            history.push('/profiel/gebruiker')
-        }
-        }>Opslaan en verder gaan</button>
     </>
 }
 

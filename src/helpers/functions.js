@@ -1,6 +1,17 @@
 import {v4 as uuidv4} from 'uuid';
 import {useContext} from "react";
 import {UserDataContext} from "../context/UserDataContext";
+import {
+    GiGate,
+    GiHeartKey,
+    GiHobbitDoor,
+    GiHouseKeys,
+    GiMedievalGate,
+    GiRanchGate,
+    GiSkeletonKey,
+    GiStarKey, GiWoodenDoor
+} from "react-icons/all";
+import {Mail} from "../components/forms/FormItems";
 
 export function getUniqueId() {
     return uuidv4();
@@ -184,3 +195,43 @@ export function fetchXItemsFromList(x ,list, condition) {
 export function sortArrayById(list) {
     return list.sort((a, b) => a.id - b.id)
 }
+
+export function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+}
+
+export function getMyGardenKey(type){
+    switch(type) {
+        case 1: {
+            return <GiHeartKey/>
+        }
+        case 2: {
+            return <GiSkeletonKey/>
+        }
+        case 3: {
+            return <GiStarKey/>
+        }
+        default: {
+            return <GiHouseKeys/>
+        }
+    }
+}
+
+export function getMyGate(type) {
+    const size = 290;
+    switch (type) {
+        case 1:
+            return <GiGate size={size}/>
+        case 2:
+            return <GiRanchGate size={size}/>
+        case 3:
+            return <GiMedievalGate size={size}/>
+        case 4:
+            return <GiHobbitDoor className='mirrored' size={290}/>
+        case 5:
+            return <GiWoodenDoor size={290}/>
+        default:
+            return null
+    }
+}
+

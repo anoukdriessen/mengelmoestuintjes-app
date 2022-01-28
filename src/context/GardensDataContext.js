@@ -14,7 +14,7 @@ export const GardensDataContextProvider = ({ children }) => {
 
     useEffect(() => {
         fetchAllGardens()
-        getAllMyGardens()
+        fetchAllMyGardens()
     }, [])
 
     // CREATE
@@ -23,12 +23,16 @@ export const GardensDataContextProvider = ({ children }) => {
     const fetchAllGardens = async () => {
         const response = await axios.get(`https://localhost:8443/api/tuintjes`, {
         });
-        console.log(response.data);
+        // console.log(response.data);
         setAllGardens(response.data);
     }
-
-    // TODO GET my gardens
-
+    const fetchAllMyGardens = async () => {
+        let thisUser = auth.user.username;
+        const response = await axios.get(`https://localhost:8443/api/tuintjes/from/${thisUser}`, {
+        });
+        // console.log(response.data);
+        setAllMyGardens(response.data)
+    }
     // UPDATE
 
     // DELETE

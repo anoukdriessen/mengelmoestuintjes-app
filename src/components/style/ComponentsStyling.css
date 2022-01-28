@@ -335,6 +335,75 @@ button[type="submit"] svg {
 #user strong {
     color: var(--darker-blue);
 }
-@media screen and (min-width: 500px) {
+
+#dashboard.garden {
+    margin-top: 0;
+    padding: 15px;
+    color: var(--main-dark);
 }
+
+.garden svg {
+    color: var(--green);
+    outline: 1px var(--green);
+}
+.gardens-info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    min-width: 100%;
+}
+.user-gardens {
+    /*background-color: var(--light90);*/
+    min-width: 100%;
+    color: var(--main-dark);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.user-gardens .single-garden {
+    flex: 1;
+    margin: 25px;
+    padding: 25px;
+    background: var(--main-light);
+    min-width: 320px;
+    max-width: 320px;
+    box-shadow: 3px 3px 2px 0.1px var(--main-dark);
+    border: 3px solid var(--main-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.single-garden svg {
+    color: var(--green);
+}
+
+.single-garden h4,.single-garden .owners, .single-garden .tasks {
+    min-width: 320px;
+    padding: 5px 0;
+    margin: 0;
+}
+.single-garden h4 {
+    background-color: var(--darker-green);
+    color: var(--main-light);
+    text-align: left;
+    padding: 5px 15px;
+}
+.single-garden .owners, .single-garden .tasks {
+    font-family: var(--roboto);
+    color: var(--main-dark);
+    padding: 25px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+.single-garden .owners li, .single-garden .tasks li {
+    list-style: none;
+}
+.single-garden .tasks span {
+    font-size: 10px;
+}
+
 

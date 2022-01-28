@@ -21,6 +21,7 @@
     --failure: #e74c3c;
 
     --light50: rgba(255,255,255,50%);
+    --light90: rgba(255,255,255,70%);
     --blue90: rgba(190, 225, 238, 90%);
 
     --roboto: 'Roboto Condensed', sans-serif;

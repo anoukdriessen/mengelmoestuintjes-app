@@ -13,13 +13,15 @@ function NavLinks() {
 
     let pages = [
         { title: 'Home', icon: <GiMushroomHouse/>, link: '/' },
-        { title: 'Tuintjes', icon: <GiWoodenSign/>, link: '/profiel/tuintjes' },
         { title: 'Academy', icon: <GiBookshelf/>, link: '/academy' },
         { title: 'Blog', icon: <GiNotebook/>, link: '/blog' },
     ]
 
     if (auth.isAuth) {
-        pages = [...pages, { title: 'Profiel', icon: <FiUser/>, link: `/profiel/${auth.user.username}` } ]
+        pages = [...pages,
+            { title: 'Profiel', icon: <FiUser/>, link: `/profiel/${auth.user.username}` },
+            { title: 'Tuintjes', icon: <GiWoodenSign/>, link: '/tuintjes' }
+        ]
     }
 
     const privatePages = [

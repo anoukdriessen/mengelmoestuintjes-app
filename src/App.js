@@ -26,19 +26,18 @@ import Gardens from "./pages/Gardens";
 
 function App() {
     const { auth } = useContext(AuthDataContext)
-    console.log('in app', auth)
+    // console.log('in app', auth)
     return <>
         <Switch>
-
             <Route exact path={'/'}><Home/></Route>
 
             <Route path={'/blog'}> <Posts/> </Route>
-            <Route exact path={'/berichten/:id'}> <SinglePost/> </Route>
+            <Route path={'/berichten/:id'}> <SinglePost/> </Route>
 
             <Route path={'/profiel/:id'}> <Profile/> </Route>
-            <Route path={'profiel/dashboard'}><Dashboard page = {'/profiel'}/></Route>
+            <Route path={'/dashboard'}><Dashboard page/></Route>
             <Route path={'/tuintjes'}> <Gardens/> </Route>
-            <Route exact path={'/tuintjes/:id'}><Garden page = {'/tuintje'}/></Route>
+            <Route path={'/tuintje/:gardenid'}><Garden/></Route>
 
             <Route path='/terms-and-privacy'><TermsAndPrivacy /></Route>
             <Route path='/contact'><Contact /></Route>

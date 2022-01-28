@@ -59,7 +59,7 @@ function Home() {
 
             <CallToAction
                 linkTo={linkToGarden}
-                title={'Maak een tuintje'}
+                title={auth.isAuth ? 'Mijn tuintjes' : 'Maak een tuintje'}
             />
 
             <UserDataContextProvider>

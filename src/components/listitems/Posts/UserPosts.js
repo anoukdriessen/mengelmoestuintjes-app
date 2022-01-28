@@ -60,9 +60,9 @@ function UserPosts({note, showNotes, publ, showPublic, priv, showPrivate}) {
         all = [...all, ...privatePosts]
     }
 
-    console.log(all);
+    // console.log(all);
     sortArrayById(all);
-    console.log(all);
+    // console.log(all);
     return <>
         <ShowAndHide
             setOne={showNotes}
@@ -101,7 +101,7 @@ function UserPosts({note, showNotes, publ, showPublic, priv, showPrivate}) {
                                     description: '',
                                 }
 
-                                return <div className='note-card'>
+                                return <div className='note-card' key={getUniqueId()}>
                                     {
                                         currentUserIsAuthor && <div className='is-author'>
                         <span className='link'>

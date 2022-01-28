@@ -1,5 +1,5 @@
 import {Redirect, useHistory} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {AuthDataContext} from "../context/AuthDataContext";
 import PageHeader from "../components/pageitems/PageHeader";
 import PageContent from "../components/pageitems/PageContent";
@@ -20,6 +20,7 @@ import ToDoTaskList from "../components/listitems/Tasks/ToDoTaskList";
 import Calendar from "../components/Calendar";
 import {TasksDataContextProvider} from "../context/TasksDataContext";
 import {PostsDataContextProvider} from "../context/PostsDataContext";
+import CallToAction from "../components/CallToAction";
 
 export function ProfileCard({image, hasDisplayName, authUser, procentBar, procent}) {
     return <Card useId='user'>
@@ -72,9 +73,8 @@ function Profile() {
     let procentBar = `${procent}%`
     return<>
             <PageHeader title={auth.user.username}/>
-
             <PageContent>
-                { !changeUserDetails &&
+                { !changeUserDetails && <>
                 <ProfileCard
                     image={image}
                     hasDisplayName={hasDisplayName}
@@ -82,6 +82,7 @@ function Profile() {
                     procentBar={procentBar}
                     procent={procent}
                 />
+                </>
                 }
                 <PageContentNav
                     changeUserDetails={changeUserDetails}
