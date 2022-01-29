@@ -95,7 +95,7 @@ export function ProfileCard({image, hasDisplayName, authUser, procentBar, procen
 }
 
 function Profile() {
-    const {auth} = useContext(AuthDataContext);
+    const {auth, hasUserRole} = useContext(AuthDataContext);
     const [user, setUser] = useState(auth.user);
     const [image, setImage] = useState(user.image);
     const [procent, setProcent] = useState(calcProgress(user.details.level.currentXP, user.details.level.limit));
@@ -107,6 +107,10 @@ function Profile() {
     const [showForm, toggleShowForm] = useState(false);
     let hasDisplayName = user.displayName;
     let procentBar = `${procent}%`
+
+
+    // console.log('is user mod',hasUserRole('ROLE_MODERATOR'));
+
     return<>
             <PageHeader title={auth.user.username}/>
             <PageContent>

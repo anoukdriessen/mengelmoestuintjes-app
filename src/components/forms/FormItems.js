@@ -30,7 +30,7 @@ export function Username({iconSize, username, onChange}) {
             placeholder={'Gebruikersnaam'}
             onChange={onChange}
             autoComplete='off'
-            required
+            required={true}
         />
     </InputFieldWithIcon>
 }

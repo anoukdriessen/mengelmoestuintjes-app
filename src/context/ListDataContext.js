@@ -36,19 +36,6 @@ export const ListDataProvider = ({children}) => {
         searchedFor: false,
     });
 
-    useEffect(() => {
-        fetchQuotes()
-    }, [toUpdate])
-
-
-    const fetchQuotes = async () => {
-            const response = await axios.get(`/api/quotes`, {
-                headers: header
-            })
-            // console.log('fetch all quotes',response.data)
-            setQuotes(response.data);
-            setIsLoading(false);
-    }
     const fetchTasks = async () => {
         const response = await axios.get(`/api/gebruikers/${auth.user.username}/taken/TODO`);
         console.log('fetch all tasks', response.data)

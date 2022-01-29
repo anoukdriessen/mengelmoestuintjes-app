@@ -4,7 +4,7 @@ import Card from "../Card";
 import {FiEdit3, FiX} from "react-icons/fi";
 
 function QuoteItem({item}) {
-    const {deleteQuote, updateQuote} = useContext(ListDataContext);
+    // const {deleteQuote, updateQuote} = useContext(ListDataContext);
     // console.log(item);
 
     return <Card className={'card'}>
@@ -16,16 +16,12 @@ function QuoteItem({item}) {
                 <span><span>{item.id}</span>{item.author}</span>
                 <div>
                     <a href='#quote-form'>
-                    <button onClick={() => {
-                        deleteQuote(item.id, item) }}
-                            className='btn close'>
+                    <button className='btn close'>
                         <FiX/>
                     </button>
                     </a>
                     <a href='#quote-form'>
-                    <button onClick={() => {
-                        updateQuote(item.id, item) }}
-                            className='btn edit'>
+                    <button className='btn edit'>
                         <FiEdit3/>
                     </button>
                     </a>

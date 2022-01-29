@@ -35,7 +35,7 @@ function App() {
             <Route path={'/berichten/:id'}> <SinglePost/> </Route>
 
             <Route path={'/profiel/:id'}> <Profile/> </Route>
-            <Route path={'/dashboard'}><Dashboard page/></Route>
+            <Route path={'/dashboard'}><Dashboard /></Route>
             <Route path={'/tuintjes'}> <Gardens/> </Route>
             <Route path={'/tuintje/:gardenid'}><SingleGarden/></Route>
 

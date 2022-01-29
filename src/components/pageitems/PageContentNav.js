@@ -1,6 +1,6 @@
 import {
     FiFilePlus,
-    FiImage,
+    FiImage, FiMonitor,
     FiSave,
     FiSettings,
     GiChatBubble,
@@ -8,15 +8,17 @@ import {
     GiCheckMark,
     GiSeedling
 } from "react-icons/all";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {FiX} from "react-icons/fi";
 import {useHistory} from "react-router-dom";
+import {AuthDataContext} from "../../context/AuthDataContext";
 
 function PageContentNav({ changeUserDetails, toggleChangeUserDetails,
                           changeUserImage, toggleChangeUserImage,
                           showToDo, toggleShowToDo,
                           showPost, toggleShowPost,
                           showForm, toggleShowForm,}) {
+    const { hasUserRole } = useContext(AuthDataContext)
     const history = useHistory();
 
     return <div id='page-content-nav'>
@@ -42,7 +44,12 @@ function PageContentNav({ changeUserDetails, toggleChangeUserDetails,
                 <span className='link-desc'>
                     Mijn tuintjes</span>
             </span>
-
+            }
+            {
+                hasUserRole('ROLE_MODERATOR') && <span className='nav-link go-to' onClick={() => { history.push('/dashboard')}}>
+                <FiMonitor size={30}/>
+                <span className='link-desc'>Dashboard</span>
+            </span>
             }
             { !showForm && <>
             <span className={changeUserDetails ? 'nav-link active' : 'nav-link'} id='change-user-details'

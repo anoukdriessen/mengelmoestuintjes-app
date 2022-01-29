@@ -28,9 +28,9 @@ function AuthContextProvider({ children }) {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
             })
-        console.log('dit resultaat', userResult.data);
-        console.log('naam', userResult.data.name);
-        console.log('before', auth);
+        // console.log('dit resultaat', userResult.data);
+        // console.log('naam', userResult.data.name);
+        // console.log('before', auth);
         setAuth({
             user: {
                 username,
@@ -53,7 +53,7 @@ function AuthContextProvider({ children }) {
             isAuth: true,
             status: 'done',
         });
-        console.log('after', auth);
+        // console.log('after', auth);
     }
 
     let isNotValid = false;
@@ -124,11 +124,23 @@ function AuthContextProvider({ children }) {
         refreshPage()
     }
 
+    const hasUserRole = (toFind) => {
+        // console.log('my authorities', auth.user.authorities)
+        for (let role in auth.user.authorities) {
+            // console.log(auth.user.authorities[role].authority)
+            if (auth.user.authorities[role].authority === toFind) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     const contextData = {
         auth,
         fetchUserData,
         login,
         logout,
+        hasUserRole,
     }
 
     return (
