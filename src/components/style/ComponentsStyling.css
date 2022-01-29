@@ -6,7 +6,7 @@ hr {
     transform: rotateY(180deg);
 }
 
-#profile-img {
+#profile-img, #profile-img-prev {
     max-width: 70px;
     border-radius: 50%;
     display: flex;
@@ -295,7 +295,7 @@ button[type="submit"] svg {
     padding-top: 75px;
     left: 0;
     top: 0;
-    width: 100%;
+    min-width: 100vw;
     height: 100%;
     background-color: var(--blue90);
     color: var(--main-dark);
@@ -405,5 +405,291 @@ button[type="submit"] svg {
 .single-garden .tasks span {
     font-size: 10px;
 }
+.show-and-hide.garden {
+    margin-top: 0;
+    color: var(--green);
+    padding-bottom: 25px;
+}
+.show-and-hide.garden span {
+    background-color: transparent;
+}
+.show-and-hide.garden span:hover {
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+.show-and-hide.garden span svg.selected {
+    outline: 2px solid var(--green);
+    box-shadow: 1px 1px 2px 1px var(--darker-green);
+    transition: 0.5s;
+}
+.show-and-hide.garden span svg {
+    padding: 5px;
+    background-color: var(--orange);
+    border-radius: 50%;
+}
 
+#garden-content {
+    min-width: 100%;
+    border-top: 5px solid var(--darker-blue);
+    padding-top: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+#garden-content-header {
+    min-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+#garden-content-header span.retro {
+    font-size: 0.5em;
+}
+#my-garden {
+    border: 5px solid var(--darker-blue);
+    min-width: 100%;
+    max-width: 320px;
+    overflow: auto;
+}
+#my-garden h4 {
+    text-align: center;
+    padding: 5px;
+}
+.card.add-garden-note {
+    min-width: 100%;
+}
+.card.add-garden-note textarea {
+    padding: 10px;
+    resize: none;
+    text-align: center;
+    border: none;
+    min-height: 75px;
+}
+.card.add-garden-note button {
+
+}
+
+#garden-content span {
+    padding-right: 10px;
+}
+#garden-content h2 {
+    font-family: var(--writing);
+    font-size: 2em;
+}
+
+#garden-content-owners {
+    padding: 0 10px;
+}
+#garden-content-owners .actions, #garden-content-owners .action-forms {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+.action-forms textarea {
+    justify-content: flex-start;
+    min-width: 320px;
+    max-width: 100%;
+    resize: none;
+}
+#garden-content-owners .note-card.todo {
+    margin: 5px;
+    padding-top: 30px;
+    align-items: center;
+    word-break: break-word;
+    justify-content: flex-start;
+}
+.note-card.todo img {
+    max-width: 100px;
+    max-height: 100px;
+}
+#garden-content-owners ul {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: stretch;
+}
+#garden-content-owners ul li {
+    padding-top: 5px;
+    list-style: none;
+}
+#garden-content-owners ul li div {
+    flex: 1;
+    min-width: 100%;
+    font-family: var(--roboto);
+    text-transform: lowercase;
+}
+.garden-todo {
+    min-width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-end;
+    font-family: var(--roboto);
+    word-break: break-word;
+}
+.garden-todo svg {
+    padding-right: 3px;
+    min-width: 20px;
+    min-height: 20px;
+}
+.garden-todo.finished {
+    text-decoration: 2px solid line-through var(--main-dark);
+}
+
+.list-of-plants {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-auto-rows: 320px;
+    margin-bottom: 80px;
+}
+.list-of-plants li div {
+    flex: 1;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid var(--main-dark);
+    box-shadow: 2px 2px 2px 2px var(--main-dark);
+    max-width: 320px;
+    max-height: 320px;
+}
+.list-of-plants li div img {
+    min-width: 100%;
+    max-width: 320px;
+    min-height: 100%;
+    max-height: 320px;
+}
+
+.list-of-plants li div h4 {
+    align-self: flex-start;
+}
+
+#my-garden-info {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+#my-garden-info input[type='number'] {
+    font-family: var(--retro);
+    text-align: center;
+    max-width: 70px;
+    border: transparent;
+}
+
+#garden-select-box {
+    padding: 25px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    min-width: 100%;
+    max-width: 800px;
+}
+
+#garden {
+    overflow: auto;
+    box-shadow: 2px 2px 2px 2px var(--main-dark);
+    justify-content: center;
+}
+
+
+.row {
+    background-color: var(--main-dark);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+#garden-content span.tile {
+    padding-right: 0;
+    margin-right: 2px;
+}
+.tile-name {
+    display: inline-block;
+    font-size: 10px;
+    font-family: var(--retro);
+}
+
+.title-name .hidden {
+    display: none;
+}
+
+.tile img {
+    width: 50px;
+    height: 50px;
+}
+.tile img:hover {
+    border: 2px solid var(--lighter-blue);
+}
+
+#garden-settings {
+    display: flex;
+    flex-direction: column;
+    min-width: 95%;
+    margin: 10px;
+    padding: 15px;
+    border: 2px solid var(--darker-blue);
+    box-shadow: 2px 2px 2px 2px var(--darker-blue);
+}
+#garden-settings ul {
+    display: flex;
+    flex-direction: row;
+}
+#garden-settings ul li {
+    cursor: pointer;
+    padding: 5px;
+    margin: 10px;
+    border: 2px solid var(--darker-blue);
+    box-shadow: 2px 2px 2px 2px var(--darker-blue);
+}
+#garden-settings ul li:hover {
+    background-color: var(--lighter-blue);
+    border-color: var(--failure);
+    box-shadow: 0 0 0 0 transparent;
+    transition: 0.7s;
+    color: var(--failure);
+}
+#garden-settings li svg {
+    width: 15px;
+    height: 15px;
+}
+#garden-settings span {
+    cursor: pointer;
+}
+#garden-settings span:hover {
+    color: var(--orange);
+}
+
+#garden-settings .input-field {
+    padding: 10px;
+    max-width: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+#garden-settings .input-field input {
+    border: transparent;
+    height: 30px;
+    padding: 10px;
+}
+
+.settings {
+    cursor: pointer;
+}
+
+@media screen and (min-width: 1000px) {
+    #garden-content-owners ul {
+        flex-direction: row;
+    }
+    #garden-content-owners .note-card.todo {
+        min-width: 25%;
+    }
+}
 

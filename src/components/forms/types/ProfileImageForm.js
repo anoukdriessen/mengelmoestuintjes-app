@@ -8,8 +8,8 @@ function ProfileImageForm({changeUserImage, image, handleSubmit, handleChange, c
               className={!changeDetails ? 'hidden' : ''}>
             {
                 image
-                    ? <img id='profile-img' src={`data:image/jpeg;base64,${image}`} alt='user'/>
-                    : <img id='profile-img'
+                    ? <img id='profile-img-prev' src={`data:image/jpeg;base64,${image}`} alt='user'/>
+                    : <img id='profile-img-prev'
                            src='https://images.unsplash.com/photo-1587334274328-64186a80aeee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c3Byb3V0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
                            alt='empty user'/>
             }

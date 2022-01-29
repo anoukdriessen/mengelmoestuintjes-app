@@ -9,6 +9,7 @@ export const GardensDataContextProvider = ({ children }) => {
     const { auth } = useContext(AuthDataContext)
     const [isLoading, setIsLoading] = useState();
 
+    const [garden, setGarden] = useState({});
     const [allMyGardens, setAllMyGardens] = useState([]);
     const [allGardens, setAllGardens] = useState([]);
 
@@ -33,13 +34,24 @@ export const GardensDataContextProvider = ({ children }) => {
         // console.log(response.data);
         setAllMyGardens(response.data)
     }
+    const fetchGardenById = async (id) => {
+        console.log('garden by id', id)
+        try {
+            const response = await axios.get(`https://localhost:8443/api/tuintjes/${id}`);
+            setGarden(response.data)
+        } catch (e) {
+            console.error(e);
+        }
+    }
     // UPDATE
 
     // DELETE
 
     const contextData = {
+        garden,
         allGardens,
         allMyGardens,
+        fetchGardenById,
     }
 
     return <GardensDataContext.Provider value={contextData}>

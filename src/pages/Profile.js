@@ -22,6 +22,42 @@ import {TasksDataContextProvider} from "../context/TasksDataContext";
 import {PostsDataContextProvider} from "../context/PostsDataContext";
 import CallToAction from "../components/CallToAction";
 
+export function SmallProfileCard({image, name, username, currentLevel}) {
+    return <Card useId='user' className={'small'}>
+        {
+            image
+                ? <img id='profile-img' src={`data:image/jpeg;base64,${image}`} alt='user'/>
+                : <img id='profile-img' src='https://images.unsplash.com/photo-1587334274328-64186a80aeee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c3Byb3V0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60' alt='empty user' />
+        }
+        <p className='user-card-header'>
+            <span><strong>@</strong>{ name !== '' ? name.toUpperCase() : username }
+            </span>
+            <span><strong>[</strong> lvl {currentLevel}<strong> ]</strong></span>
+        </p>
+    </Card>
+}
+export function SmallProfileCardWithTasks({image, name, username, tasks}) {
+    return <Card useId='user' className={'small'}>
+        {
+            image
+                ? <img id='profile-img' src={`data:image/jpeg;base64,${image}`} alt='user'/>
+                : <img id='profile-img' src='https://images.unsplash.com/photo-1587334274328-64186a80aeee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c3Byb3V0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60' alt='empty user' />
+        }
+        <p className='user-card-header'>
+            <span><strong>@</strong>{ name !== '' ? name.toUpperCase() : username }
+            </span>
+            {/*<span><strong>[</strong> lvl {currentLevel}<strong> ]</strong></span>*/}
+        </p>
+        <div className='user-card-body'>
+            {
+                tasks.length > 0 &&
+                    tasks.map((task) => {
+                        return <li>{task}</li>
+                    })
+            }
+        </div>
+    </Card>
+}
 export function ProfileCard({image, hasDisplayName, authUser, procentBar, procent}) {
     return <Card useId='user'>
         {

@@ -13,6 +13,7 @@ export const TasksDataContextProvider = ({ children }) => {
     const [toDoTasks, setToDoTasks] = useState([]);
 
     // GARDENING
+    const [toDoGardening, setToDoGardening] = useState([]);
 
 
 

@@ -9,7 +9,7 @@ import {
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import Garden from "./pages/Garden";
+import SingleGarden from "./pages/SingleGarden";
 import Mengelmoes from "./pages/Mengelmoes";
 import TermsAndPrivacy from "./pages/TermsAndPrivacy";
 import Profile from "./pages/Profile";
@@ -37,7 +37,7 @@ function App() {
             <Route path={'/profiel/:id'}> <Profile/> </Route>
             <Route path={'/dashboard'}><Dashboard page/></Route>
             <Route path={'/tuintjes'}> <Gardens/> </Route>
-            <Route path={'/tuintje/:gardenid'}><Garden/></Route>
+            <Route path={'/tuintje/:gardenid'}><SingleGarden/></Route>
 
             <Route path='/terms-and-privacy'><TermsAndPrivacy /></Route>
             <Route path='/contact'><Contact /></Route>

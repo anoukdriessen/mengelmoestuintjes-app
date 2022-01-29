@@ -9,7 +9,6 @@ import {PostsDataContextProvider} from "../context/PostsDataContext";
 function Posts() {
     const [filteredPosts, setFilteredPosts] = useState([]);
 
-
     return <>
         <PageHeader title='Berichten'/>
 
