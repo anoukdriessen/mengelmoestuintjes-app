@@ -1,5 +1,5 @@
 import {getToday, getTomorrow, getUniqueId} from "../../../helpers/functions";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import UserDataContext from "../../../context/UserDataContext";
 import {FiEdit, FiSmile, GiChatBubble, GiCheckMark} from "react-icons/all";
 import {FiEye, FiEyeOff, FiX} from "react-icons/fi";
@@ -31,16 +31,32 @@ function ToDoTask({toggleShowForm, taskId, handleFinished, isDone, title, handle
 }
 
 function ToDoTaskList({showForm, handleEdit, handleDelete, handleFinished}) {
-    const { getExpiredTasks, getTodayTasks, getTomorrowTasks, getSoonTasks} = useContext(TasksDataContext);
+    const { toDoTasks } = useContext(TasksDataContext);
+
+    let one = []
+    let two = []
+    let three = []
+
+    const fetchTasks = () => {
+        for (let task in toDoTasks) {
+            let thisTask = toDoTasks[task]
+            if (thisTask.deadline < getToday()) {
+                one = [...one, thisTask]
+            } else if (thisTask.deadline === getToday()) {
+                one = [...one, thisTask]
+            } else if (thisTask.deadline === getTomorrow()) {
+                two = [...two, thisTask]
+            } else {
+                three = [...three, thisTask]
+            }
+        }
+    }
 
     const [showToday, setShowToday] = useState(true);
     const [showTomorrow, setShowTomorrow] = useState(false);
     const [showSoon, setShowSoon] = useState(false);
 
-    let todayAndExpired = [...getExpiredTasks(), ...getTodayTasks()];
-    let tomorrow = getTomorrowTasks();
-    let soon = getSoonTasks();
-
+    fetchTasks();
     const ToDoList = ({title, list, handleEdit, handleDelete, handleFinished, toggleShowForm}) => {
         return <>
             <h2 className='to-do-title'>TO DO {title}</h2>
@@ -48,7 +64,7 @@ function ToDoTaskList({showForm, handleEdit, handleDelete, handleFinished}) {
             {
                 list.length < 1
                     ? <div className='to-do-task none'>
-                        { todayAndExpired.length < 1 && <>
+                        { list.length < 1 && <>
                             <span className='message'><FiSmile size={20}/>geen taken voor vandaag</span>
                         </>}
                     </div>
@@ -85,7 +101,7 @@ function ToDoTaskList({showForm, handleEdit, handleDelete, handleFinished}) {
         { showToday && <div className='to-do'>
             <ToDoList
                 title={'VAnDaAG'}
-                list={todayAndExpired}
+                list={one}
                 handleEdit={() => handleEdit}
                 handleDelete={() => handleDelete}
                 handleFinished={() => handleFinished}
@@ -95,7 +111,7 @@ function ToDoTaskList({showForm, handleEdit, handleDelete, handleFinished}) {
         }{ showTomorrow && <div className='to-do'>
             <ToDoList
                 title={'MORGEN'}
-                list={tomorrow}
+                list={two}
                 handleEdit={() => handleEdit}
                 handleDelete={() => handleDelete}
                 handleFinished={() => handleFinished}
@@ -105,7 +121,7 @@ function ToDoTaskList({showForm, handleEdit, handleDelete, handleFinished}) {
         }{ showSoon && <div className='to-do'>
             <ToDoList
                 title={'toekomst'}
-                list={soon}
+                list={three}
                 handleEdit={() => handleEdit}
                 handleDelete={() => handleDelete}
                 handleFinished={() => handleFinished}

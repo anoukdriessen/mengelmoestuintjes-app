@@ -35,7 +35,7 @@ export const GardensDataContextProvider = ({ children }) => {
         setAllMyGardens(response.data)
     }
     const fetchGardenById = async (id) => {
-        console.log('garden by id', id)
+        // console.log('garden by id', id)
         try {
             const response = await axios.get(`https://localhost:8443/api/tuintjes/${id}`);
             setGarden(response.data)

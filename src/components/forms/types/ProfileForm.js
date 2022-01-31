@@ -32,12 +32,10 @@ function ProfileForm({thisUser, image, changeUserDetails, changeUserImage }) {
         setSelected(e.target.files[0])
         // show image to user
         let file = URL.createObjectURL(e.target.files[0]);
-        let out = document.getElementById('profile-img');
         let preview = document.getElementById('profile-img-prev');
-        out.src = file;
         preview.src = file;
-        out.onload = function() {
-            URL.revokeObjectURL(out.src) // free memory
+        preview.onload = function() {
+            URL.revokeObjectURL(preview.src) // free memory
         }
     }
     const handleImageSubmit = async (e) => {

@@ -1,13 +1,28 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {AuthDataContext} from "./AuthDataContext";
 import axios from "axios";
-import {getToday, getTomorrow} from "../helpers/functions";
+import {getToday, getTomorrow, refreshPage} from "../helpers/functions";
+import {useHistory} from "react-router-dom";
 
 export const PostsDataContext = createContext({});
 
 export const PostsDataContextProvider = ({ children }) => {
     const { auth } = useContext(AuthDataContext)
     const [isLoading, setIsLoading] = useState();
+
+    const [toUpdatePost, setToUpdatePost] = useState({
+        title: '',
+        summary: '',
+        description: '',
+        published: 'private',
+        category: 'POST',
+        photo: null,
+    });
+    const [toUpdateNote, setToUpdateNote] = useState({
+        title: '',
+        description: '',
+        category: 'NOTE',
+    });
 
     // User posts
     const [allMyPosts, setAllMyPosts] = useState([]);
@@ -19,6 +34,7 @@ export const PostsDataContextProvider = ({ children }) => {
     const [blogPosts, setBlogPosts] = useState([]);
     const [allPublicPosts, setAllPublicPosts] = useState([]);
 
+    const history = useHistory();
 
     useEffect(() => {
         fetchAllBlogPosts()
@@ -30,20 +46,52 @@ export const PostsDataContextProvider = ({ children }) => {
 
 
     // CREATE
-    const addNew = async (thisUser) => {
+    const addNew = async (thisUser, postData, selected) => {
+        if (postData.category === 'POST') {
+            postData.published = postData.published !== 'private';
+            console.log('new post', postData);
+        } else {
+            postData.summary = '';
+            postData.published = false;
+            console.log('new task', postData)
+        }
+
         try {
-            await axios.post(`https://localhost:8443/api/taken?username=${thisUser.username}`,
-                null,
+            const result = await axios.post(`https://localhost:8443/api/gebruikers/${thisUser.username}/berichten`,
+                postData,
                 {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-            // console.log(result)
+            if (selected) {
+                const formData = new FormData();
+                let file = selected;
+                formData.append('photo', file, 'image');
+                try {
+                    await axios.post(`https://localhost:8443/api/berichten/${result.data}/upload`,
+                        formData,
+                        { headers: {
+                                'Content-Type': `multipart/form-data; boundary=photo`,
+                                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                            }, params: {
+                                photo: file
+                            }
+                        });
+                } catch (e) {
+                    console.error(e);
+                    console.log(e.response);
+                }
+            }
+            if (postData.category === 'POST') {
+                history.push(`/berichten/${result.data}`)
+            } else {
+                refreshPage();
+            }
         } catch (e) {
-            console.error(e);
-            console.log(e.response);
+            console.error(e)
+            console.log(e.response)
         }
     }
 
@@ -93,84 +141,61 @@ export const PostsDataContextProvider = ({ children }) => {
     }
 
     const fetchMyNotes = async () => {
-        let thisUser = auth.user.username;
-        const response = await axios.get(`https://localhost:8443/api/gebruikers/${thisUser}/berichten/note`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-        // console.log('to do', response.data);
-        setMyNotes(response.data);
+        if (auth.user) {
+            let thisUser = auth.user.username;
+            const response = await axios.get(`https://localhost:8443/api/gebruikers/${thisUser}/berichten/note`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+            // console.log('to do', response.data);
+            setMyNotes(response.data);
+        }
     }
     const fetchMyPublicPosts = async () => {
-        let thisUser = auth.user.username;
-        const response = await axios.get(`https://localhost:8443/api/gebruikers/${thisUser}/berichten/post`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem('token')}`
-                },
-                params: {
-                    published: true
-                }
-            });
-        // console.log('public', response.data);
-        setMyPublicPosts(response.data);
-        // return response.data;
+        if (auth.user) {
+            let thisUser = auth.user.username;
+            const response = await axios.get(`https://localhost:8443/api/gebruikers/${thisUser}/berichten/post`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    },
+                    params: {
+                        published: true
+                    }
+                });
+            // console.log('public', response.data);
+            setMyPublicPosts(response.data);
+            // return response.data;
+        }
     }
     const fetchMyPrivatePosts = async () => {
-        let thisUser = auth.user.username;
-        const response = await axios.get(`https://localhost:8443/api/gebruikers/${thisUser}/berichten/post`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem('token')}`
-                }, params: {
-                    published: false
-                }
-            });
-        // console.log('private', response.data);
-        setMyPrivatePosts(response.data);
-        // return response.data;
+        if (auth.isAuth) {
+            let thisUser = auth.user.username;
+            const response = await axios.get(`https://localhost:8443/api/gebruikers/${thisUser}/berichten/post`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    }, params: {
+                        published: false
+                    }
+                });
+            // console.log('private', response.data);
+            setMyPrivatePosts(response.data);
+            // return response.data;
+        }
     }
 
 
     // UPDATE
-    const update = async () => {
-        try {
-            const result = await axios.put(`https://localhost:8443/api/taken/`,
-                null,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-            console.log(result);
-        } catch (e) {
-            console.error(e);
-            console.log(e.response);
-        }
-    }
+
 
     // DELETE
-    const deletePost = async () => {
-        try {
-            await axios.delete(`https://localhost:8443/api/taken/`,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-            // console.log(result)
-        } catch (e) {
-            console.error(e);
-            console.log(e.response);
-        }
-    }
+
 
     const contextData = {
         blogPosts,
@@ -178,6 +203,9 @@ export const PostsDataContextProvider = ({ children }) => {
         myNotes,
         myPrivatePosts,
         myPublicPosts,
+        addNew,
+        toUpdateNote,
+        setToUpdateNote
     }
 
     return <PostsDataContext.Provider

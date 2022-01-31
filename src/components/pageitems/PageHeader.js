@@ -17,7 +17,7 @@ function NavLinks() {
         { title: 'Blog', icon: <GiNotebook/>, link: '/blog' },
     ]
 
-    if (auth.isAuth) {
+    if (loggedIn) {
         pages = [...pages,
             { title: 'Profiel', icon: <FiUser/>, link: `/profiel/${auth.user.username}` },
             { title: 'Tuintjes', icon: <GiWoodenSign/>, link: '/tuintjes' }

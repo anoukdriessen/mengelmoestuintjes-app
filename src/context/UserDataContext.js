@@ -9,10 +9,16 @@ export const UserDataContext = createContext({});
 
 export const UserDataContextProvider = ({ children }) => {
     const { auth } = useContext(AuthDataContext);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [thisUser, setThisUser] = useState({
+        username: '',
+        roles: [],
+    });
+    const {username, roles} = thisUser;
+
     const [profiles, setProfiles] = useState([]);
     const [provinces, setProvinces] = useState([]);
-    const history = useHistory();
 
     useEffect(() => {
         fetchProvinces()
@@ -67,11 +73,52 @@ export const UserDataContextProvider = ({ children }) => {
         }
     }
 
+    const addUserRole = async (username, role) => {
+        try {
+            const response = await axios.post(`https://localhost:8443/api/gebruikers/${username}/authorities`,
+                {
+                    "username": username,
+                    "authority": role
+                },
+                {
+                    headers: {
+                        "Content-Type": 'application/json',
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+            console.log(response)
+        } catch (e) {
+            console.error(e);
+            console.log(e.response);
+        }
+    }
+
+    const deleteUserRole = async (username, role) => {
+        try {
+            const result = await axios.delete(`https://localhost:8443/api/gebruikers/${username}/authorities/${role.substr(5)}`,
+                {
+                    "username": username,
+                    "authority": role
+                },{
+                    headers: {
+                        "Content-Type": 'application/json',
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+            console.log(result.data)
+        } catch (e) {
+            console.error(e)
+            console.log(e.response)
+        }
+    }
 
     const contextData = {
+        thisUser,
         provinces,
         profiles,
         fetchProfilesFromUsers,
+        addUserRole,
+        deleteUserRole,
     }
 
     return <UserDataContext.Provider

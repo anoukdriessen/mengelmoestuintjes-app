@@ -28,11 +28,10 @@ export function Garden() {
 
     const getThisGarden = async () => {
         fetchGardenById(params.gardenid);
-        console.log(garden)
     }
 
     useEffect(() => {
-        getThisGarden(params.gardenid)
+        getThisGarden()
     }, []);
 
     const [viewOne, setViewOne] = useState(true);
@@ -187,7 +186,7 @@ export function Garden() {
                             {
                             garden.owners &&
                                 garden.owners.map((user) => {
-                                    console.log(user)
+                                    // console.log(user)
                                     return <div key={getUniqueId()} className={'note-card todo'}>
                                         {
                                             user.image

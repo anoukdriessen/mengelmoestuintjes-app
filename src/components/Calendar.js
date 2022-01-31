@@ -49,7 +49,7 @@ function Calendar({days}) {
         console.log(modal);
     }
 
-    console.log('taken op datum', tasksOnDate);
+    // console.log('taken op datum', tasksOnDate);
     return<div id='calendar'>
         Vandaag is het <br/> {getTodayHumanFormat()}}
         <div id='upcomming'>

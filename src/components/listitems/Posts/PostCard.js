@@ -1,10 +1,125 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {FiPenTool, FiSave} from "react-icons/all";
-import {parseMyDate, refreshPage} from "../../../helpers/functions";
+import {getUniqueId, parseMyDate, refreshPage} from "../../../helpers/functions";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {FiEdit3, FiEye, FiEyeOff, FiX} from "react-icons/fi";
 import axios from "axios";
+
+export function NoteCard({item}) {
+    const { auth } = useContext(AuthDataContext);
+
+    const [thisNote, setThisNote] = useState({
+        title: item.title,
+        description: item.description,
+    })
+    const { title, description } = thisNote;
+
+    const [changeFields, setChangeFields] = useState(false);
+
+    const handleChange = (e) => {
+        setThisNote({
+            ...thisNote,
+            [e.target.id]: e.target.value,
+        })
+    }
+
+    const handleSave = async (e) => {
+        console.log('update note', thisNote, item);
+        let updated = {
+            title: thisNote.title,
+            summary: item.summary,
+            description: thisNote.description,
+            image: item.image,
+            category: item.category,
+            published: item.published
+        }
+        try {
+            const result = await axios.put(`https://localhost:8443/api/berichten/${item.id}`,
+                updated,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+            console.log('response: ',result.data)
+            setChangeFields(false)
+        } catch (e) {
+            console.error(e);
+            console.log(e);
+        }
+    }
+
+    const handleDelete = async () => {
+        console.log('verwijder', item.id);
+        if (window.confirm("Je staat op het punt de notitie te verwijderen, weet je het zeker?")) {
+            try {
+                const result = await axios.delete(`https://localhost:8443/api/berichten/${item.id}`,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem('token')}`
+                        }
+                    });
+                console.log('response: ',result.data)
+                setChangeFields(false)
+            } catch (e){
+                console.error(e);
+                console.log(e.response);
+            }
+        }
+    }
+
+    return <>
+        <div className='note-card' key={getUniqueId()}>
+            {
+                auth.user.username === item.author &&
+                    <div className='is-author'>
+                        <span className='link'>
+                            {!changeFields
+                                ? <FiEdit3 id={item.id} onClick={() => setChangeFields(true)}/>
+                                : <FiSave id={item.id} onClick={handleSave}/>}
+                        </span>
+                    </div>
+            }
+            {
+                !changeFields
+                    ? <h4>{item.title}</h4>
+                    : <input
+                        id='title'
+                        type='text'
+                        placeholder='Titel van bericht'
+                        value={title}
+                        onChange={handleChange}
+                        maxLength={50}
+                        required={true}
+                    />
+            }
+            <p className='body'>
+                {
+                    !changeFields
+                        ? item.description
+                        : <textarea
+                            id='description'
+                            placeholder='Begin hier met het schrijven van je bericht...'
+                            value={description}
+                            onChange={handleChange}
+                            maxLength={255}
+                            required={true}
+                        />
+                }
+
+            </p>
+            {
+                auth.user.username === item.author &&
+                changeFields && <div className='is-author'>
+                    <span className='link' onClick={handleDelete}><FiX/></span>
+                </div>
+            }
+        </div>
+    </>
+}
 
 function PostCard({item, type}) {
     const {auth} = useContext(AuthDataContext);
@@ -22,7 +137,6 @@ function PostCard({item, type}) {
         if (auth.isAuth) {
             currentUserIsAuthor = (auth.user.username === item.author);
         }
-
         if (type === 'preview') {
             return <div className='post-card'
                         onMouseEnter={e => {toggleActive(true)}}
@@ -80,74 +194,12 @@ function PostCard({item, type}) {
                     <span className='description'>{ item.description }</span>
                 </p>
             </div>;
-        } else if (type === 'note') {
-            setNoteData({
-                title: item.title,
-                description: item.description,
-            })
-            const handleChange = () => {
-                toggleChangeFields(true)
-                console.log('bewerk')
-            }
-            const handleChangeValue = (e) => {
-                console.log(e.target.value)
-                setNoteData({
-                    ...noteData,
-                    [e.target.id]: e.target.value,
-                })
-            }
-            const handleSave = async (e) => {
-                console.log('update note', noteData, item);
-                let updated = {
-                    title: noteData.title,
-                    summary: item.summary,
-                    description: noteData.description,
-                    image: item.image,
-                    category: item.category,
-                    published: item.published
-                }
-                try {
-                    const result = await axios.put(`https://localhost:8443/api/berichten/${item.id}`,
-                        updated,
-                        {
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${localStorage.getItem('token')}`
-                            }
-                        });
-                    console.log('response: ',result.data)
-                    toggleChangeFields(false)
-                } catch (e) {
-                    console.error(e);
-                    console.log(e);
-                }
-                refreshPage()
-            }
-            const handleDelete = async () => {
-                console.log('verwijder', item.id);
-                if (window.confirm("Je staat op het punt de notitie te verwijderen, weet je het zeker?")) {
-                    try {
-                        const result = await axios.delete(`https://localhost:8443/api/berichten/${item.id}`,
-                            {
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "Authorization": `Bearer ${localStorage.getItem('token')}`
-                                }
-                            });
-                        console.log('response: ',result.data)
-                        toggleChangeFields(false)
-                    } catch (e){
-                        console.error(e);
-                        console.log(e.response);
-                    }
-                }
-
-            }
-            return <></>;
+        } else {
+            return null
         }
-
+    } else {
+        return null;
     }
-    return null;
 }
 
 export default PostCard;

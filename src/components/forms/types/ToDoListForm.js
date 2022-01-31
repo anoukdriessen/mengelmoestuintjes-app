@@ -13,11 +13,12 @@ import {InputFieldWithIcon} from "../FormItems";
 import ToDoTaskList from "../../listitems/Tasks/ToDoTaskList";
 import PostsDataContext from "../../../context/TasksDataContext";
 import TasksDataContext from "../../../context/TasksDataContext";
+import {toast} from "react-toastify";
 
 function ToDoListForm({thisUser, showForm, toggleShowToDo, formActive}) {
-    const { addNewTask, updateTask, fetchTaskById, deleteTask, finishTask } = useContext(TasksDataContext);
+    const { toDo, addNewTask, updateTask, fetchTaskById, deleteTask, finishTask } = useContext(TasksDataContext);
     const [length, setLength] = useState(0);
-    const [update, setUpdate] = useState(false);
+    const [update, isUpdate] = useState(false);
     const [toUpdate, setToUpdate] = useState(0);
 
     const [task, setTask] = useState({
@@ -27,6 +28,15 @@ function ToDoListForm({thisUser, showForm, toggleShowToDo, formActive}) {
         'deadline': getToday()
     })
     const {title, deadline} = task;
+
+    const clearFields = () => {
+        setTask({
+            'type': 'TODO',
+            'title': '',
+            'done': false,
+            'deadline': getToday()
+        })
+    }
 
     const handleChange = (e) => {
         if (e.target.id === 'title') {
@@ -39,21 +49,17 @@ function ToDoListForm({thisUser, showForm, toggleShowToDo, formActive}) {
     }
     const handleAddTask = async (e) => {
         e.preventDefault();
-        if (!update) {
-            // add new task
-            addNewTask(thisUser, task);
-        } else {
-            // update task
-            try {
-                updateTask(toUpdate, task);
-            } catch (e) {
-                console.error(e)
-                console.log(e.response)
-            }
-            setToUpdate(0);
-            setUpdate(false);
+        if (!update) { // add new task
+            await addNewTask(thisUser, task);
+            clearFields();
+        } else { // update task
+            toDo.edit = false;
+            toDo.item = task;
+            await updateTask(toUpdate, task);
+            isUpdate(false);
+            clearFields();
+            toast.success('Taak is aangepast')
         }
-        refreshPage();
     }
     const handleEdit = async (taskId) => {
         try {
@@ -67,7 +73,7 @@ function ToDoListForm({thisUser, showForm, toggleShowToDo, formActive}) {
                 'deadline': taskToChange.deadline
             })
             setToUpdate(taskId);
-            setUpdate(true);
+            isUpdate(true);
         } catch (e) {
             console.error(e);
             console.log(e.response);
@@ -106,6 +112,7 @@ function ToDoListForm({thisUser, showForm, toggleShowToDo, formActive}) {
                     type='date'
                     value={deadline}
                     onChange={handleChange}
+                    min={getToday()}
                 />
             </InputFieldWithIcon>
             <button type='submit' className='submit-save'>

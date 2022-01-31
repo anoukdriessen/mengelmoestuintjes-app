@@ -14,9 +14,10 @@ import UserNotes from "../../listitems/Posts/UserPosts";
 import UserPosts from "../../listitems/Posts/UserPosts";
 
 function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
+    const { addNew, newId } = useContext(PostsDataContext);
     const [showNote, toggleShowNote] = useState(true);
-    const [showPosts, toggleShowPosts] = useState(false);
-    const [showConcepts, toggleShowConcepts] = useState(false);
+    const [showPosts, toggleShowPosts] = useState(true);
+    const [showConcepts, toggleShowConcepts] = useState(true);
 
     const [showMessages, toggleShowMessages] = useState(true);
     const [update, setToUpdate] = useState(false);
@@ -65,67 +66,14 @@ function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
     }
     const handleAddPost = async (e) => {
         e.preventDefault();
-        if (!update) {
-            // add new post/note
-            if (postData.category === 'POST') {
-                // add new post, check private / public
-                postData.published = postData.published !== 'private';
-                console.log('new post', postData)
-            } else {
-                // add new task, clear summary, picture and published
-                postData.summary = '';
-                postData.published = false;
-                console.log('new task', postData)
-            }
-
-            try {
-                const result = await axios.post(`https://localhost:8443/api/gebruikers/${thisUser.username}/berichten`,
-                    postData,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${localStorage.getItem('token')}`
-                        }
-                    });
-                // console.log('new post id=',result.data);
-                // console.log('adding image', selected);
-                if (selected) {
-                    // console.log('image found', selected)
-                    const formData = new FormData();
-                    let file = selected;
-                    formData.append('photo', file, 'image');
-                    try {
-                        const addImage = await axios.post(`https://localhost:8443/api/berichten/${result.data}/upload`,
-                            formData,
-                            { headers: {
-                                    'Content-Type': `multipart/form-data; boundary=photo`,
-                                    "Authorization": `Bearer ${localStorage.getItem('token')}`,
-                                }, params: {
-                                photo: file
-                                }
-                            });
-                        // console.log('result add image', addImage);
-
-                    } catch (e) {
-                        console.error(e);
-                        console.log(e.response);
-                    }
-                } else {
-                    console.log('image NOT found')
-                }
-                refreshPage();
-            } catch (e) {
-                console.error(e)
-                console.log(e.response)
-            }
-        } else {
-            // update post
+        if (!update) { // add new post/note
+            await addNew(thisUser, postData, selected);
+        } else { // update post
             // TODO PUT request
             // setToUpdate(id)
             // setUpdate(false)
             // catch errors
         }
-        // refreshPage()
     }
 
     const handleEdit = async (postId) => {
@@ -220,7 +168,6 @@ function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
             <SubmitBtn update={update}>Opslaan</SubmitBtn>
         </form>
         }
-
 
         <UserPosts
             note={showNote}

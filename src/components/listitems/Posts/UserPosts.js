@@ -1,6 +1,6 @@
 import {useContext, useState} from "react";
 import PostsDataContext from "../../../context/PostsDataContext";
-import PostCard from "./PostCard";
+import PostCard, {NoteCard} from "./PostCard";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {getUniqueId, sortArrayById} from "../../../helpers/functions";
 import ItemNotFound from "../ItemNotFound";
@@ -24,6 +24,7 @@ function UserPosts({note, showNotes, publ, showPublic, priv, showPrivate}) {
             notes[count] = note;
             count++;
         })
+
     }
     const getMyPublicPosts = async () => {
         // console.log(myPublicPosts)
@@ -60,9 +61,8 @@ function UserPosts({note, showNotes, publ, showPublic, priv, showPrivate}) {
         all = [...all, ...privatePosts]
     }
 
-    // console.log(all);
     sortArrayById(all);
-    // console.log(all);
+    all = all.reverse();
     return <>
         <ShowAndHide
             setOne={showNotes}
@@ -81,71 +81,7 @@ function UserPosts({note, showNotes, publ, showPublic, priv, showPrivate}) {
                     ? <> {
                         all.map((item) => {
                             if (item.category === 'NOTE') {
-                                let currentUserIsAuthor = true;
-                                let changeFields = false;
-
-                                const handleChange = () => {
-                                    console.log('change')
-                                }
-                                const handleSave = () => {
-                                    console.log('save')
-                                }
-                                const handleDelete = () => {
-                                    console.log('delete')
-                                }
-                                const handleChangeValue = () => {
-                                    console.log('changing')
-                                }
-                                const noteData = {
-                                    title: '',
-                                    description: '',
-                                }
-
-                                return <div className='note-card' key={getUniqueId()}>
-                                    {
-                                        currentUserIsAuthor && <div className='is-author'>
-                        <span className='link'>
-                            {!changeFields
-                                ? <FiEdit3 onClick={handleChange}/>
-                                : <FiSave onClick={handleSave}/>}
-                        </span>
-                                        </div>
-                                    }
-                                    {
-                                        !changeFields
-                                            ? <h4>{item.title}</h4>
-                                            : <input
-                                                id='title'
-                                                type='text'
-                                                placeholder='Titel van bericht'
-                                                value={noteData.title}
-                                                onChange={handleChangeValue}
-                                                maxLength={50}
-                                                required={true}
-                                            />
-                                    }
-                                    <p className='body'>
-                                        {
-                                            !changeFields
-                                                ? item.description
-                                                : <textarea
-                                                    id='description'
-                                                    placeholder='Begin hier met het schrijven van je bericht...'
-                                                    value={noteData.description}
-                                                    onChange={handleChangeValue}
-                                                    maxLength={255}
-                                                    required={true}
-                                                />
-                                        }
-
-                                    </p>
-                                    {
-                                        currentUserIsAuthor &&
-                                        changeFields && <div className='is-author'>
-                                            <span className='link' onClick={handleDelete}><FiX/></span>
-                                        </div>
-                                    }
-                                </div>
+                                return <NoteCard key={getUniqueId()} item={item} />
                             } else {
                                 return <PostCard key={getUniqueId()} item={item} type={'preview'}/>
                             }

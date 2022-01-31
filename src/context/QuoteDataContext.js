@@ -54,9 +54,12 @@ export const QuoteDataContextProvider = ({ children }) => {
     // UPDATE
     const updateQuote = async (id, updated) => {
         setToUpdate( {
-            id,
-            text: updated.text,
-            author: updated.author,
+            item: {
+                id,
+                text: updated.text,
+                author: updated.author,
+            },
+            edit: true,
         });
 
         console.log('quote to update', toUpdate.item)
@@ -70,14 +73,36 @@ export const QuoteDataContextProvider = ({ children }) => {
                 }
             })
         // console.log(response)
+        setToUpdate({
+            ...toUpdate,
+            edit: false,
+        })
     }
 
     // DELETE
+    const deleteQuote = async (id, toDelete) => {
+        const message = (
+            'Weet je het zeker?\nJe staat op het punt quote\n"' +
+            toDelete.text + '"\nvan [' + toDelete.author + ']\nte verwijderen'
+        )
+        if (window.confirm(message)) {
+            await axios.delete(`/api/quotes/${id}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    }
+                })
+            setQuotes(quotes.filter((item) => item.id !== id))
+        }
+    }
 
     const contextData = {
         quotes,
+        toUpdate,
         createQuote,
         updateQuote,
+        deleteQuote,
     }
 
     return <QuoteDataContext.Provider

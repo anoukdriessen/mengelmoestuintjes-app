@@ -42,7 +42,9 @@ function GardensList() {
             <div className='user-gardens'>
                 {   allMyGardens.map((garden) => {
                     // console.log('found ', garden)
-                        return<div className={'single-garden'} key={getUniqueId()}>
+                        return<div className={'single-garden'} key={getUniqueId()}
+                            onClick={() =>goToGarden(garden.id)}
+                        >
                             <h4>Mengelmoestuintje Nr. {garden.id}</h4>
                             <span>[ {garden.size} ] m<sup>2</sup></span>
                             <ul className='owners'>
@@ -63,10 +65,10 @@ function GardensList() {
 
                             { getMyGate(4) }
 
-                            <ul className='tasks'>
-                                <li><span className='retro'>[ {garden.numberOfTasks} ]</span> taken op de tuin</li>
-                                <li><span className='retro'>[ 0 ]</span> bewoners</li>
-                            </ul>
+                            {/*<ul className='tasks'>*/}
+                            {/*    <li><span className='retro'>[ {garden.numberOfTasks} ]</span> taken op de tuin</li>*/}
+                            {/*    <li><span className='retro'>[ 0 ]</span> bewoners</li>*/}
+                            {/*</ul>*/}
 
                             <button className={'btn btn-call-to-action'} type='button'
                                 onClick={() =>goToGarden(garden.id)}>

@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import ListDataContext from "../../../context/ListDataContext";
 import Card from "../Card";
-import {FiEdit3, FiLoader, FiSend, FiUser, FiX} from "react-icons/fi";
+import {FiEdit3, FiLoader, FiRefreshCw, FiSend, FiUser, FiX} from "react-icons/fi";
 import Button from "../../Button";
 import ListStats from "../ListStats";
 import QuoteForm from "../../forms/types/QuoteForm";
@@ -11,9 +11,10 @@ import ItemNotFound from "../ItemNotFound";
 import {InputFieldWithIcon} from "../../forms/FormItems";
 import {BsFillChatQuoteFill, GiSave} from "react-icons/all";
 import {toast} from "react-toastify";
+import {refreshPage} from "../../../helpers/functions";
 
 function QuotesDashboard() {
-    const { quotes, createQuote, updateQuote, isLoading } = useContext(QuoteDataContext)
+    const { quotes, toUpdate, createQuote, updateQuote, deleteQuote, isLoading } = useContext(QuoteDataContext)
     const [update, isUpdate] = useState(false);
     const [thisQuote, setThisQuote] = useState({
         text: '',
@@ -46,31 +47,46 @@ function QuotesDashboard() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (update) {
+        if (toUpdate.edit) {
             // update quote
             console.log('update quote', thisQuote);
+            toUpdate.edit = false;
+            toUpdate.item=thisQuote;
             await updateQuote(thisQuote.id, thisQuote);
             isUpdate(false);
+            clearThisQuote();
+            toast.success('Quote is aangepast')
         } else {
             // new quote
             console.log('add new quote', thisQuote);
             await createQuote(thisQuote);
             clearThisQuote();
+            toast.success(`${thisQuote.text} is geplaatst`)
+        }
+    }
+    const handleDelete = async () => {
+        console.log('deleting quote', thisQuote);
+        try {
+            await deleteQuote(thisQuote.id, thisQuote);
+            clearThisQuote();
+            toast.success('quote verwijderd')
+        } catch (e) {
+            console.error(e);
+            console.log(e.response);
         }
     }
     const changeThisQuote = (quote) => {
-        console.log('trying to change', quote);
-        isUpdate(true);
-        toast.info(`Verander quote nr ${quote.id}`)
+        toUpdate.edit = true;
         setThisQuote({
             id: quote.id,
-            author: quote.author,
             text: quote.text,
+            author: quote.author,
         })
+        console.log('trying to change', quote);
+        toast.info(`Verander quote nr ${quote.id}`)
     }
     return <>
         <form id='quotes' onSubmit={handleSubmit}>
-            { !thisQuote ? <span>Nr. {thisQuote.id}</span> : null }
             <InputFieldWithIcon icon={<BsFillChatQuoteFill size={20}/>}>
                 <textarea
                     id='text'
@@ -93,7 +109,13 @@ function QuotesDashboard() {
                     maxLength={100}
                 />
             </InputFieldWithIcon>
-            <button className='link' type='submit' >{isUpdate ? <GiSave className='submit-edit'/> : <FiSend className='submit-save'/>}</button>
+            <button className='link' type='submit' onClick={() => isUpdate(true)} >
+                {isUpdate ? <GiSave className='submit-edit'/> : <FiSend className='submit-save'/>}</button>
+            {
+                !toUpdate.edit
+                    ? <button className='link' type='button' onClick={() => refreshPage()}><FiRefreshCw/></button>
+                    : <button className='link' type='button' onClick={() => handleDelete()}><FiX/></button>
+            }
         {
             theseQuotes.map((quote) => {
                 return <p className='quote' onClick={() => changeThisQuote(quote)}>

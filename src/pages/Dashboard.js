@@ -16,6 +16,9 @@ import DashboardTopic from "../components/pageitems/DashboardTopic";
 import {BsFillChatLeftQuoteFill, BsFillChatQuoteFill} from "react-icons/all";
 import QuoteItem from "../components/listitems/Quotes/QuoteItem";
 import QuotesDashboard from "../components/listitems/Quotes/QuotesDashboard";
+import UserAndRoles from "../components/listitems/Users/UserAndRolesDashboard";
+import UserAndRolesDashboard from "../components/listitems/Users/UserAndRolesDashboard";
+import {UserDataContextProvider} from "../context/UserDataContext";
 
 function Dashboard() {
     const { auth, hasUserRole } = useContext(AuthDataContext);
@@ -33,129 +36,11 @@ function Dashboard() {
 
     const [showUserAndRoles, toggleShowUserAndRoles] = useState(false);
     const [showQuotes, toggleShowQuotes] = useState(false);
-
-    let topics = [
-        {
-            id: 2,
-            title: 'users',
-            list: <UsersList />,
-        },
-    ]
-    // console.log(topics)
+    const [showNotes, toggleShowNotes] = useState(false);
+    const [showBlog, toggleShowBlog] = useState(false);
+    const [showAcademy, toggleShowAcademy] = useState(false);
 
     let today = new Date().toDateString();
-    let theseQuotes = [];
-    if(quotes) {
-        theseQuotes = [...quotes]
-    }
-
-    const handleChange = (e) => {
-        setFoundUser(e.target.value)
-    }
-    const handleFindUser = async (e) => {
-        e.preventDefault();
-        console.log('trying to find user with username', foundUser)
-        if (auth.user.username === foundUser) {
-            toast.error('Je kunt jezelf niet veranderen')
-        } else {
-            try {
-                const result = await axios.get(`https://localhost:8443/api/gebruikers/${foundUser}/authorities`, {
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Authorization": `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                // console.log(result.data)
-                for (let authority in result.data) {
-                    // console.log(result.data[authority].authority)
-                    if (result.data[authority].authority === 'ROLE_MODERATOR') { setIsMod(true) }
-                    if (result.data[authority].authority === 'ROLE_ADMIN') { setIsAdmin(true) }
-                }
-                setShowForm(true);
-            } catch (e) {
-                console.error(e);
-                console.log(e.response);
-                toast.error('gebruiker niet gevonden');
-            }
-        }
-    }
-    const handleAdd = async (role) => {
-        if(window.confirm(`Je staat op het punt gebruiker ${foundUser} rechten te geven voor rol ${role.substr(5)} `)) {
-            // console.log('changing role from user', role);
-            try {
-                const result = await axios.post(`https://localhost:8443/api/gebruikers/${foundUser}/authorities`,
-                    {
-                        "username": foundUser,
-                        "authority": role
-                    },
-                    {
-                        headers: {
-                            "Content-Type": 'application/json',
-                            "Authorization": `Bearer ${localStorage.getItem('token')}`
-                        }
-                    });
-                console.log(result.data)
-                refreshPage();
-            } catch (e) {
-                console.error(e)
-                console.log(e.response)
-            }
-        }
-    }
-    const handleDelete = async (role) => {
-        if (window.confirm(`Je staat op het punt de rechten van rol ${role.substr(5)} gebruiker ${foundUser} te verwijderen, weet je het zeker?`)) {
-            console.log('changing role from user');
-            try {
-                const result = await axios.delete(`https://localhost:8443/api/gebruikers/${foundUser}/authorities/${role.substr(5)}`,
-                    {
-                        "username": foundUser,
-                        "authority": role
-                    },{
-                        headers: {
-                            "Content-Type": 'application/json',
-                            "Authorization": `Bearer ${localStorage.getItem('token')}`
-                        }
-                    });
-                console.log(result.data)
-                refreshPage();
-            } catch (e) {
-                console.error(e)
-                console.log(e.response)
-            }
-        }
-    }
-    const handleDeleteUser = async () => {
-        if (window.confirm(`DANGER ZONE, weet je zeker dat je gebruiker ${foundUser} wilt verwijderen?`)) {
-            try {
-                const result = await axios.delete(`https://localhost:8443/api/gebruikers/${foundUser}`,{
-                        headers: {
-                            "Content-Type": 'application/json',
-                            "Authorization": `Bearer ${localStorage.getItem('token')}`
-                        }
-                    });
-                console.log(result.data)
-                refreshPage();
-            } catch (e) {
-                console.error(e)
-                console.log(e.response)
-            }
-        }
-    }
-
-    const handleSubmitQuote = async () => {
-
-    }
-    const handleChangeQuote = (e) => {
-        console.log(e.target.id, e.target.value);
-        setFoundQuote({
-            ...foundQuote,
-            [e.target.id]: e.target.value,
-        })
-    }
-    const handleUpdateQuote = () => {
-
-    }
-
 
     return <>
             <PageHeader title={auth.user.username}/>
@@ -167,26 +52,11 @@ function Dashboard() {
                     title={'Gebruikers en Rollen'}
                     handleOnClick={() => toggleShowUserAndRoles((prevState => !prevState))}
                 >
+                    <UserDataContextProvider>
                     {
-                        showUserAndRoles &&  <form id='user-and-roles' onSubmit={handleFindUser}>
-                            <Username iconSize={20} username={foundUser} onChange={handleChange}/>
-                            <button className='btn btn-call-to-action' type='submit' onClick={handleFindUser}>Vind gebruiker</button>
-                            {
-                                showForm && <>
-                            <span>
-                                { isMod
-                                    ? <FiMinus onClick={() => handleDelete('ROLE_MODERATOR')}/>
-                                    : <FiPlus onClick={() => handleAdd('ROLE_MODERATOR')}/>} MODERATOR</span>
-                                    { hasUserRole('ROLE_ADMIN') && <><span>
-                                        { isAdmin
-                                            ? <FiMinus onClick={() => handleDelete('ROLE_ADMIN')}/>
-                                            : <FiPlus onClick={() => handleAdd(('ROLE_ADMIN'))}/>} ADMIN</span>
-                                        <span onClick={handleDeleteUser}><FiX/>VERWIJDER GEBRUIKER</span></>
-                                    }
-                                </>
-                            }
-                        </form>
+                        showUserAndRoles &&  <UserAndRolesDashboard />
                     }
+                    </UserDataContextProvider>
                 </DashboardTopic>
                 <DashboardTopic
                     image={'https://images.unsplash.com/photo-1542908220-73cc48ad0af3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'}
@@ -200,7 +70,42 @@ function Dashboard() {
                     }
                     </QuoteDataContextProvider>
                 </DashboardTopic>
-
+                <DashboardTopic
+                    image={'https://images.unsplash.com/photo-1587612049655-c1030366a74a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'}
+                    imageAlt={'Development Tasks'}
+                    title="NOTE-TO-SELFPad's"
+                    handleOnClick={() => toggleShowNotes((prevState => !prevState))}
+                >
+                {/*  TODO NOTE
+                    + note achtergrond veranderen op basis van prio  */}
+                    {
+                        showNotes && <>notes</>
+                    }
+                </DashboardTopic>
+                    <DashboardTopic
+                        image={'https://images.unsplash.com/photo-1642715614665-8e5534e7e427?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=557&q=80'}
+                        imageAlt={'Blogberichten'}
+                        title="Wat is jouw volgende verhaal?"
+                        handleOnClick={() => toggleShowBlog((prevState => !prevState))}
+                    >
+                        {/*
+                          TODO BLOGPOSTS
+                          */}
+                        {
+                            showBlog && <>blogposts</>
+                        }
+                    </DashboardTopic>
+                    <DashboardTopic
+                        image={'https://images.unsplash.com/photo-1527525443983-6e60c75fff46?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=385&q=80'}
+                        imageAlt={'de academy'}
+                        title="Mengelmoestuintjes, de academy"
+                        handleOnClick={() => toggleShowAcademy((prevState => !prevState))}
+                        >
+                    {/*  TODO ACADEMY TOPICS / POSTS  */}
+                        {
+                            showAcademy && <>de academy</>
+                        }
+                    </DashboardTopic>
                 </div>
 
 

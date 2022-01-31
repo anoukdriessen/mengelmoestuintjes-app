@@ -363,6 +363,7 @@ button[type="submit"] svg {
     justify-content: center;
 }
 .user-gardens .single-garden {
+    cursor: pointer;
     flex: 1;
     margin: 25px;
     padding: 25px;
@@ -695,10 +696,12 @@ button[type="submit"] svg {
 }
 
 #moderator-dashboard {
+    padding-left: 20px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     min-width: 100%;
+    overflow-x: scroll;
 }
 #moderator-dashboard .dashboard-topic {
     margin: 5px;
