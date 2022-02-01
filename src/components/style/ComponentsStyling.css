@@ -701,6 +701,7 @@ button[type="submit"] svg {
     flex-direction: row;
     flex-wrap: nowrap;
     min-width: 100%;
+    max-width: 100vw;
     overflow-x: scroll;
 }
 #moderator-dashboard .dashboard-topic {

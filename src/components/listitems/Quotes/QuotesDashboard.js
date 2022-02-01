@@ -112,9 +112,7 @@ function QuotesDashboard() {
             <button className='link' type='submit' onClick={() => isUpdate(true)} >
                 {isUpdate ? <GiSave className='submit-edit'/> : <FiSend className='submit-save'/>}</button>
             {
-                !toUpdate.edit
-                    ? <button className='link' type='button' onClick={() => refreshPage()}><FiRefreshCw/></button>
-                    : <button className='link' type='button' onClick={() => handleDelete()}><FiX/></button>
+                toUpdate.edit && <button className='link' type='button' onClick={() => handleDelete()}><FiX/></button>
             }
         {
             theseQuotes.map((quote) => {

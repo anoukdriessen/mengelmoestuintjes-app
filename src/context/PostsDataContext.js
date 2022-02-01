@@ -117,8 +117,8 @@ export const PostsDataContextProvider = ({ children }) => {
             const response = await axios.get(`https://localhost:8443/api/berichten`, {
                 params: {published: true, category: "BLOG"}
             })
+            // console.log('fetch all posts', response.data);
             setBlogPosts(response.data.reverse());
-            // console.log('fetch all posts', setBlogPosts)
         } catch (e) {
             console.error(e);
             console.log(e.response);
@@ -133,7 +133,8 @@ export const PostsDataContextProvider = ({ children }) => {
                 },
                 params: {published: true, category: "POST"}
             })
-            setAllPublicPosts(response.data.reverse());
+            const data = response.data.reverse()
+            setAllPublicPosts(data);
         } catch (e) {
             console.log(e);
             console.log(e.response);
@@ -192,7 +193,9 @@ export const PostsDataContextProvider = ({ children }) => {
 
 
     // UPDATE
+    const updatePost = async (id) => {
 
+    }
 
     // DELETE
 
@@ -204,8 +207,6 @@ export const PostsDataContextProvider = ({ children }) => {
         myPrivatePosts,
         myPublicPosts,
         addNew,
-        toUpdateNote,
-        setToUpdateNote
     }
 
     return <PostsDataContext.Provider

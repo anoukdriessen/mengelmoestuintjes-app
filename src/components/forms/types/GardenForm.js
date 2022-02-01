@@ -9,7 +9,7 @@ import {AuthDataContext} from "../../../context/AuthDataContext";
 function GardenForm({gardenId, owners}) {
     const {auth} = useContext(AuthDataContext);
     const [addNew, toggleAddNew] = useState(false);
-    const [toAdd, setToAdd] = useState()
+    const [toAdd, setToAdd] = useState('')
     const [users, setUsers] = useState([...owners]);
 
     const handleClick = () => {
@@ -25,7 +25,7 @@ function GardenForm({gardenId, owners}) {
         toggleAddNew((prevState => !prevState))
         // console.log('saving user to garden', toAdd)
         try {
-            const result = await axios.post(`https://localhost:8443/api/tuintjes/${toAdd}/${gardenId}`)
+            await axios.post(`https://localhost:8443/api/tuintjes/${toAdd}/${gardenId}`)
             // console.log(result);
             refreshPage();
         } catch (e) {

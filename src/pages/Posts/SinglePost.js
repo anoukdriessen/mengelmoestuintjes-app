@@ -1,11 +1,11 @@
-import PageHeader from "../components/pageitems/PageHeader";
+import PageHeader from "../../components/pageitems/PageHeader";
 import React, {useContext, useEffect, useState} from "react";
-import {UserDataContextProvider} from "../context/UserDataContext";
+import {UserDataContextProvider} from "../../context/UserDataContext";
 import {useHistory, useParams} from "react-router-dom";
-import PageContent from "../components/pageitems/PageContent";
+import PageContent from "../../components/pageitems/PageContent";
 import axios from "axios";
-import PostCard from "../components/listitems/Posts/PostCard";
-import {AuthDataContext} from "../context/AuthDataContext";
+import PostCard from "../../components/listitems/Posts/PostCard";
+import {AuthDataContext} from "../../context/AuthDataContext";
 
 export function Post() {
     const {auth} = useContext(AuthDataContext);

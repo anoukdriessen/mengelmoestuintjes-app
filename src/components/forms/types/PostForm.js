@@ -19,7 +19,6 @@ function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
     const [showPosts, toggleShowPosts] = useState(true);
     const [showConcepts, toggleShowConcepts] = useState(true);
 
-    const [showMessages, toggleShowMessages] = useState(true);
     const [update, setToUpdate] = useState(false);
     const [type, setType] = useState();
     const [isPrivate, setIsPrivate] = useState(true);
@@ -32,9 +31,7 @@ function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
         category: 'POST',
         photo: null,
     })
-    const {title, summary, description, photo} = postData;
-
-    const history = useHistory();
+    const {title, summary, description} = postData;
 
     const handleImageChange = (e) => {
         console.log('changing', e.target.id, e.target.value)
@@ -68,34 +65,6 @@ function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
         e.preventDefault();
         if (!update) { // add new post/note
             await addNew(thisUser, postData, selected);
-        } else { // update post
-            // TODO PUT request
-            // setToUpdate(id)
-            // setUpdate(false)
-            // catch errors
-        }
-    }
-
-    const handleEdit = async (postId) => {
-        formActive(true);
-        console.log('edit');
-        let postToChange;
-        // TODO GET request find post by id
-        // find = get
-        // postToChange = find.data
-        // setPost ({values})
-        // setToUpdate(postId)
-        // setUpdate(true)
-        // console.log(postToChange)
-        // catch errors
-    }
-    const handleDelete = async (postId) => {
-        console.log('delete', postId);
-        if (window.confirm(`Je staat op het punt het bericht te verwijderen. Weet je het zeker?`)) {
-            // TODO DELETE request
-            // log result
-            // refreshPage()
-            // catch errors
         }
     }
 
@@ -177,7 +146,6 @@ function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
             priv={showConcepts} s
             showPrivate={toggleShowConcepts}
             howPrivate/>
-
     </>
 }
 

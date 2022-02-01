@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import Header from "../components/Header";
 import {Link, useHistory} from "react-router-dom";
-import {getProvinces} from "../pages/SignUp";
+import {getProvinces} from "../pages/Static/SignUp";
 
 let user = {
     username: 'vivalanouk',

@@ -1,10 +1,10 @@
 import React, {useContext} from "react";
-import {AuthDataContext} from "../context/AuthDataContext";
-import PageHeader from "../components/pageitems/PageHeader";
-import PageContent from "../components/pageitems/PageContent";
-import SignUpForm from "../components/forms/types/SignUpForm";
+import {AuthDataContext} from "../../context/AuthDataContext";
+import PageHeader from "../../components/pageitems/PageHeader";
+import PageContent from "../../components/pageitems/PageContent";
+import SignUpForm from "../../components/forms/types/SignUpForm";
 import {Redirect, useHistory} from "react-router-dom";
-import SignInForm from "../components/forms/types/SignInForm";
+import SignInForm from "../../components/forms/types/SignInForm";
 
 function SignUp() {
     const {auth} = useContext(AuthDataContext);

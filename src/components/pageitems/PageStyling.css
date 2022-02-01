@@ -91,7 +91,9 @@ nav img {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 100%;
 }
+
 
 #page-content-nav {
     font-size: 12px;
@@ -146,13 +148,13 @@ nav img {
     justify-content: center;
 }
 
+#dashboard #main-content #post-cards {
+    max-width: 100%;
+}
+
 @media screen and (min-width: 720px) {
     #dashboard #main-content {
         justify-content: space-evenly;
-    }
-    #dashboard #main-content #post-cards {
-        min-width: 90%;
-        max-width: 100%;
     }
     #dashboard #main-content .note-card,
     #dashboard #main-content .post-card {
@@ -189,6 +191,11 @@ nav img {
     html, body {
         margin: 0 auto;
     }
+
+    #page-content {
+        min-width: 100%;
+    }
+
     #dashboard #sidebar {
         min-width: 30%;
         flex-direction: column;
@@ -201,10 +208,4 @@ nav img {
         max-width: 75%;
     }
 
-}
-
-@media screen and (min-width: 1500px){
-    /*#dashboard #main-content .post-card, #page-content .post-card{*/
-    /*    min-width: 25%;*/
-    /*}*/
 }

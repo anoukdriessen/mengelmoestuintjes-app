@@ -3,15 +3,19 @@
 :root {
     --main-light: #f5f5f5;
     --main-dark: #1e2a34;
+
     --lighter-blue: #bee1ee;
     --blue: #8dcbe2;
     --darker-blue: #5c97ad;
+
     --lighter-orange: #fdc149;
     --orange: #f2a202;
     --darker-orange: #a26c02;
+
     --lighter-yellow: #ffefad;
     --yellow: #ffde5c;
     --darker-yellow: #f5c400;
+
     --lighter-green: #4d8c2b;
     --green: #157145;
     --darker-green: #0c452a;

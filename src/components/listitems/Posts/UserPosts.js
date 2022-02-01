@@ -1,6 +1,7 @@
 import {useContext, useState} from "react";
 import PostsDataContext from "../../../context/PostsDataContext";
-import PostCard, {NoteCard} from "./PostCard";
+import PostCard from "./PostCard";
+import NoteCard from "./NoteCard";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {getUniqueId, sortArrayById} from "../../../helpers/functions";
 import ItemNotFound from "../ItemNotFound";

@@ -37,7 +37,11 @@ function PostCards({title, type, num}) {
         <div id='post-cards'>
             {
                 list.map((item) => {
-                    return <PostCard key={getUniqueId()} item={item} type='preview'/>
+                    let myKey = getUniqueId();
+                    if (item) {
+                        myKey = item.id
+                    }
+                    return <PostCard key={myKey} item={item} type='preview'/>
                 })
             }
         </div>

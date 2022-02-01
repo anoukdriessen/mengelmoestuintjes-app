@@ -1,138 +1,41 @@
 import {useContext, useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
-import {FiPenTool, FiSave} from "react-icons/all";
+import {FiPenTool, FiSave, GiSave} from "react-icons/all";
 import {getUniqueId, parseMyDate, refreshPage} from "../../../helpers/functions";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {FiEdit3, FiEye, FiEyeOff, FiX} from "react-icons/fi";
 import axios from "axios";
-
-export function NoteCard({item}) {
-    const { auth } = useContext(AuthDataContext);
-
-    const [thisNote, setThisNote] = useState({
-        title: item.title,
-        description: item.description,
-    })
-    const { title, description } = thisNote;
-
-    const [changeFields, setChangeFields] = useState(false);
-
-    const handleChange = (e) => {
-        setThisNote({
-            ...thisNote,
-            [e.target.id]: e.target.value,
-        })
-    }
-
-    const handleSave = async (e) => {
-        console.log('update note', thisNote, item);
-        let updated = {
-            title: thisNote.title,
-            summary: item.summary,
-            description: thisNote.description,
-            image: item.image,
-            category: item.category,
-            published: item.published
-        }
-        try {
-            const result = await axios.put(`https://localhost:8443/api/berichten/${item.id}`,
-                updated,
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-            console.log('response: ',result.data)
-            setChangeFields(false)
-        } catch (e) {
-            console.error(e);
-            console.log(e);
-        }
-    }
-
-    const handleDelete = async () => {
-        console.log('verwijder', item.id);
-        if (window.confirm("Je staat op het punt de notitie te verwijderen, weet je het zeker?")) {
-            try {
-                const result = await axios.delete(`https://localhost:8443/api/berichten/${item.id}`,
-                    {
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${localStorage.getItem('token')}`
-                        }
-                    });
-                console.log('response: ',result.data)
-                setChangeFields(false)
-            } catch (e){
-                console.error(e);
-                console.log(e.response);
-            }
-        }
-    }
-
-    return <>
-        <div className='note-card' key={getUniqueId()}>
-            {
-                auth.user.username === item.author &&
-                    <div className='is-author'>
-                        <span className='link'>
-                            {!changeFields
-                                ? <FiEdit3 id={item.id} onClick={() => setChangeFields(true)}/>
-                                : <FiSave id={item.id} onClick={handleSave}/>}
-                        </span>
-                    </div>
-            }
-            {
-                !changeFields
-                    ? <h4>{item.title}</h4>
-                    : <input
-                        id='title'
-                        type='text'
-                        placeholder='Titel van bericht'
-                        value={title}
-                        onChange={handleChange}
-                        maxLength={50}
-                        required={true}
-                    />
-            }
-            <p className='body'>
-                {
-                    !changeFields
-                        ? item.description
-                        : <textarea
-                            id='description'
-                            placeholder='Begin hier met het schrijven van je bericht...'
-                            value={description}
-                            onChange={handleChange}
-                            maxLength={255}
-                            required={true}
-                        />
-                }
-
-            </p>
-            {
-                auth.user.username === item.author &&
-                changeFields && <div className='is-author'>
-                    <span className='link' onClick={handleDelete}><FiX/></span>
-                </div>
-            }
-        </div>
-    </>
-}
+import {toast} from "react-toastify";
 
 function PostCard({item, type}) {
     const {auth} = useContext(AuthDataContext);
     const [active, toggleActive] = useState(false);
     const [changeFields, toggleChangeFields] = useState(false);
-
-    const [postData, setPostData] = useState({});
-    const [blogData, setBlogData] = useState({});
-    const [noteData, setNoteData] = useState({});
+    const [showImageInput, toggleShowImageInput] = useState(false);
+    const [selected, setSelected] = useState()
+    const [deleted, isDeleted] = useState(false);
+    const [postData, setPostData] = useState({
+        title: '',
+        summary: '',
+        description: '',
+        published: false,
+        category: 'POST',
+        image: null,
+    })
+    const { title, summary, description, published } = postData;
 
     const history = useHistory();
 
     if (item) {
+        setPostData({
+            id: item.id,
+            title: item.title,
+            summary: item.summary,
+            description: item.description,
+            published: item.published,
+            category: 'POST',
+            image: item.image,
+        })
         let currentUserIsAuthor;
         if (auth.isAuth) {
             currentUserIsAuthor = (auth.user.username === item.author);
@@ -166,33 +69,199 @@ function PostCard({item, type}) {
                 </p>
             </div>
         } else if (type === 'blog'){
-            const handleChange = () => {
-                console.log('bewerk')
+            const handleClickChange = () => {
+                toggleChangeFields(true);
             }
+            const handleChange = (e) => {
+                console.log('bewerk', e.target.id)
+                setPostData({
+                    ...postData,
+                    [e.target.id]: e.target.value
+                })
+            }
+            const handleImageChange = (e) => {
+                setSelected(e.target.files[0]);
+                let file = URL.createObjectURL(e.target.files[0]);
+                let out = document.getElementById('post-img');
+                out.src = file;
+                out.onload = function () {
+                    URL.revokeObjectURL(out.src) // free memory
+                }
+                setPostData((prevState) => ({
+                    ...prevState,
+                    image: selected,
+                }))
+            }
+
             const togglePublished = () => {
-                console.log('verander !published')
+                console.log('verander published', item.id)
+                console.log('NU=', item.published)
+                console.log('CHANGE TO=', !item.published)
+                try {
+                    const result = axios.put(`https://localhost:8443/api/berichten/${item.id}/${!item.published}`)
+                    setPostData((prevState) => ({
+                        ...prevState,
+                        published: !published,
+                    }))
+                    console.log(result);
+                    let visible = 'gepubliceerd'
+                    if (postData.published) {
+                        visible = 'een privé concept'
+                    }
+                    toast.success(`${item.title} is nu ${visible}`)
+                } catch (e) {
+                    console.error(e)
+                    console.log(e.response)
+                }
+                toggleChangeFields(false);
             }
-            return <div className='single-post-card'>
+
+            const handleSave = async (e) => {
+                console.log(postData)
+                let modified = {
+                    title: postData.title,
+                    summary: postData.summary,
+                    description: postData.description,
+                    published: postData.published,
+                    category: postData.category,
+                }
+                try {
+                    const result = await axios.put(`https://localhost:8443/api/berichten/${item.id}`,
+                        modified,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${localStorage.getItem('token')}`
+                            }, params: {
+                                published: false
+                            }
+                        });
+                    console.log(result);
+                    if (selected) {
+                        console.log(selected);
+                        const formData = new FormData();
+                        let file = selected;
+                        formData.append('photo', file, 'image');
+                        try {
+                            await axios.post(`https://localhost:8443/api/berichten/${postData.id}/upload`,
+                                formData,
+                                { headers: {
+                                        'Content-Type': `multipart/form-data; boundary=photo`,
+                                        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                                    }, params: {
+                                        photo: file
+                                    }
+                                });
+                        } catch (e) {
+                            console.error(e);
+                            console.log(e.response);
+                        }
+                    }
+                    toggleChangeFields(false);
+                } catch (e) {
+                    console.error(e);
+                    console.log(e.response);
+                }
+            }
+
+            const handleDelete = async (e) => {
+                try {
+                    const result = await axios.delete(`https://localhost:8443/api/berichten/${item.id}`,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${localStorage.getItem('token')}`
+                            }
+                        })
+                    console.log(result);
+                    toggleChangeFields(false);
+                    isDeleted(true);
+                } catch (e) {
+                    console.error(e);
+                    console.log(e.response);
+                }
+            }
+
+            return <div className='single-post-card' key={item.id}>
                 {
-                    currentUserIsAuthor && <div className='is-author'>
-                        <span className='link' onClick={handleChange}><FiEdit3/></span>
-                        <span className='link' onClick={togglePublished}>{ item.published ? <FiEyeOff/> : <FiEye/> }</span>
+                    !deleted && currentUserIsAuthor && <div className='is-author'>
+                        <span className='link'>{!changeFields ? <FiEdit3 onClick={handleClickChange}/> : <GiSave onClick={handleSave}/>}</span>
+                        { changeFields && <span className='link' onClick={handleDelete}><FiX/>Verwijder bericht</span> }
+                        <span className='link' onClick={togglePublished}>{ !published ? <FiEyeOff/> : <FiEye/> }</span>
                     </div>
                 }
-                <h4>{item.title}</h4>
-                <span className='author'><span>Geschreven door: </span>@{item.author}</span>
-                <p className='body'>
                 {
-                    item.image !== null
-                        ? <img id='post-img' src={`data:image/jpeg;base64,${item.image}`} alt={item.title}/>
-                        : <img id='post-img'
-                               src='/images/emptypost.jpg'
-                               alt='empty post image'/>
+                    !changeFields
+                        ? <h4>{postData.title}</h4>
+                        : <input
+                            id='title'
+                            type='text'
+                            placeholder='Titel van bericht'
+                            value={title}
+                            onChange={handleChange}
+                            maxLength={50}
+                            required={true}
+                        />
+                }
+                <span className={`author ${deleted ? 'failure' : null}`}>
+                    {!deleted && !published ? 'CONCEPT' : null}
+                    {deleted ? 'VERWIJDERD' : null}
+                    <span>Geschreven door: </span>@{item.author}</span>
+                {
+                    !changeFields
+                        ? <p className='body'>
+                            {
+                                postData.image !== null
+                                    ? <img id='post-img' src={`data:image/jpeg;base64,${postData.image}`} alt={postData.title}/>
+                                    : <img id='post-img'
+                                           src='/images/emptypost.jpg'
+                                           alt='empty post image'/>
+                            }
+
+                            <span className='summary'>{ summary }</span>
+                            <span className='description'>{ description }</span>
+                        </p>
+                        : <p>
+                            {
+                                postData.image !== null
+                                    ? <img id='post-img' src={`data:image/jpeg;base64,${postData.image}`} alt={postData.image}/>
+                                    : <img id='post-img'
+                                           src='/images/emptypost.jpg'
+                                           alt='empty post image'/>
+                            }
+                            { showImageInput && <input
+                                    id='photo'
+                                    type='file'
+                                    name='photo'
+                                    accept='image/png, image/jpeg'
+                                    onChange={handleImageChange}
+                                    required={false}
+                                />
+                            }
+                            <span onClick={() => toggleShowImageInput((prevState => !prevState))}>
+                                {!showImageInput ? 'VERANDER AFBEELDING' : '' }
+                            </span>
+                            <textarea
+                                className='summary'
+                                id='summary'
+                                placeholder='Beschrijf in het kort je bericht'
+                                value={summary}
+                                onChange={handleChange}
+                                maxLength={200}
+                                required={true}
+                            />
+                            <textarea
+                                className='description'
+                                id='description'
+                                placeholder='Begin hier met het schrijven van je bericht...'
+                                value={description}
+                                onChange={handleChange}
+                                maxLength={255}
+                                required={true}
+                            />
+                        </p>
                 }
 
-                    <span className='summary'>{ item.summary }</span>
-                    <span className='description'>{ item.description }</span>
-                </p>
             </div>;
         } else {
             return null
