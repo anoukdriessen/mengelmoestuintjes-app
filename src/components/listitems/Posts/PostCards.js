@@ -24,6 +24,7 @@ function PostCards({title, type, num}) {
         posts = [...blogPosts]
     }
 
+
     sortArrayById(posts);
     if (posts.length < 1) {
         return <ItemNotFound title={'Berichten'}/>

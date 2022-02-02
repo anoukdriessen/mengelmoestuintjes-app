@@ -28,16 +28,15 @@ function AuthContextProvider({ children }) {
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
             })
-        // console.log('dit resultaat', userResult.data);
+        // console.log('dit resultaat', userResult.data.userProfile.authorities);
         // console.log('naam', userResult.data.name);
-        // console.log('before', auth);
         setAuth({
             user: {
                 username,
                 displayName: userResult.data.name,
                 email: userResult.data.email,
                 image: userResult.data.profileImg,
-                authorities: userResult.data.authorities,
+                authorities: userResult.data.userProfile.authorities,
                 details: {
                     birthday: userResult.data.birthday,
                     lastActivity: userResult.data.lastActivity,
@@ -53,7 +52,6 @@ function AuthContextProvider({ children }) {
             isAuth: true,
             status: 'done',
         });
-        // console.log('after', auth);
     }
 
     let isNotValid = false;
@@ -125,14 +123,8 @@ function AuthContextProvider({ children }) {
     }
 
     const hasUserRole = (toFind) => {
-        // console.log('my authorities', auth.user.authorities)
-        for (let role in auth.user.authorities) {
-            // console.log(auth.user.authorities[role].authority)
-            if (auth.user.authorities[role].authority === toFind) {
-                return true;
-            }
-        }
-        return false;
+        return auth.user.authorities.includes(toFind);
+
     }
 
     const contextData = {

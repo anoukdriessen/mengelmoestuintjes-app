@@ -19,23 +19,13 @@ function PostCard({item, type}) {
         summary: '',
         description: '',
         published: false,
-        category: 'POST',
-        image: null,
-    })
+    });
     const { title, summary, description, published } = postData;
+
 
     const history = useHistory();
 
     if (item) {
-        setPostData({
-            id: item.id,
-            title: item.title,
-            summary: item.summary,
-            description: item.description,
-            published: item.published,
-            category: 'POST',
-            image: item.image,
-        })
         let currentUserIsAuthor;
         if (auth.isAuth) {
             currentUserIsAuthor = (auth.user.username === item.author);
@@ -71,9 +61,17 @@ function PostCard({item, type}) {
         } else if (type === 'blog'){
             const handleClickChange = () => {
                 toggleChangeFields(true);
+                setPostData({
+                    id: item.id,
+                    title: item.title,
+                    summary: item.summary,
+                    description: item.summary,
+                    published: item.published,
+                    author: item.author,
+                })
             }
             const handleChange = (e) => {
-                console.log('bewerk', e.target.id)
+                // console.log('bewerk', e.target.id)
                 setPostData({
                     ...postData,
                     [e.target.id]: e.target.value
@@ -94,16 +92,16 @@ function PostCard({item, type}) {
             }
 
             const togglePublished = () => {
-                console.log('verander published', item.id)
-                console.log('NU=', item.published)
-                console.log('CHANGE TO=', !item.published)
+                // console.log('verander published', item.id)
+                // console.log('NU=', item.published)
+                // console.log('CHANGE TO=', !item.published)
                 try {
                     const result = axios.put(`https://localhost:8443/api/berichten/${item.id}/${!item.published}`)
                     setPostData((prevState) => ({
                         ...prevState,
                         published: !published,
                     }))
-                    console.log(result);
+                    // console.log(result);
                     let visible = 'gepubliceerd'
                     if (postData.published) {
                         visible = 'een privé concept'
@@ -117,7 +115,7 @@ function PostCard({item, type}) {
             }
 
             const handleSave = async (e) => {
-                console.log(postData)
+                // console.log(postData)
                 let modified = {
                     title: postData.title,
                     summary: postData.summary,
@@ -136,9 +134,9 @@ function PostCard({item, type}) {
                                 published: false
                             }
                         });
-                    console.log(result);
+                    // console.log(result);
                     if (selected) {
-                        console.log(selected);
+                        // console.log(selected);
                         const formData = new FormData();
                         let file = selected;
                         formData.append('photo', file, 'image');
@@ -173,7 +171,7 @@ function PostCard({item, type}) {
                                 "Authorization": `Bearer ${localStorage.getItem('token')}`
                             }
                         })
-                    console.log(result);
+                    // console.log(result);
                     toggleChangeFields(false);
                     isDeleted(true);
                 } catch (e) {
@@ -192,7 +190,7 @@ function PostCard({item, type}) {
                 }
                 {
                     !changeFields
-                        ? <h4>{postData.title}</h4>
+                        ? <h4>{item.title}</h4>
                         : <input
                             id='title'
                             type='text'
@@ -204,27 +202,27 @@ function PostCard({item, type}) {
                         />
                 }
                 <span className={`author ${deleted ? 'failure' : null}`}>
-                    {!deleted && !published ? 'CONCEPT' : null}
+                    {!deleted && published ? 'CONCEPT' : null}
                     {deleted ? 'VERWIJDERD' : null}
                     <span>Geschreven door: </span>@{item.author}</span>
                 {
                     !changeFields
                         ? <p className='body'>
                             {
-                                postData.image !== null
-                                    ? <img id='post-img' src={`data:image/jpeg;base64,${postData.image}`} alt={postData.title}/>
+                                item.image !== null
+                                    ? <img id='post-img' src={`data:image/jpeg;base64,${item.image}`} alt={item.title}/>
                                     : <img id='post-img'
                                            src='/images/emptypost.jpg'
                                            alt='empty post image'/>
                             }
 
-                            <span className='summary'>{ summary }</span>
-                            <span className='description'>{ description }</span>
+                            <span className='summary'>{ item.summary }</span>
+                            <span className='description'>{ item.description }</span>
                         </p>
                         : <p>
                             {
                                 postData.image !== null
-                                    ? <img id='post-img' src={`data:image/jpeg;base64,${postData.image}`} alt={postData.image}/>
+                                    ? <img id='post-img' src={`data:image/jpeg;base64,${item.image}`} alt={item.image}/>
                                     : <img id='post-img'
                                            src='/images/emptypost.jpg'
                                            alt='empty post image'/>
