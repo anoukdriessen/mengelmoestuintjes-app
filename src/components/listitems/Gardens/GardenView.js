@@ -1,3 +1,4 @@
+import '../../../styles/single-view.css'
 import {TasksDataContextProvider} from "../../../context/TasksDataContext";
 import {FiMinus, FiPlus, FiRefreshCw, FiX} from "react-icons/fi";
 import {FiCheck, FiSettings} from "react-icons/all";
@@ -6,10 +7,9 @@ import GardenForm from "../../forms/types/GardenForm";
 import {getUniqueId, refreshPage} from "../../../helpers/functions";
 import GardenTaskList from "../Tasks/GardenTaskList";
 import {useState} from "react";
+import SingleGardenView from "./SingleGardenView";
 
 function GardenView({type, garden, children}) {
-    const [showTaskForm, toggleShowTaskForm] = useState(false);
-    const [showSettingsForm, toggleShowSettingsForm] = useState(false);
     const [modal, setModal] = useState(false);
     const [selected, setSelected] = useState({});
     const [thisGarden, setThisGarden] = useState({
@@ -56,31 +56,6 @@ function GardenView({type, garden, children}) {
     let currentSize = x * y;
     const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-    const handleAddTask = () => {
-        toggleShowTaskForm((prevState => !prevState))
-    }
-    const handleSettings = () => {
-        console.log('settings')
-        toggleShowSettingsForm((prevState => !prevState))
-    }
-
-    const getGardenHeader = (title) => {
-        return <div id='garden-content-header'>
-            <span className='retro'>Nr. {garden.id} </span> <h2>{garden.name}</h2>
-            <span className='retro'>{garden.size} m<sup>2</sup></span>
-            {title && <h4>{title}</h4>}
-        </div>
-    }
-    const getAddTask = () => {
-        return <span className='addTask' onClick={handleAddTask}>
-            {showTaskForm ? <FiX/> : <FiPlus/>} Taak
-        </span>
-    }
-    const getSettings = () => {
-        return <span className='settings' onClick={handleSettings}>
-            Instellingen {showSettingsForm ? <FiX/> : <FiSettings/>}
-        </span>
-    }
 
     const handleTileClick = (name) => {
         // console.log('geklikt op', name)
@@ -101,43 +76,15 @@ function GardenView({type, garden, children}) {
         }
     }
 
-    console.log(garden.fields)
     return <div id='my-garden'>
         {
             type === 1 && <>
-                { getGardenHeader() }
-                {/*// TODO show level*/}
-                <div id='garden-content-owners'>
-                    <TasksDataContextProvider>
-                        <div className='actions'>
-                            { getAddTask() }
-                            { getSettings() }
-                        </div>
-                        <div className='action-forms'>
-                            { showTaskForm && <GardenTaskForm/> }
-                            { showSettingsForm && <GardenForm gardenId={garden.id} owners={garden.owners}/> }
-                        </div>
-                        <ul><span onClick={() => refreshPage()}><FiRefreshCw size={20}/></span>
-                            { garden.owners && garden.owners.map((user) => {
-                                // console.log(user)
-                                return <div key={user.username} className={'note-card todo'}>
-                                    { user.image
-                                        ? <img id='profile-img' src={`data:image/jpeg;base64,${user.image}`} alt='user'/>
-                                        : <img id='profile-img' src='https://images.unsplash.com/photo-1587334274328-64186a80aeee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c3Byb3V0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60' alt='empty user' /> }
-                                    <li>@{user.username}</li>
-                                    { user.tasks.length === 0
-                                        ? <FiCheck/>
-                                        : <GardenTaskList tasks={user.tasks} owner={user.username}/> }
-                                </div>
-                            })}
-                        </ul>
-                    </TasksDataContextProvider>
-                </div>
+                <SingleGardenView garden={garden} />
             </>
         }
         {
             type === 2 && <>
-                { getGardenHeader(("Planten in tuintje " + garden.name)) }
+                {/*{ getGardenHeader(("Planten in tuintje " + garden.name)) }*/}
                 {/* TODO list of plants */}
                 <ul className='list-of-plants'>
                     {
@@ -157,7 +104,7 @@ function GardenView({type, garden, children}) {
         }
         {
             type === 3 && <>
-                { getGardenHeader() }
+                {/*{ getGardenHeader() }*/}
                 <div id='my-garden-info'>
                     <div>
                         <FiMinus/> <span>{x}m breed</span> <FiPlus/>

@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 
 // global styling
-import './index.css';
+import './styles/index.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthContextProvider from "./context/AuthDataContext";
-import UserDataContextProvider from "./context/UserDataContext";
 
 ReactDOM.render(
     <React.StrictMode>

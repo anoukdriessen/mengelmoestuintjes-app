@@ -109,7 +109,7 @@ function AuthContextProvider({ children }) {
         // get user info
         let username = decoded.sub;
         // console.log('jwt token', jwtToken);
-        fetchUserData(username);
+        await fetchUserData(username);
     }
 
     const logout = () => {
@@ -123,8 +123,8 @@ function AuthContextProvider({ children }) {
     }
 
     const hasUserRole = (toFind) => {
-        return auth.user.authorities.includes(toFind);
-
+        if(auth.isAuth) { return auth.user.authorities.includes(toFind); }
+        return false;
     }
 
     const contextData = {

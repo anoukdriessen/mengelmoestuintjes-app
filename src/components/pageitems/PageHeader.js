@@ -5,15 +5,27 @@ import {NavLink} from "react-router-dom";
 import {GiBookshelf, GiMushroomHouse, GiNotebook, GiWoodenSign} from "react-icons/gi";
 import ListDataContext from "../../context/ListDataContext";
 
-
+export function MyNavLink(isExact, title, link, icon) {
+    if(isExact) {
+        return <li key={title}>
+            <NavLink activeClassName='active'  id={link} exact to={link}>
+                <span className='nav-icon'>{icon}</span>{title}
+            </NavLink>
+        </li>
+    }
+    return <li key={title}>
+        <NavLink activeClassName='active'  id={link} exact to={link}>
+            <span className='nav-icon'>{icon}</span>{title}
+        </NavLink>
+    </li>
+}
 
 function NavLinks() {
-    const {auth, logout} = useContext(AuthDataContext)
+    const {auth, hasUserRole, logout} = useContext(AuthDataContext)
     const loggedIn = auth.isAuth;
 
     let pages = [
         { title: 'Home', icon: <GiMushroomHouse/>, link: '/' },
-        { title: 'Academy', icon: <GiBookshelf/>, link: '/academy' },
         { title: 'Blog', icon: <GiNotebook/>, link: '/blog' },
     ]
 
@@ -24,9 +36,12 @@ function NavLinks() {
         ]
     }
 
-    const privatePages = [
-        { title: 'Dashboard', icon: <GiMushroomHouse/>, link: '/home' },
-    ]
+    if (hasUserRole("ROLE_MODERATOR")) {
+        pages = [...pages,
+            { title: 'Dashboard', icon: <GiMushroomHouse/>, link: '/home' },
+            { title: 'Academy', icon: <GiBookshelf/>, link: '/academy' },
+        ]
+    }
 
     return <nav>
         <ul id='primary-nav'>
@@ -86,15 +101,6 @@ function Navigation({pageTitle}) {
         </span>
     )
 
-    if (showMenu) {
-        if (document.getElementById('post-cards') !== null) {
-            document.getElementById('post-cards').style.zIndex = "-1";
-        }
-    } else {
-        if (document.getElementById('post-cards') !== null) {
-            document.getElementById('post-cards').style.zIndex = "0";
-        }
-    }
     return <>
         <AuthContextProvider>
         {

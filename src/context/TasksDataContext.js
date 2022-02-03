@@ -31,18 +31,24 @@ export const TasksDataContextProvider = ({ children }) => {
     }, [toDo])
 
     // CREATE
-    const addNewTask = async (thisUser, task) => {
+    const createNewTask = async (thisUser, task) => {
+        let newTask = {
+            'type': task.type,
+            'title': task.title,
+            'done': false,
+            'deadline': getToday(),
+        }
         try {
-            await axios.post(`https://localhost:8443/api/taken?username=${thisUser.username}`,
-                task,
-                {
+            const result = await axios.post(`https://localhost:8443/api/taken?username=${thisUser.username}`,
+                newTask,{
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-            // console.log(result)
-            setToDoTasks([...toDoTasks, task])
+            // console.log(result.data)
+            setToDo(result.data)
+            setToDoTasks([...toDoTasks, result.data]);
         } catch (e) {
             console.error(e);
             console.log(e.response);
@@ -171,6 +177,7 @@ export const TasksDataContextProvider = ({ children }) => {
             console.log(e.response);
         }
     }
+
     const finishTask = async (taskToFinish, taskId) => {
         try {
             await axios.put(`https://localhost:8443/api/taken/${taskId}/${!taskToFinish.done}`,
@@ -207,7 +214,7 @@ export const TasksDataContextProvider = ({ children }) => {
 
     const contextData = {
         toDo,
-        addNewTask,
+        createNewTask,
         fetchTaskById,
         toDoTasks,
         updateTask,

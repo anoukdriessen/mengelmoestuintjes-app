@@ -1,27 +1,12 @@
-#action a {
-    font-family: var(--lato);
-    text-decoration: none;
-    color: var(--main-dark);
-}
-#action {
-    font-size: 12px;
-    padding: 10px 0;
-}
-#action:hover a{
-    border-bottom: 2px solid var(--orange);
-    transition: ease-in-out 0.3s;
-}
-#action:hover strong {
-    color: var(--green);
-}
-
+/* input type for form */
 form input[type="checkbox"] {
     cursor: pointer;
     width: 50px;
     height: 50px;
     margin: 5px;
 }
-form input, form select {
+
+form select {
     width: 100%;
     border: none;
     padding: 5px 0 0 5px;
@@ -30,20 +15,43 @@ form input, form select {
     font-family: var(--retro);
     font-size: 10px;
 }
-form input:focus {
-    outline: none!important;
+form svg {
+    width: 20px;
+    height: 20px;
 }
-form .inputField {
-    background-color: var(--light50);
+form textarea {
+    border: none;
+    padding: 5px;
+    min-width: 300px;
+    max-width: 100%;
+    resize: none;
+}
+
+/* primary form */
+form.primary input {
+    min-width: 300px;
+    border: none;
+    padding: 5px 0 0 5px;
+    margin: 5px 0;
+    font-family: var(--writing);
+    font-size: 1.7em;
+}
+
+form.primary .inputField {
     border: 3px solid transparent;
-    border-radius: var(--s-round-borders);
     padding: 5px;
     margin: 10px 0;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-end;
 }
+
+form.primary {
+
+}
+
 form .inputField:hover {
     border: 3px solid var(--lighter-blue);
 }
@@ -66,7 +74,6 @@ form .inputField label a:hover {
 #sign-in, #sign-up {
     margin-top: 20px;
     background-color: transparent;
-    border-radius: var(--round-borders);
     border: 5px solid var(--orange);
     height: 100%;
     width: 100%;
@@ -246,8 +253,9 @@ input[type=file]::file-selector-button, input[type=file], #upload-image button {
 }
 
 .link.show-hide:hover {
-    color: var(--orange);
+    color: var(--blue);
 }
+
 
 .submit-save, .submit-edit {
     letter-spacing: 2px;
@@ -286,8 +294,57 @@ select:hover {
     cursor: pointer;
 }
 
+.inputField.numbers div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.numberField {
+    flex: 1;
+    min-width: 100%;
+    align-self: center;
+}
+.numberField input[type='number'] {
+    text-align: center;
+}
+button.disabled:hover {
+    transform: scale(1);
+    color: lightgray;
+    transition: 0s;
+}
+button.disabled:hover::after {
+    color: transparent;
+}
+
+/* remove number arrows on input field */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+/* remove outline from inputfield */
+form input:focus {
+    outline: none!important;
+}
+
 @media screen and (min-width: 1000px){
     #profile-details .details {
         min-width: 25%;
     }
+}
+
+.btn-form:hover {
+    transform: scale(1.1);
+    color: var(--blue);
+    transition: 1s;
+}
+.btn-form svg {
+    width: 20px;
+    height: 20px;
+    color: var(--orange);
+}
+.btn-form svg:hover {
+    color: var(--blue);
+    transition: 1s;
 }

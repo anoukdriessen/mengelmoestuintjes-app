@@ -16,6 +16,8 @@ export function GardenToDo({item}) {
         console.log('finish task', itemId);
         if (item.owner === auth.user.username) {
             deleteTask(itemId);
+            toast.success('Taak is verwijderd');
+            refreshPage();
         } else {
             toast.error('Alleen de eigenaar kan de taak voltooien')
         }

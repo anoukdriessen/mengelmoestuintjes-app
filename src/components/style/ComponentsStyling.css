@@ -20,9 +20,8 @@ hr {
     border: transparent;
     font-family: var(--retro);
     text-transform: uppercase;
-    padding: var(--basic-padding);
     font-size: 0.6em;
-    margin: 10% 0;
+    padding-left: 15px;
 }
 .btn:hover {
     color: var(--orange);
@@ -453,6 +452,8 @@ button[type="submit"] svg {
     min-width: 100%;
     max-width: 320px;
     overflow: auto;
+    padding-bottom: 100px;
+    margin-bottom: 0;
 }
 #my-garden h4 {
     text-align: center;
@@ -481,20 +482,15 @@ button[type="submit"] svg {
 }
 
 #garden-content-owners {
-    padding: 0 10px;
+    padding: 20px 5px;
 }
 #garden-content-owners .actions, #garden-content-owners .action-forms {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: center;
 }
-.action-forms textarea {
-    justify-content: flex-start;
-    min-width: 320px;
-    max-width: 100%;
-    resize: none;
-}
+
 #garden-content-owners .note-card.todo {
     margin: 5px;
     padding-top: 30px;

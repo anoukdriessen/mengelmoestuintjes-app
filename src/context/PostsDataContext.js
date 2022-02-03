@@ -46,6 +46,23 @@ export const PostsDataContextProvider = ({ children }) => {
 
 
     // CREATE
+    const createNewNote = async (gardenId, newNote) => {
+        console.log(newNote);
+        let thisUser = auth.user.username;
+
+        await axios.put(`https://localhost:8443/api/tuintjes/${gardenId}/${auth.user.username}/notities`,
+            {
+                'title': newNote.title,
+                'description': newNote.description,
+            }, {
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+        setMyNotes([...myNotes, newNote]);
+    }
+
     const addNew = async (thisUser, postData, selected) => {
         if (postData.category === 'POST') {
             postData.published = postData.published !== 'private';
@@ -201,6 +218,7 @@ export const PostsDataContextProvider = ({ children }) => {
 
 
     const contextData = {
+        createNewNote,
         blogPosts,
         allPublicPosts,
         myNotes,

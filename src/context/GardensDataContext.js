@@ -2,6 +2,7 @@ import {createContext, useContext, useEffect, useState} from "react";
 import {AuthDataContext} from "./AuthDataContext";
 import axios from "axios";
 import PostsDataContext from "./PostsDataContext";
+import {useHistory} from "react-router-dom";
 
 export const GardensDataContext = createContext({});
 
@@ -15,12 +16,36 @@ export const GardensDataContextProvider = ({ children }) => {
     const [allMyGardens, setAllMyGardens] = useState([]);
     const [allGardens, setAllGardens] = useState([]);
 
+    const history = useHistory();
+
     useEffect(() => {
         fetchAllGardens()
         fetchAllMyGardens()
     }, [])
 
     // CREATE
+    const createNewGarden = async (thisGarden) => {
+        console.log(thisGarden)
+        let thisUser = auth.user.username;
+        const response = await axios.post(`https://localhost:8443/api/tuintjes`,
+            {
+                'name': thisGarden.name,
+                'x': thisGarden.x,
+                'y': thisGarden.y
+            },
+            {
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                },
+                params: {
+                    "username": `${thisUser}`
+                }
+            }
+        );
+        console.log(response.data);
+        history.push(`/tuintje/${response.data.id}`)
+    }
 
     // READ
     const fetchAllGardens = async () => {
@@ -63,6 +88,29 @@ export const GardensDataContextProvider = ({ children }) => {
         }
     }
     // UPDATE
+    const updateGardenName = async (gardenId, newName) => {
+        try {
+            const response = await axios.get(`https://localhost:8443/api/tuintjes/${gardenId}`, {
+                'name': newName,
+            });
+            console.log(response)
+            setGarden({
+                ...garden,
+                name: newName,
+            })
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
+    const addUserToGarden = async (username, gardenId) => {
+        try {
+            await axios.post(`https://localhost:8443/api/tuintjes/${username}/${gardenId}`)
+        } catch (e) {
+            console.error(e)
+            console.log(e.response)
+        }
+    }
 
     // DELETE
 
@@ -72,9 +120,11 @@ export const GardensDataContextProvider = ({ children }) => {
         fields,
         allGardens,
         allMyGardens,
+        createNewGarden,
         fetchGardenById,
         fetchGardenNotes,
         fetchGardenFields,
+        updateGardenName,
     }
 
     return <GardensDataContext.Provider value={contextData}>

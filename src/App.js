@@ -35,6 +35,7 @@ function App() {
             <Route path={'/blog'}>
                 <Posts/>
             </Route>
+
             <Route path={'/berichten/:id'}>
                 <SinglePost/>
             </Route>
@@ -42,6 +43,7 @@ function App() {
             <Route path={'/login'}>
                 <SignIn/>
             </Route>
+
             <Route path={'/registreren'}>
                 <SignUp/>
             </Route>
@@ -49,14 +51,15 @@ function App() {
             <Route path={'/profiel/:id'}>
                 <Profile/>
             </Route>
+
             <Route path={'/dashboard'}>
                 <Dashboard/>
             </Route>
 
-
             <Route path={'/tuintjes'}>
                 <Gardens/>
             </Route>
+
             <Route path={'/tuintje/:gardenid'}>
                 <SingleGarden/>
             </Route>
@@ -64,11 +67,10 @@ function App() {
             <Route path='/terms-and-privacy'>
                 <TermsAndPrivacy />
             </Route>
+
             <Route path='/contact'>
                 <Contact />
             </Route>
-
-
 
             <Route path='/404'><NotFound/></Route>
             <Route path='/*'><NotFound/></Route>

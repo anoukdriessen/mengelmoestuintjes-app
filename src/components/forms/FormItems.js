@@ -1,9 +1,21 @@
 import './forms.css'
 import {Link} from "react-router-dom";
 import {useState} from "react";
-import {FiEdit, FiLock, FiUpload, FiUserCheck, GiInvisible, GiSave, GiStabbedNote} from "react-icons/all";
-import {FiEye, FiEyeOff, FiMail, FiSend, FiUser} from "react-icons/fi";
+import {
+    FiArrowDown,
+    FiArrowLeft,
+    FiArrowRight, FiArrowUp,
+    FiEdit,
+    FiLock,
+    FiUpload,
+    FiUserCheck,
+    GiInvisible,
+    GiSave,
+    GiStabbedNote
+} from "react-icons/all";
+import {FiEye, FiEyeOff, FiMail, FiType, FiUser} from "react-icons/fi";
 import {GiNotebook} from "react-icons/gi";
+import {SquareRootGarden} from "../../helpers/smallcontent";
 
 export function Action({linkTo, linkTitle, showOnHover}){
     const [actionHovered, toggleActionHovered] = useState(false);
@@ -106,6 +118,7 @@ export function PostCategory({type, handleChange}) {
         </select>
     </div>
 }
+
 export function PostVisibility({isPrivate, handleChange}) {
     console.log('isPrivate', isPrivate)
     return <div>
@@ -117,8 +130,87 @@ export function PostVisibility({isPrivate, handleChange}) {
     </div>
 }
 
-export function SubmitBtn({update, children}) {
-    return <button type='submit' className='btn submit-save'>
+export function SimpleTextField({iconSize, item, name, placeHolder, onChange, isRequired, max, tooLong, nameLength, onMouse}) {
+    return <InputFieldWithIcon icon={<FiType size={iconSize}/>}>
+        <input
+            id={name}
+            type='text'
+            value={item}
+            placeholder={placeHolder}
+            onChange={onChange}
+            autoComplete='off'
+            required={isRequired}
+            maxLength={max}
+            onMouseMove={onMouse}
+            onTouchMove={onMouse}
+        />
+        <span className={`count-input ${tooLong ? 'error' : ''}`}>
+            {tooLong && `maximaal ${nameLength} tekens bereikt`}
+        </span>
+    </InputFieldWithIcon>
+}
+
+export function SimpleTextArea({iconSize, item, name, placeHolder, onChange, isRequired, max, onMouse}) {
+    return <InputFieldWithIcon icon={<FiType size={iconSize}/>}>
+        <textarea
+            id={name}
+            value={item}
+            placeholder={placeHolder}
+            onChange={onChange}
+            required={isRequired}
+            maxLength={max}
+            onMouseMove={onMouse}
+            onTouchMove={onMouse}
+        />
+        {/*<span className={`count-input ${tooLong ? 'error' : ''}`}>*/}
+        {/*    {tooLong && `maximaal ${nameLength} tekens bereikt`}*/}
+        {/*</span>*/}
+    </InputFieldWithIcon>
+}
+
+export function InputXAndYField({x, y, placeHolderX, placeHolderY, onChange, isRequired, count, onMouse}) {
+    const size = 15;
+    return <div className='inputField numbers'>
+        <div className={'numberField'}>
+            <FiArrowLeft size={size}/>
+            <input
+                id={'x'}
+                type='number'
+                value={x}
+                placeholder={placeHolderX}
+                onChange={onChange}
+                autoComplete='off'
+                required={isRequired}
+                onMouseMove={onMouse}
+                onTouchMove={onMouse}
+            />
+            <FiArrowRight size={size}/>
+        </div>
+        <div className={'numberField'}>
+            <FiArrowUp size={size}/>
+            <input
+                id={'y'}
+                type='number'
+                value={y}
+                placeholder={placeHolderY}
+                onChange={onChange}
+                autoComplete='off'
+                required={isRequired}
+                onMouseMove={onMouse}
+                onTouchMove={onMouse}
+            />
+            <FiArrowDown size={size}/>
+        </div>
+        <div className={'numberField'}>
+        <SquareRootGarden count={count}/>
+        </div>
+    </div>
+}
+
+
+
+export function SubmitBtn({update, isdisabled, children}) {
+    return <button type='button' className={`btn submit-save ${isdisabled && 'disabled'}`} disabled={isdisabled}>
         {update ? <FiEdit size={20}/> : <GiSave size={20}/>}        {children}
     </button>
 }

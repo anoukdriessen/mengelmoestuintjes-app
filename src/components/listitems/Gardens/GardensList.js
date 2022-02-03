@@ -1,21 +1,13 @@
 import {useContext, useEffect, useState} from "react";
 import GardensDataContext from "../../../context/GardensDataContext";
-import {getKeyByValue, getMyGardenKey, getMyGate, getUniqueId} from "../../../helpers/functions";
+import {getMyGate, getUniqueId} from "../../../helpers/functions";
 import {
-    FiCheck,
-    GiDoor,
-    GiDungeonGate, GiFarmer, GiGate,
-    GiHeartKey, GiHeavenGate, GiHobbitDoor,
-    GiHouseKeys,
-    GiKeyring, GiMedievalGate, GiOpenGate,
-    GiRanchGate,
-    GiSkeletonKey, GiSpikedFence,
-    GiStarKey, GiTreeDoor, GiTreeFace, GiWoodenDoor, GiWoodenFence
+GiFarmer, GiKeyring
 } from "react-icons/all";
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 function GardensList() {
-    const {allMyGardens} = useContext(GardensDataContext)
+    const { allMyGardens } = useContext(GardensDataContext)
     const history = useHistory();
 
     // const [countGardens, setCountGardens] = useState(0);
@@ -64,11 +56,6 @@ function GardensList() {
                             </ul>
 
                             { getMyGate(4) }
-
-                            {/*<ul className='tasks'>*/}
-                            {/*    <li><span className='retro'>[ {garden.numberOfTasks} ]</span> taken op de tuin</li>*/}
-                            {/*    <li><span className='retro'>[ 0 ]</span> bewoners</li>*/}
-                            {/*</ul>*/}
 
                             <button className={'btn btn-call-to-action'} type='button'
                                 onClick={() =>goToGarden(garden.id)}>

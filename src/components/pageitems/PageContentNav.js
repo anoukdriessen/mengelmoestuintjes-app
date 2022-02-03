@@ -1,6 +1,7 @@
 import {
+    FiDelete,
     FiFilePlus,
-    FiImage, FiMonitor,
+    FiImage, FiMonitor, FiPenTool,
     FiSave,
     FiSettings,
     GiChatBubble,
@@ -9,9 +10,30 @@ import {
     GiSeedling
 } from "react-icons/all";
 import {useContext, useState} from "react";
-import {FiX} from "react-icons/fi";
+import {FiPlus, FiX} from "react-icons/fi";
 import {useHistory} from "react-router-dom";
 import {AuthDataContext} from "../../context/AuthDataContext";
+
+export function ActionLink({show, toggle, title}) {
+    return <span onClick={() => toggle((prevState) => !prevState) }
+                 className={`link action ${show ? 'active' : ''}`}>
+                {title}
+    </span>
+}
+export function BasicPageContentNav(
+    {title, hasCreate, showCreate, toggleShowCreate, children}
+) {
+    return <div id='page-content-nav' className={title}>
+        <h4>{title}</h4>
+        <div className='actions'>
+            { hasCreate && <ActionLink
+                                show={showCreate}
+                                toggle={toggleShowCreate}
+                                title={<FiPlus/>}/> }
+            { children }
+        </div>
+    </div>
+}
 
 function PageContentNav({ changeUserDetails, toggleChangeUserDetails,
                           changeUserImage, toggleChangeUserImage,
