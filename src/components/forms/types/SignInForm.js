@@ -39,7 +39,8 @@ function SignInForm() {
                 console.log('jwt token', result.data.jwt);
                 login(result.data.jwt);
             } catch (e) {
-                toast.error('Gebruiker niet herkend, controleer je Gebruikersnaam en Wachtwoord en probeer opnieuw')
+                console.error(e)
+                console.log(e.response)
             }
         }
         return <>

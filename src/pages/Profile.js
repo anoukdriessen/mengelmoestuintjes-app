@@ -97,7 +97,7 @@ export function ProfileCard({image, hasDisplayName, authUser, procentBar, procen
 function Profile() {
     const {auth, hasUserRole} = useContext(AuthDataContext);
     const [user, setUser] = useState(auth.user);
-    const [image, setImage] = useState(user.image);
+    const [image, setImage] = useState(null);
     const [procent, setProcent] = useState(calcProgress(user.details.level.currentXP, user.details.level.limit));
     const [changeUserDetails, toggleChangeUserDetails] = useState(false);
     const [changeUserImage, toggleChangeUserImage] = useState(false);

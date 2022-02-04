@@ -213,7 +213,7 @@ export function SimpleSelectInput() {
 
 
 export function SubmitBtn({update, isdisabled, children}) {
-    return <button type='button' className={`btn submit-save ${isdisabled && 'disabled'}`} disabled={isdisabled}>
+    return <button type='submit' className={`btn submit-save ${isdisabled && 'disabled'}`} disabled={isdisabled}>
         {update ? <FiEdit size={20}/> : <GiSave size={20}/>}        {children}
     </button>
 }

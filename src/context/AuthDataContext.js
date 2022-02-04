@@ -24,10 +24,10 @@ function AuthContextProvider({ children }) {
         const userResult = await axios.get(`https://localhost:8443/api/gebruikers/${username}`,
             {
                 headers: {
-                    "Content-Type": 'application/json',
+                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${localStorage.getItem('token')}`
                 }
-            })
+            });
         // console.log('dit resultaat', userResult.data.userProfile.authorities);
         // console.log('naam', userResult.data.name);
         setAuth({
@@ -64,6 +64,7 @@ function AuthContextProvider({ children }) {
                     if (isTokenNotExpired(decode.exp)) {
                         // not expired set auth
                         let username = decode.sub;
+                        console.log('request', username, localStorage.getItem('token'))
                         try {
                             fetchUserData(username);
                         } catch (e) {
@@ -109,7 +110,7 @@ function AuthContextProvider({ children }) {
         // get user info
         let username = decoded.sub;
         // console.log('jwt token', jwtToken);
-        await fetchUserData(username);
+        fetchUserData(username);
     }
 
     const logout = () => {
