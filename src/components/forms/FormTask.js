@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 import {refreshPage} from "../../helpers/functions";
 
 function FormTask({taskType}) {
-    const { auth } = useContext(AuthDataContext);
+    const { auth, getMessage } = useContext(AuthDataContext);
     const { createNewTask } = useContext(TasksDataContext);
 
     const [task, setTask] = useState('')
@@ -24,10 +24,12 @@ function FormTask({taskType}) {
             }
             // console.log('create task', newTask)
             createNewTask(auth.user, newTask);
+            getMessage('success', 'taak is geplaatst')
             toast.success('taak geplaatst');
             refreshPage();
         } else {
-            toast.error('taak mag niet leeg zijn')
+            getMessage('error', 'taak mag niet leeg zijn')
+            // toast.error('taak mag niet leeg zijn')
         }
     }
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import jwt_decode from 'jwt-decode'
 import {convertToMyDateFormat, refreshPage} from "../helpers/functions";
 import {UserDataContextProvider} from "./UserDataContext";
+import {AiFillNotification} from "react-icons/all";
 
 export const AuthDataContext = createContext({});
 
@@ -13,6 +14,18 @@ function AuthContextProvider({ children }) {
         isAuth: false,
         status: 'pending',
     });
+
+    const getMessage = (type, message) => {
+        const toaster = document.getElementById('toaster');
+        console.log(type, message);
+        let icon = <AiFillNotification/>
+
+        const notification = document.createElement('div');
+        notification.classList.add('toast');
+        notification.innerText = message;
+        console.log(toaster, notification);
+        toaster.in(notification);
+    }
 
     const isTokenNotExpired = (tokenDate) => {
         // convert token exp to date, check if larger than current date
@@ -133,6 +146,7 @@ function AuthContextProvider({ children }) {
         login,
         logout,
         hasUserRole,
+        getMessage,
     }
 
     return (
