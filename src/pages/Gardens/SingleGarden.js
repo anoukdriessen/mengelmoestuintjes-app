@@ -1,98 +1,20 @@
 import React, {useContext, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
 import PageHeader from "../../components/pageitems/PageHeader";
 import PageContent from "../../components/pageitems/PageContent";
 import GardensDataContext, {GardensDataContextProvider} from "../../context/GardensDataContext";
 import {ShowAndHideSingleGarden} from "../../components/listitems/ShowAndHide";
-import axios from "axios";
-import {getUniqueId, refreshPage} from "../../helpers/functions";
-import ItemNotFound from "../../components/listitems/ItemNotFound";
 import GardenView from "../../components/listitems/Gardens/GardenView";
-import {InputFieldWithIcon} from "../../components/forms/FormItems";
-import NoteCard from "../../components/listitems/Posts/NoteCard";
 import {AuthDataContext} from "../../context/AuthDataContext";
-import {FiType} from "react-icons/fi";
+import {useHistory} from "react-router-dom";
 
 export function Garden() {
     const { auth } = useContext(AuthDataContext);
-    const {garden, notes, fields, fetchGardenNotes, fetchGardenFields, fetchGardenById} = useContext(GardensDataContext)
-    // const { profiles, fetchProfilesFromUsers } = useContext(UserDataContext)
-    const params = useParams();
-    // const history = useHistory();
 
-    const [note, setNote] = useState({
-        title: '',
-        description: '',
-    })
-    const { title, description } = note;
-
-    const getThisGarden = async () => {
-        fetchGardenById(params.gardenid);
-        fetchGardenNotes(params.gardenid);
-        fetchGardenFields(params.gardenid);
-    }
-
-    useEffect(() => {
-        getThisGarden()
-    }, []);
+    const history = useHistory();
 
     const [viewOne, setViewOne] = useState(true);
     const [viewTwo, setViewTwo] = useState(false);
     const [viewThree, setViewThree] = useState(false);
-
-    console.log(garden);
-
-    // const {id, name, size, x, y, owners, fields} = thisGarden;
-    // const {columns, rows} = fields;
-
-    // const [toChange, setToChange] = useState({
-    //     id: garden.id,
-    //     name: garden.name,
-    //     numberOfTasks: garden.tasks,
-    //     owners: garden.owners,
-    //     size: garden.size,
-    //     tasks: garden.tasks,
-    //     x: garden.x,
-    //     y: garden.y,
-    // });
-    // const {x, y} = toChange;
-
-    const [showNoteForm, toggleShowNoteForm] = useState(false);
-
-
-    // console.log("de rijen in de tuin",thisGarden.rows)
-    // console.log("de kolommen in de tuin",thisGarden.columns)
-    // console.log(garden.owners)
-
-    // const handleChange = (e) => {
-    //     console.log(e.target.id, e.target.value)
-    //     setToChange({
-    //         ...toChange,
-    //         [e.target.id]: e.target.value,
-    //     });
-    // }
-    const handleChange = (e) => {
-        setNote({
-            ...note,
-            [e.target.id]: e.target.value
-        })
-    }
-    const handleNewNote = async (e, id) => {
-        e.preventDefault();
-        console.log(id)
-        console.log(note)
-        console.log(auth.user.username)
-        try {
-            const result = await axios.put(`https://localhost:8443/api/tuintjes/${id}/${auth.user.username}/notities`,
-                note
-            )
-            console.log(result);
-            refreshPage();
-        } catch (e) {
-            console.error(e);
-            console.log(e.response);
-        }
-    }
 
     return <>
         <ShowAndHideSingleGarden
@@ -105,17 +27,13 @@ export function Garden() {
         />
 
         <div id='garden-content'>
-            {viewOne && <GardenView type={1} garden={garden}>
-
-            </GardenView>}
-            {viewTwo && <GardenView type={2} garden={garden}>
-                {/* TODO plants */}
-            </GardenView>}
-            {viewThree && <GardenView type={3} garden={garden}>
-                { fields && fields.map((field) => {
-                    return <p>{field.name}</p>
-                })}
-            </GardenView>}
+            {viewOne && <GardenView type={1}/>}
+            {viewTwo && <GardenView type={2}/>}
+            {/*{viewThree && <GardenView type={3} garden={garden}>*/}
+            {/*    { fields && fields.map((field) => {*/}
+            {/*        return <p>{field.name}</p>*/}
+            {/*    })}*/}
+            {/*</GardenView>}*/}
         </div>
     </>
 }

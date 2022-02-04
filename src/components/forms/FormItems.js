@@ -207,6 +207,9 @@ export function InputXAndYField({x, y, placeHolderX, placeHolderY, onChange, isR
     </div>
 }
 
+export function SimpleSelectInput() {
+
+}
 
 
 export function SubmitBtn({update, isdisabled, children}) {

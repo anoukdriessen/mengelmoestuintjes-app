@@ -1,9 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import './components/style/ComponentsStyling.css';
-// routing
 import {
     Switch,
-    Route, Redirect,
+    Route,
 } from 'react-router-dom';
 
 import Home from "./pages/Home";
@@ -14,14 +13,17 @@ import TermsAndPrivacy from "./pages/Static/TermsAndPrivacy";
 import Profile from "./pages/Profile";
 import Dashboard from "./pages/Static/Dashboard";
 import NotFound from "./pages/NotFound";
-import {ToastContainer} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'
 import Contact from "./pages/Static/Contact";
-import {AuthDataContext} from "./context/AuthDataContext";
 import SinglePost from "./pages/Posts/SinglePost";
-import {UserDataContextProvider} from "./context/UserDataContext";
 import Posts from "./pages/Posts/Posts";
 import Gardens from "./pages/Gardens/Gardens";
+import Plants from "./pages/Plants/Plants";
+
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+
+import {AuthDataContext} from "./context/AuthDataContext";
+import {SinglePlant} from "./pages/Plants/SinglePlant";
 
 function App() {
     const { auth } = useContext(AuthDataContext)
@@ -62,6 +64,14 @@ function App() {
 
             <Route path={'/tuintje/:gardenid'}>
                 <SingleGarden/>
+            </Route>
+
+            <Route path={'/planten'}>
+                <Plants/>
+            </Route>
+
+            <Route path={'/plant/:id'}>
+                <SinglePlant/>
             </Route>
 
             <Route path='/terms-and-privacy'>

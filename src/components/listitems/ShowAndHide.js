@@ -4,16 +4,6 @@ import {GiInfo, GiPlantSeed, GiSeedling} from "react-icons/all";
 /**
  * Show and Hides elements from content, show only one item at the time
  * switch between items by clicking the icon
- * @param one item one
- * @param setOne setter for item one
- * @param iconOne icon for item one
- * @param two item two
- * @param setTwo setter for item two
- * @param iconTwo icon for item two
- * @param three item three
- * @param setThree setter for item three
- * @param iconThree icon for item three
- * @returns {JSX.Element}
  */
 export function ShowAndHideSingleGarden({one, setOne, two, setTwo, three, setThree}) {
     let size = 45;
@@ -44,6 +34,36 @@ export function ShowAndHideSingleGarden({one, setOne, two, setTwo, three, setThr
         </span>
     </div>
 }
+export function ShowAndHideSinglePlant({one, setOne, two, setTwo, three, setThree}) {
+    let size = 45;
+    return <div className='show-and-hide plant'>
+        <span onClick={() => {
+            // select current and disable others
+            setOne(true); // CURRENT
+            setTwo(false);
+            setThree(false);
+        }} >
+            <GiInfo className={one ? 'selected' : 'hidden'} size={size}/>
+        </span>
+        <span onClick={() => {
+            // select current and disable others
+            setOne(false);
+            setTwo(true); // CURRENT
+            setThree(false);
+        }}>
+            <GiPlantSeed className={two ? 'selected' : 'hidden'}  size={size}/>
+        </span>
+        <span onClick={() => {
+            // set current and disable others
+            setOne(false);
+            setTwo(false);
+            setThree(true);// CURRENT
+        }}>
+            <GiSeedling className={three ? 'selected' : 'hidden'}  size={size}/>
+        </span>
+    </div>
+}
+
 
 /**
  * Shows and Hides elements from content, show all, show selected or show none

@@ -8,18 +8,17 @@ import {AuthDataContext} from "../../../context/AuthDataContext";
 import Form from "../Form";
 import GardensDataContext from "../../../context/GardensDataContext";
 
-function GardenForm({gardenId, owners}) {
+function GardenForm({gardenId}) {
     const {auth} = useContext(AuthDataContext);
-    const { updateGardenName } = useContext(GardensDataContext);
+    const { garden, updateGardenName, addOwnerToGarden } = useContext(GardensDataContext);
     const [addNew, toggleAddNew] = useState(false);
-    const [users, setUsers] = useState([...owners]);
     const [isValid, setIsValid] = useState(false);
 
-    const [garden, setGarden] = useState({
+    const [thisGarden, setThisGarden] = useState({
         username: '',
         name: '',
     })
-    const { username, name} = garden;
+    const { username, name} = thisGarden;
 
     const handleClick = () => {
         toggleAddNew((prevState => !prevState))
@@ -27,26 +26,26 @@ function GardenForm({gardenId, owners}) {
 
     const handleChange = (e) => {
         // console.log(e.target.id, e.target.value)
-        setGarden({
-            ...garden,
+        setThisGarden({
+            ...thisGarden,
             [e.target.id]: e.target.value
         })
     }
 
     const changeGardenName = () => {
-        console.log(garden.name);
-        updateGardenName(gardenId, garden.name);
+        console.log(thisGarden.name);
+        updateGardenName(gardenId, thisGarden.name);
     }
 
     const addUserToGarden = async () => {
-        toggleAddNew((prevState => !prevState))
+        console.log(username, gardenId);
         try {
-            addUserToGarden(username, gardenId);
+            toggleAddNew((prevState => !prevState))
+            addOwnerToGarden(username, gardenId);
+            toast.success('gebruiker toegevoegd')
         } catch (e) {
             toast.error('gebruiker niet gevonden')
         }
-        refreshPage();
-
     }
 
     const handleDelete = async (e) => {
@@ -101,8 +100,8 @@ function GardenForm({gardenId, owners}) {
         }
         <ul>
             {
-                users &&
-                    users.map((user) => {
+                garden.owners &&
+                    garden.owners.map((user) => {
                         return <li key={user.username} id={user.username} onClick={handleDelete}><FiX/>@{user.name !== '' ? user.name.toLowerCase() : user.username}</li>
                     })
             }

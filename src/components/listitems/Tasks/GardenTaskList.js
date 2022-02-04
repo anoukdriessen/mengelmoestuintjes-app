@@ -22,15 +22,16 @@ export function GardenToDo({item}) {
             toast.error('Alleen de eigenaar kan de taak voltooien')
         }
     }
+
     if (!item) {
-        return <div className='garden-todo'>
+        return <div key={item.id} className='garden-todo'>
             <FiSquare size={20}/>
         </div>
     } else {
         return <div key={item.id} className={`garden-todo ${isDone ? 'finished' : ''}`}
                     onClick={(e) => {
-                        handleFinished(item.id);
                         toggleIsDone((prevState => !prevState));
+                        handleFinished(item.id);
                     }
                     }>
             {isDone ? <FiCheckSquare size={20}/> : <FiSquare size={20}/>}
@@ -52,7 +53,7 @@ function GardenTaskList({tasks, owner}) {
                         if (task.owner === owner) {
                             if (count < 3) {
                                 count++;
-                                return <GardenToDo key={getUniqueId()} item={task}/>
+                                return <GardenToDo key={task.owner + task.id} item={task}/>
                             }
                         }
                     }

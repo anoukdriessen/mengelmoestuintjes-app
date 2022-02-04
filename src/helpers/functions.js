@@ -2,14 +2,16 @@ import {v4 as uuidv4} from 'uuid';
 import {useContext} from "react";
 import {UserDataContext} from "../context/UserDataContext";
 import {
+    GiAubergine, GiBananaPeeled,
+    GiButterflyFlower, GiDaisy, GiFlowerEmblem, GiFruitTree,
     GiGate,
-    GiHeartKey,
+    GiHeartKey, GiHerbsBundle,
     GiHobbitDoor,
     GiHouseKeys,
     GiMedievalGate,
     GiRanchGate,
     GiSkeletonKey,
-    GiStarKey, GiWoodenDoor
+    GiStarKey, GiTomato, GiWoodenDoor
 } from "react-icons/all";
 import {Mail} from "../components/forms/FormItems";
 
@@ -233,5 +235,26 @@ export function getMyGate(type) {
         default:
             return null
     }
+}
+
+export function removeFromArray(arr, value) {
+    return arr.filter(function(ele){
+        return ele !== value;
+    });
+}
+
+export function getPlantCategory(category, size) {
+    // eslint-disable-next-line default-case
+    switch (category){
+        case 'HERBS':
+            return <GiHerbsBundle size={size}/>
+        case 'FLOWERS':
+            return <GiDaisy size={size}/>
+        case 'VEGETABLES':
+            return <GiTomato size={size}/>
+        case 'FRUITS':
+            return <GiFruitTree size={size}/>
+    }
+    return null;
 }
 

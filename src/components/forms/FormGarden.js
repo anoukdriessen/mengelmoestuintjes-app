@@ -95,9 +95,6 @@ function FormGarden() {
                 <GiSave/>Opslaan
             </button>
         </Form>
-        CREATE
-        {/*{ showUpdate && <>UPDATE</>}*/}
-        {/*{ showDelete && <>DELETE</>}*/}
     </>
 }
 

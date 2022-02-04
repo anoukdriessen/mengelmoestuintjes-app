@@ -22,7 +22,7 @@ function FormTask({taskType}) {
                 type: taskType,
                 title: task,
             }
-            console.log('create task', newTask)
+            // console.log('create task', newTask)
             createNewTask(auth.user, newTask);
             toast.success('taak geplaatst');
             refreshPage();
@@ -34,12 +34,13 @@ function FormTask({taskType}) {
     const handleChangeTask = (e) => {
         setTask(e.target.value);
     }
-    const handleChanges = (e) => {
-        setThisTask({
-            ...thisTask,
-            [e.target.id]: e.target.value,
-        });
-    }
+
+    // const handleChanges = (e) => {
+    //     setThisTask({
+    //         ...thisTask,
+    //         [e.target.id]: e.target.value,
+    //     });
+    // }
 
     return <>
         <Form

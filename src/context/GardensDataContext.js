@@ -3,6 +3,8 @@ import {AuthDataContext} from "./AuthDataContext";
 import axios from "axios";
 import PostsDataContext from "./PostsDataContext";
 import {useHistory} from "react-router-dom";
+import {toast} from "react-toastify";
+import {removeFromArray} from "../helpers/functions";
 
 export const GardensDataContext = createContext({});
 
@@ -11,7 +13,9 @@ export const GardensDataContextProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState();
 
     const [garden, setGarden] = useState({});
+    const [owners, setOwners] = useState({});
     const [notes, setNotes] = useState([]);
+    const [plants, setPlants] = useState([]);
     const [fields, setFields] = useState([]);
     const [allMyGardens, setAllMyGardens] = useState([]);
     const [allGardens, setAllGardens] = useState([]);
@@ -25,7 +29,7 @@ export const GardensDataContextProvider = ({ children }) => {
 
     // CREATE
     const createNewGarden = async (thisGarden) => {
-        console.log(thisGarden)
+        // console.log(thisGarden)
         let thisUser = auth.user.username;
         const response = await axios.post(`https://localhost:8443/api/tuintjes`,
             {
@@ -64,8 +68,30 @@ export const GardensDataContextProvider = ({ children }) => {
     const fetchGardenById = async (id) => {
         // console.log('garden by id', id)
         try {
+            let isUserInGarden = false;
             const response = await axios.get(`https://localhost:8443/api/tuintjes/${id}`);
-            setGarden(response.data)
+            // console.log(response.data.owners)
+            response.data.owners.map((owner) => {
+                console.log(owner.username)
+                if (owner.username === auth.user.username) {
+                    isUserInGarden = true;
+                }
+            })
+            // console.log(auth.user.username, isUserInGarden)
+
+            if (isUserInGarden) {
+                setGarden(response.data)
+            } else {
+                history.push('/404')
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    const fetchGardenOwners = async (id) => {
+        try {
+            const response = await axios.get(`https://localhost:8443/api/tuintjes/${id}/gebruikers`);
+            setOwners(response.data)
         } catch (e) {
             console.error(e);
         }
@@ -74,6 +100,14 @@ export const GardensDataContextProvider = ({ children }) => {
         try {
             const response = await axios.get(`https://localhost:8443/api/tuintjes/${id}/notities`);
             setNotes(response.data)
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    const fetchGardenPlants = async (id) => {
+        try {
+            const response = await axios.get(`https://localhost:8443/api/tuintjes/${id}/planten`)
+            setPlants(response.data);
         } catch (e) {
             console.error(e);
         }
@@ -87,13 +121,23 @@ export const GardensDataContextProvider = ({ children }) => {
             console.error(e)
         }
     }
+    const getPlantsFromField = async (gardenId, fieldName) => {
+        try {
+            const response = await axios.get(`https://localhost:8443/api/tuintjes/${gardenId}/velden/${fieldName}/planten`);
+            console.log(response.data);
+            // setPlants([...response.data])
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     // UPDATE
     const updateGardenName = async (gardenId, newName) => {
         try {
             const response = await axios.get(`https://localhost:8443/api/tuintjes/${gardenId}`, {
                 'name': newName,
             });
-            console.log(response)
+            // console.log(response)
             setGarden({
                 ...garden,
                 name: newName,
@@ -102,10 +146,14 @@ export const GardensDataContextProvider = ({ children }) => {
             console.error(e)
         }
     }
-
-    const addUserToGarden = async (username, gardenId) => {
+    const addOwnerToGarden = async (username, gardenId) => {
         try {
-            await axios.post(`https://localhost:8443/api/tuintjes/${username}/${gardenId}`)
+            const result = await axios.post(`https://localhost:8443/api/tuintjes/${username}/${gardenId}`)
+            console.log(result.data);
+            setGarden({
+                ...garden,
+                owners: result.data,
+            })
         } catch (e) {
             console.error(e)
             console.log(e.response)
@@ -113,18 +161,42 @@ export const GardensDataContextProvider = ({ children }) => {
     }
 
     // DELETE
+    const removeNoteFromGarden = async (gardenId, note) => {
+        try {
+            const result = await axios.delete(`https://localhost:8443/api/tuintjes/${gardenId}/${auth.user.username}/notitie/${note}`,
+                note
+            )
+            console.log(result);
+            let notes = [];
+            setGarden({
+                ...garden,
+                posts: [...notes],
+            })
+        } catch (e) {
+            console.error(e);
+            console.log(e.response);
+            toast.error('Kan notitie niet verwijderen')
+        }
+    }
 
     const contextData = {
         garden,
+        owners,
         notes,
+        plants,
         fields,
         allGardens,
         allMyGardens,
         createNewGarden,
         fetchGardenById,
         fetchGardenNotes,
+        fetchGardenOwners,
         fetchGardenFields,
+        fetchGardenPlants,
         updateGardenName,
+        addOwnerToGarden,
+        removeNoteFromGarden,
+        getPlantsFromField,
     }
 
     return <GardensDataContext.Provider value={contextData}>
