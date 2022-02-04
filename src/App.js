@@ -24,11 +24,14 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import {AuthDataContext} from "./context/AuthDataContext";
 import {SinglePlant} from "./pages/Plants/SinglePlant";
+import Toaster from "./components/Toaster";
 
 function App() {
     const { auth } = useContext(AuthDataContext)
     // console.log('in app', auth)
     return <>
+        <Toaster/>
+
         <Switch>
             <Route exact path={'/'}>
                 <Home/>
@@ -85,6 +88,7 @@ function App() {
             <Route path='/404'><NotFound/></Route>
             <Route path='/*'><NotFound/></Route>
         </Switch>
+
 
         <ToastContainer/>
     </>;

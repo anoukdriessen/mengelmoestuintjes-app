@@ -750,6 +750,14 @@ button[type="submit"] svg {
     min-width: 100%;
 }
 
+.btn:focus {
+    outline: none;
+}
+
+.btn:active {
+    transform: scale(1.1);
+}
+
 .list .filters {
     min-width: 100%;
     display: flex;
