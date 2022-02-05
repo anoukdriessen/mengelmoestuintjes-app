@@ -13,6 +13,8 @@ function AuthContextProvider({ children }) {
         isAuth: false,
         status: 'pending',
     });
+    const [error, setError] = useState('')
+    const [success, setSuccess] = useState('')
 
     const isTokenNotExpired = (tokenDate) => {
         // convert token exp to date, check if larger than current date
@@ -64,7 +66,7 @@ function AuthContextProvider({ children }) {
                     if (isTokenNotExpired(decode.exp)) {
                         // not expired set auth
                         let username = decode.sub;
-                        console.log('request', username, localStorage.getItem('token'))
+                        // console.log('request', username, localStorage.getItem('token'))
                         try {
                             fetchUserData(username);
                         } catch (e) {
@@ -72,17 +74,17 @@ function AuthContextProvider({ children }) {
                             console.log(e.response);
                         }
                     } else {
-                        console.log("token expired")
+                        // console.log("token expired")
                         // expired
                         localStorage.clear();
                         isNotValid = true;
                     }
                 } else {
-                    console.log("token niet gevonden")
+                    // console.log("token niet gevonden")
                     isNotValid = true;
                 }
             } else {
-                console.log("niets in local storage")
+                // console.log("niets in local storage")
                 isNotValid = true
             }
 
@@ -101,6 +103,21 @@ function AuthContextProvider({ children }) {
     }, []);
 
     const history = useHistory();
+
+    const authenticate = async (username, password, setMessage) => {
+        try {
+            const result = await axios.post(`https://localhost:8443/authenticate`, {
+                "username": `${username}`,
+                "password": `${password}`
+            })
+            // console.log('jwt token', result.data.jwt);
+            login(result.data.jwt);
+        } catch (e) {
+            console.error(e)
+            console.log(e.response)
+            setMessage('hmmm... er lijkt iets niet correct, controleer je gebruikersnaam en wachtwoord en probeer opnieuw')
+        }
+    }
 
     const login = async (jwtToken) => {
         // zet token in local storage
@@ -130,10 +147,15 @@ function AuthContextProvider({ children }) {
 
     const contextData = {
         auth,
+        authenticate,
         fetchUserData,
         login,
         logout,
         hasUserRole,
+        error,
+        setError,
+        success,
+        setSuccess,
     }
 
     return (

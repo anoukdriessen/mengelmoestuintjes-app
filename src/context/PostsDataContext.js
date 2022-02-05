@@ -4,11 +4,13 @@ import axios from "axios";
 import {getToday, getTomorrow, refreshPage} from "../helpers/functions";
 import {useHistory} from "react-router-dom";
 
-export const PostsDataContext = createContext({});
+export const tePostsDataContext = createContext({});
 
 export const PostsDataContextProvider = ({ children }) => {
     const { auth } = useContext(AuthDataContext)
     const [isLoading, setIsLoading] = useState();
+
+    const [toFind, setToFind] = useState({});
 
     const [toUpdatePost, setToUpdatePost] = useState({
         title: '',
@@ -63,16 +65,55 @@ export const PostsDataContextProvider = ({ children }) => {
         setMyNotes([...myNotes, newNote]);
     }
 
-    const addNew = async (thisUser, postData, selected) => {
-        if (postData.category === 'POST') {
-            postData.published = postData.published !== 'private';
-            console.log('new post', postData);
-        } else {
-            postData.summary = '';
-            postData.published = false;
-            console.log('new task', postData)
-        }
+    const createNewPost = async (formData,  selected, setMessage) => {
+        formData.published = formData.published !== 'private';
 
+        const newPost = {
+            title: formData.title,
+            summary: formData.summary,
+            description: formData.description,
+            image: null,
+            category: formData.category,
+            published: formData.published,
+        }
+        try {
+            const result = await axios.post(`https://localhost:8443/api/gebruikers/${auth.user.username}/berichten`,
+                newPost,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+            if (selected) {
+                const formData = new FormData();
+                let file = selected;
+                formData.append('photo', file, 'image');
+                try {
+                    const result = await axios.post(`https://localhost:8443/api/berichten/${result.data}/upload`,
+                        formData,
+                        { headers: {
+                                'Content-Type': `multipart/form-data; boundary=photo`,
+                                "Authorization": `Bearer ${localStorage.getItem('token')}`,
+                            }, params: {
+                                photo: file
+                            }
+                        });
+                    console.log(result.data);
+                } catch (e) {
+                    console.error(e);
+                    console.log(e.response);
+                    setMessage('Er gaat iets mis, controleer de gegevens en probeer opnieuw')
+                }
+            }
+
+            history.push(`/berichten/${result.data}`)
+        } catch (e) {
+            console.error(e);
+            console.log(e);
+        }}
+
+    const addNew = async (thisUser, postData, selected) => {
         try {
             const result = await axios.post(`https://localhost:8443/api/gebruikers/${thisUser.username}/berichten`,
                 postData,
@@ -123,7 +164,9 @@ export const PostsDataContextProvider = ({ children }) => {
                         "Authorization": `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-            return find.data;
+            console.log(find.data)
+            setToFind(find.data);
+            // return find.data;
         } catch (e) {
             console.error(e)
             console.log(e.response)
@@ -219,8 +262,11 @@ export const PostsDataContextProvider = ({ children }) => {
 
     const contextData = {
         createNewNote,
+        createNewPost,
         blogPosts,
         allPublicPosts,
+        fetchPostById,
+        toFind,
         myNotes,
         myPrivatePosts,
         myPublicPosts,

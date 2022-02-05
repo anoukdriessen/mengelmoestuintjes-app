@@ -1,13 +1,10 @@
 import '../forms.css'
 import {useContext, useState} from "react";
 import {FiImage, FiMapPin, FiSave, FiSettings, FiUserCheck, GiPartyPopper, GiSave} from "react-icons/all";
-import {DetailsInput, InputFieldWithIcon, SubmitBtn} from "../FormItems";
-import {FiMail, FiUser} from "react-icons/fi";
+import {DetailsInput, InputFieldWithIcon} from "../FormItems";
 import axios from "axios";
-import {toast} from "react-toastify";
 import UserDataContext from "../../../context/UserDataContext";
 import {convertProvince, refreshPage} from "../../../helpers/functions";
-import * as fs from "fs";
 import ProfileImageForm from "./ProfileImageForm";
 
 function ProfileForm({thisUser, image, changeUserDetails, changeUserImage }) {
@@ -139,7 +136,7 @@ function ProfileForm({thisUser, image, changeUserDetails, changeUserImage }) {
                     <p>Waar zijn jij en je tuintje gevestigd? Deel dit met je mede tuinierders en wordt getoont in de lokale berichten</p>
                 </div>
                 <div className='details'>
-                    <SubmitBtn>Wijzigen</SubmitBtn>
+                    {/*<SubmitBtn>Wijzigen</SubmitBtn>*/}
                 </div>
             </form>
         </div>

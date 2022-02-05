@@ -82,6 +82,15 @@ h4 { font-size: 1.15em; }
 
 a {
     color: var(--green);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--orange);
+    text-decoration: underline;
+    transition: 0.5s;
+}
+a:hover strong {
+    color: var(--green);
 }
 .active {
     color: var(--main-dark);

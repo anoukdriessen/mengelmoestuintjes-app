@@ -25,7 +25,6 @@ function FormNote({gardenId}) {
         }
         console.log('create note', newNote);
         createNewNote(gardenId, newNote);
-        toast.success('notitie geplaatst');
         refreshPage();
     }
 

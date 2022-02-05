@@ -4,8 +4,6 @@ import PostCard from "./PostCard";
 import {useContext} from "react";
 import PostsDataContext from "../../../context/PostsDataContext";
 import {AuthDataContext} from "../../../context/AuthDataContext";
-import {FiFrown} from "react-icons/all";
-import NotFound from "../../../pages/NotFound";
 import ItemNotFound from "../ItemNotFound";
 
 function PostCards({title, type, num}) {
@@ -26,6 +24,7 @@ function PostCards({title, type, num}) {
 
 
     sortArrayById(posts);
+    posts.reverse();
     if (posts.length < 1) {
         return <ItemNotFound title={'Berichten'}/>
     }

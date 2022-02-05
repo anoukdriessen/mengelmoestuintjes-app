@@ -7,16 +7,21 @@ import {FiEye, FiEyeOff, FiSend, FiUser} from "react-icons/fi";
 import {Link, Redirect, useHistory} from "react-router-dom";
 import {toast} from "react-toastify";
 import {Action, InputFieldWithIcon, Password, SubmitBtn, Username} from "../FormItems";
-import {FiLock} from "react-icons/all";
+import {FiLock, GiSave} from "react-icons/all";
 import {refreshPage} from "../../../helpers/functions";
+import Form from "../Form";
 
 function SignInForm() {
-    const {login} = useContext(AuthDataContext);
+    const { authenticate } = useContext(AuthDataContext);
+
+    const [isValid, setIsValid] = useState();
+    const [message, setMessage] = useState();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         password: '',
     })
+
     const {username, password} = FormData;
         const iconSize = 20;
 
@@ -28,23 +33,17 @@ function SignInForm() {
         }
 
         const handleSubmit = async (e) => {
-            console.log('submit')
             e.preventDefault();
+            // console.log('submitting', formData)
             let username = formData.username.toLowerCase();
-            try {
-                const result = await axios.post(`https://localhost:8443/authenticate`, {
-                    "username": `${username}`,
-                    "password": `${formData.password}`
-                })
-                console.log('jwt token', result.data.jwt);
-                login(result.data.jwt);
-            } catch (e) {
-                console.error(e)
-                console.log(e.response)
-            }
+            authenticate(username, formData.password, setMessage);
         }
+
         return <>
-            <form onSubmit={handleSubmit} id='sign-in'>
+            <Form
+                type={'primary'}
+                isDisabled={!isValid}
+            >
                 <Action
                     linkTo='/registreren'
                     linkTitle='Nieuwe gebruiker?'
@@ -56,7 +55,6 @@ function SignInForm() {
                     username={username}
                     onChange={onChange}
                 />
-
                 <Password
                     iconSize={iconSize}
                     showPassword={showPassword}
@@ -65,14 +63,16 @@ function SignInForm() {
                     setShowPassword={setShowPassword}
                 />
 
-                <Action
-                    linkTo='/wachtwoord-vergeten'
-                    linkTitle='wachtwoord vergeten?'
-                    showOnHover='>>>'
-                />
-
-                <SubmitBtn> Login </SubmitBtn>
-            </form>
+                {/*<Action*/}
+                {/*    linkTo='/wachtwoord-vergeten'*/}
+                {/*    linkTitle='wachtwoord vergeten?'*/}
+                {/*    showOnHover='>>>'*/}
+                {/*/>*/}
+                { message }
+                <button type={"submit"} className='btn btn-form' onClick={handleSubmit}>
+                    <FiSend/>Login
+                </button>
+            </Form>
         </>
 }
 

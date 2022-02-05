@@ -1,35 +1,10 @@
-/* input type for form */
-form input[type="checkbox"] {
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
-    margin: 5px;
-}
-
-form select {
-    width: 100%;
-    border: none;
-    padding: 5px 0 0 5px;
-    margin: 5px 0;
-    background-color: transparent;
-    font-family: var(--retro);
-    font-size: 10px;
-}
-form svg {
-    width: 20px;
-    height: 20px;
-}
-form textarea {
-    border: none;
-    padding: 5px;
-    min-width: 300px;
-    max-width: 100%;
-    resize: none;
-}
-
 /* primary form */
+form.primary {
+    max-width: 400px;
+}
 form.primary input {
     min-width: 300px;
+    max-width: 400px;
     border: none;
     padding: 5px 0 0 5px;
     margin: 5px 0;
@@ -44,13 +19,55 @@ form.primary .inputField {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
 }
 
-form.primary {
 
+/* input type for form */
+form input[type="checkbox"] {
+    cursor: pointer;
+    width: 21px;
+    height: 21px;
 }
+form input[type="file"] {
+    cursor: pointer;
+    max-width: 200px;
+}
+
+form select {
+    width: 100%;
+    border: none;
+    padding: 5px 0 0 5px;
+    margin: 5px 0;
+    background-color: transparent;
+    font-family: var(--retro);
+    font-size: 10px;
+    max-width: 320px;
+}
+form svg {
+    width: 20px;
+    height: 20px;
+}
+form textarea {
+    border: none;
+    padding: 5px;
+    min-width: 300px;
+    max-width: 500px;
+    min-height: 170px;
+    resize: none;
+}
+
+#action {
+    text-align: center;
+}
+
+.form-message {
+    text-align: center;
+}
+
+
+
 
 form .inputField:hover {
     border: 3px solid var(--lighter-blue);
@@ -60,38 +77,6 @@ form .inputField:focus-within {
 }
 form .inputField:focus-within.checkbox, form .inputField:hover.checkbox {
     border: 3px solid transparent;
-}
-form .inputField:hover .invalid, form .inputField:focus-within.invalid {
-    border: 3px solid var(--failure);
-}
-form .inputField label {
-    font-family: var(--lato);
-}
-form .inputField label a:hover {
-    border-bottom: 2px solid var(--orange);
-}
-
-#sign-in, #sign-up {
-    margin-top: 20px;
-    background-color: transparent;
-    border: 5px solid var(--orange);
-    height: 100%;
-    width: 100%;
-    padding: 30px 0;
-    box-shadow: -4px -4px 0 0 var(--darker-orange);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 450px;
-}
-#sign-in:hover, #sign-up:hover {
-    transform: translateY(4px);
-    box-shadow: 0 0 0 0 var(--orange);
-    transition: 2s;
-}
-#sign-in .inputField, #sign-up .inputField  {
-    min-width: 90%;
-    max-width: 400px;
 }
 
 #to-do-list {
@@ -334,14 +319,21 @@ form input:focus {
     }
 }
 
+.btn {
+    text-align: center;
+    width: 100px;
+    padding: 0.5rem;
+    font-size: 0.64em;
+    border: transparent;
+}
 .btn-form:hover {
     transform: scale(1.1);
     color: var(--blue);
     transition: 1s;
 }
 .btn-form svg {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     color: var(--orange);
 }
 .btn-form svg:hover {

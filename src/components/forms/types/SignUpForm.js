@@ -1,23 +1,22 @@
 import '../forms.css'
 import {AuthDataContext} from "../../../context/AuthDataContext";
-import Button from "../../Button";
 import {useContext, useState} from "react";
-import {FiEye, FiEyeOff, FiMail, FiSend, FiUser} from "react-icons/fi";
-import {Link, useHistory} from "react-router-dom";
-import {toast} from "react-toastify";
-import {Action, CheckBox, InputFieldWithIcon, Mail, Password, SingleCheckBox, SubmitBtn, Username} from "../FormItems";
-import {FiLock} from "react-icons/all";
+import {FiSend} from "react-icons/fi";
+import {useHistory} from "react-router-dom";
 import {
-    containsLowerCaseCharacter,
-    containsSpecialChar,
-    containsUpperCaseCharacter,
-    isValidEmail, isValidPassword, isValidUsername, refreshPage
-} from "../../../helpers/functions";
-import {UserDataContext} from "../../../context/UserDataContext";
+    Action, BtnSubmit,
+    Mail, Message,
+    Password,
+    SingleCheckBox, Submit,
+    Username
+} from "../FormItems";
 import axios from "axios";
+import Form from "../Form";
+import {isValidEmail, isValidPassword, isValidUsername} from "../../../helpers/functions";
+import {FiCheck, GiSave} from "react-icons/all";
 
 function SignUpForm() {
-    const { fetchUserData, login } = useContext(AuthDataContext);
+    const { login, setError, error } = useContext(AuthDataContext);
 
     const [formData, setFormData] = useState({
         username: '',
@@ -25,41 +24,47 @@ function SignUpForm() {
         password: '',
         accepted: false,
     })
-    const [showPassword, setShowPassword] = useState(false);
     const {username, email, password, accepted} = FormData;
 
-    const [usernameValid, isUsernameValid] = useState(false);
-    const [passwordValid, isPasswordValid] = useState(false);
-    const [emailValid, isEmailValid] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const [isValid, setIsValid] = useState(false);
+    const [usernameValid, setUsernameValid] = useState(false);
+    const [passwordValid, setPasswordValid] = useState(false);
+    const [emailValid, setEmailValid] = useState(false);
 
     let history = useHistory();
     const iconSize = 20;
 
     const onChange = (e) => {
-        switch (e.target.id) {
-            case 'username':
-                if (isValidUsername(e.target.value)) {
-                    isUsernameValid(true)
-                } else { isUsernameValid(false) }
-                break;
-            case 'email':
-                if(isValidEmail(e.target.value)){
-                    isEmailValid(true)
-                } else { isValidEmail(false) }
-                // console.log('email', emailValid)
-                break;
-            case 'password':
-                if (isValidPassword(e.target.value)) {
-                    isPasswordValid(true)
-                } else { isPasswordValid(false) }
-                break;
-        }
-        setFormData((prevState) => ({
-            ...prevState,
-            [e.target.id]: e.target.value,
-        }));
-    }
+        setUsernameValid(false);
+        setEmailValid(false);
+        setPasswordValid(false);
 
+        if (e.target.id === 'username') {
+            if (isValidUsername(e.target.value)) {
+                setUsernameValid(true)
+            }
+        } else if (e.target.id === 'email') {
+            if (isValidEmail(e.target.value)) {
+                setEmailValid(true);
+            }
+        } else {
+            if (isValidPassword(e.target.value)) {
+                setPasswordValid(true);
+            }
+        }
+
+        if (usernameValid && emailValid && passwordValid) {
+            setIsValid(true)
+        }
+
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value,
+        })
+    }
+    console.log('error', error)
     const handleSubmit = async (e) => {
         e.preventDefault();
         let username = formData.username.toLowerCase();
@@ -86,28 +91,28 @@ function SignUpForm() {
                         }
                         try {
                             const result = await axios.post(`https://localhost:8443/api/gebruikers`, newUser)
-                            console.log('post new user', result.data);
+                            // console.log('post new user', result.data);
                             let username = result.data.username;
                             const authenticate = await axios.post(`https://localhost:8443/authenticate`, {
                                 "username": username,
                                 "password": formData.password,
                             });
-                            console.log('jwt token', authenticate);
+                            // console.log('jwt token', authenticate);
                             login(authenticate.data.jwt);
                         } catch (e) {
+                            setError('Er gaat iets mis, probeer het later opnieuw');
                             console.error(e);
                             console.log(e.response)
-                            toast.error('Er gaat iets mis, probeer het later opnieuw')
                         }
                     } else {
-                        return toast.error("Email is al in gebruik, probeer je in te loggen ga dan naar de login pagina")
+                        setError('Email is al in gebruik, probeer je in te loggen? ga dan naar /login')
                     }
                 } catch (e) {
                     console.error(e);
                     console.log(e.response);
                 }
             } else {
-                return toast.error("Gebruikersnaam is bezet, verander de gebruikersnaam en probeer opnieuw")
+                setError('Gebruikersnaam is al in gebruik, probeer je in te loggen? ga dan naar /login')
             }
         } catch (e) {
             console.error(e);
@@ -116,23 +121,28 @@ function SignUpForm() {
     }
 
     return <>
-        <form onSubmit={handleSubmit} id='sign-up'>
+        <Form
+            type={'primary'}
+            onSumbit={handleSubmit}
+            isDisabled={!isValid}
+        >
             <Action
                 linkTo='/login'
                 linkTitle='Heb je al een account?'
                 showOnHover='Ga naar inloggen >>>'
             />
-
             <Username
                 iconSize={iconSize}
                 username={username}
                 onChange={onChange}
             />
+            <Message check={usernameValid} message={'gebruikersnaam moet tussen de 2 en 15 tekens bevatten en mag geen speciale tekens bevatten'}/>
             <Mail
                 iconSize={iconSize}
                 email={email}
                 onChange={onChange}
             />
+            <Message check={emailValid} message={'email wordt niet herkend'}/>
             <Password
                 iconSize={iconSize}
                 showPassword={showPassword}
@@ -140,16 +150,17 @@ function SignUpForm() {
                 onChange={onChange}
                 setShowPassword={setShowPassword}
             />
-
+            <Message check={passwordValid} message={'wachtwoord moet minimaal 7 tekens bevatten, moet bestaan uit minimaal 1 letter, 1 hoofdletter en speciaal teken'}/>
             <SingleCheckBox
                 type={'tap'}
                 id={'terms'}
                 value={accepted}
             />
 
-            <SubmitBtn> Maak een account aan </SubmitBtn>
-
-        </form>
+            <button type={"submit"} className='btn btn-form'>
+                <FiSend/>Maak een account
+            </button>
+        </Form>
     </>
 }
 

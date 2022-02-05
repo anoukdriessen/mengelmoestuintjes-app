@@ -28,12 +28,14 @@ hr {
 }
 
 .btn-call-to-action {
-    border-radius: var(--s-round-borders);
+    line-height: 15px;
+    margin: 0.5rem;
+    border-radius: var(--r-borders);
     font-family: var(--retro);
     letter-spacing: 2px;
     font-size: 0.6em;
     color: var(--main-dark);
-    background-color: var(--main-light);
+    background-color: var(--lighter-blue);
     border: 5px solid var(--lighter-orange);
     padding: 10px 30px;
     box-shadow: -4px 5px 0 0 var(--orange);

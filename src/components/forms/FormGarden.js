@@ -76,7 +76,6 @@ function FormGarden() {
                 onChange={handleChange}
                 isRequired={true}
                 max={45}
-                tooLong={tooLong}
                 nameLength={nameLength}
                 onMouse={handleLeave}
             />

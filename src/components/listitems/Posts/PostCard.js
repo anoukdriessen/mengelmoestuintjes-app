@@ -1,14 +1,17 @@
 import {useContext, useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {FiPenTool, FiSave, GiSave} from "react-icons/all";
 import {getUniqueId, parseMyDate, refreshPage} from "../../../helpers/functions";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {FiEdit3, FiEye, FiEyeOff, FiX} from "react-icons/fi";
 import axios from "axios";
 import {toast} from "react-toastify";
+import PostsDataContext from "../../../context/PostsDataContext";
 
 function PostCard({item, type}) {
     const {auth} = useContext(AuthDataContext);
+    const {toFind, fetchPostById} = useContext(PostsDataContext);
+
     const [active, toggleActive] = useState(false);
     const [changeFields, toggleChangeFields] = useState(false);
     const [showImageInput, toggleShowImageInput] = useState(false);
@@ -22,8 +25,8 @@ function PostCard({item, type}) {
     });
     const { title, summary, description, published } = postData;
 
-
     const history = useHistory();
+    const params = useParams();
 
     if (item) {
         let currentUserIsAuthor;

@@ -4,7 +4,7 @@ import {useState} from "react";
 import {
     FiArrowDown,
     FiArrowLeft,
-    FiArrowRight, FiArrowUp,
+    FiArrowRight, FiArrowUp, FiCheck,
     FiEdit,
     FiLock,
     FiUpload,
@@ -13,7 +13,7 @@ import {
     GiSave,
     GiStabbedNote
 } from "react-icons/all";
-import {FiEye, FiEyeOff, FiMail, FiType, FiUser} from "react-icons/fi";
+import {FiEye, FiEyeOff, FiMail, FiSend, FiType, FiUser} from "react-icons/fi";
 import {GiNotebook} from "react-icons/gi";
 import {SquareRootGarden} from "../../helpers/smallcontent";
 
@@ -120,8 +120,8 @@ export function PostCategory({type, handleChange}) {
 }
 
 export function PostVisibility({isPrivate, handleChange}) {
-    console.log('isPrivate', isPrivate)
-    return <div>
+    // console.log('isPrivate', isPrivate)
+    return <div className={'inputField'}>
         { isPrivate ? <GiInvisible/> : <FiUpload/> }
         <select id='published' name='published' onChange={handleChange}>
             <option value='private'>Privé</option>
@@ -130,8 +130,8 @@ export function PostVisibility({isPrivate, handleChange}) {
     </div>
 }
 
-export function SimpleTextField({iconSize, item, name, placeHolder, onChange, isRequired, max, tooLong, nameLength, onMouse}) {
-    return <InputFieldWithIcon icon={<FiType size={iconSize}/>}>
+export function SimpleTextField({icon, item, name, placeHolder, onChange, isRequired, max, tooLong, nameLength, onMouse}) {
+    return <InputFieldWithIcon icon={icon}>
         <input
             id={name}
             type='text'
@@ -150,8 +150,8 @@ export function SimpleTextField({iconSize, item, name, placeHolder, onChange, is
     </InputFieldWithIcon>
 }
 
-export function SimpleTextArea({iconSize, item, name, placeHolder, onChange, isRequired, max, onMouse}) {
-    return <InputFieldWithIcon icon={<FiType size={iconSize}/>}>
+export function SimpleTextArea({icon, item, name, placeHolder, onChange, isRequired, max, onMouse}) {
+    return <InputFieldWithIcon icon={icon}>
         <textarea
             id={name}
             value={item}
@@ -207,13 +207,17 @@ export function InputXAndYField({x, y, placeHolderX, placeHolderY, onChange, isR
     </div>
 }
 
-export function SimpleSelectInput() {
 
+export function BtnSubmit({type, message}) {
+    return <button type={"submit"} className='btn btn-form'>
+        { type === 'save' && <GiSave/>}
+        { type === 'send' && <FiSend/>}
+        {message}
+    </button>
 }
 
-
-export function SubmitBtn({update, isdisabled, children}) {
-    return <button type='submit' className={`btn submit-save ${isdisabled && 'disabled'}`} disabled={isdisabled}>
-        {update ? <FiEdit size={20}/> : <GiSave size={20}/>}        {children}
-    </button>
+export function Message({check, message}) {
+    return <span className={`form-message inputField ${ check ? 'success' : ''}`}>
+                { check ? <FiCheck/> : message }
+    </span>
 }

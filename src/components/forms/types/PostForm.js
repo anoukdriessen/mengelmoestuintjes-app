@@ -5,7 +5,7 @@ import {FiHash, FiType, FiX} from "react-icons/fi";
 import {FiEdit, GiChecklist, GiSave, GiStabbedNote} from "react-icons/all";
 import {GiNotebook} from "react-icons/gi";
 import axios from "axios";
-import {InputFieldWithIcon, PostCategory, PostVisibility, SubmitBtn} from "../FormItems";
+import {InputFieldWithIcon, PostCategory, PostVisibility} from "../FormItems";
 import {useHistory} from "react-router-dom";
 import PostCard from "../../listitems/Posts/PostCard";
 import PostCards from "../../listitems/Posts/PostCards";
@@ -134,7 +134,6 @@ function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
                 postData.category === 'POST' && <PostVisibility isPrivate={isPrivate} handleChange={handleChange}/>
 
             }
-            <SubmitBtn update={update}>Opslaan</SubmitBtn>
         </form>
         }
 
