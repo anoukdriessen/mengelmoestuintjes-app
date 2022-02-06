@@ -27,15 +27,16 @@ export const PlantsDataContextProvider = ({ children }) => {
     }, [])
 
     // CREATE
-    const createNewPlant = async (thisPlant, category) => {
-        findPlantByName(thisPlant.name);
-        if (toFind !== null) {
+    const createNewPlant = async (thisPlant, category, setIsValid, setMessage) => {
+        // findPlantByName(thisPlant.name);
+        // console.log(toFind)
+        // if (toFind === null) {
             console.log(thisPlant);
             const response = await axios.post(`https://localhost:8443/api/planten/${category}`,
                 {
                     'name': thisPlant.name,
                     'description': thisPlant.description,
-                    'field': null
+                    'field': null,
                 }, {
                     headers: {
                         "Content-Type": 'application/json',
@@ -43,10 +44,8 @@ export const PlantsDataContextProvider = ({ children }) => {
                     }
                 })
             console.log(response.data)
+            setPlants([...plants, thisPlant])
             history.push(`/plant/${response.data.id}`)
-        } else {
-            toast.error('plant already exists by name');
-        }
     }
 
     // READ
@@ -56,7 +55,9 @@ export const PlantsDataContextProvider = ({ children }) => {
         setPlant(response.data);
     }
     const findPlantByName = async (plant) => {
+        // console.log(plant)
         const response = await axios.get(`https://localhost:8443/api/planten/plant/${plant}`);
+        // console.log(response)
         setToFind(response.data);
     }
     const fetchAllPlants = async () => {
@@ -65,13 +66,7 @@ export const PlantsDataContextProvider = ({ children }) => {
         setPlants(response.data);
     }
     const fetchAllPlantsByCategory = async (category) => {
-        const response = await axios.get(`https://localhost:8443/api/planten`,
-            {
-                headers: {
-                    "Content-Type": 'application/json',
-                    "Authorization": `Bearer ${localStorage.getItem('token')}`
-                }, params: {category: category}
-            });
+        const response = await axios.get(`https://localhost:8443/api/planten`);
         // console.log(response.data)
         // eslint-disable-next-line default-case
         switch (category) {
@@ -104,6 +99,8 @@ export const PlantsDataContextProvider = ({ children }) => {
         herbs,
         createNewPlant,
         fetchAllPlantsByCategory,
+        findPlantById,
+        findPlantByName
     }
 
     return <PlantsDataContext.Provider value={contextData}>

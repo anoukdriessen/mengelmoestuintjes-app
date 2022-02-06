@@ -9,14 +9,18 @@ import {
 import UserDataContext from "../../../context/UserDataContext";
 import axios from "axios";
 import {FiX} from "react-icons/fi";
-import {InputFieldWithIcon} from "../FormItems";
+import {InputFieldWithIcon, SimpleDateInput, SimpleTextArea} from "../FormItems";
 import ToDoTaskList from "../../listitems/Tasks/ToDoTaskList";
 import PostsDataContext from "../../../context/TasksDataContext";
 import TasksDataContext from "../../../context/TasksDataContext";
 import {toast} from "react-toastify";
+import {AuthDataContext} from "../../../context/AuthDataContext";
+import Form from "../Form";
 
-function ToDoListForm({thisUser, showForm, toggleShowToDo, formActive}) {
-    const { toDo, addNewTask, updateTask, fetchTaskById, deleteTask, finishTask } = useContext(TasksDataContext);
+function ToDoListForm({showForm, toggleShowToDo, formActive}) {
+    const { auth, giveUserXp } = useContext(AuthDataContext);
+
+    const { toDo, createNewTask, updateTask, fetchTaskById, deleteTask, finishTask } = useContext(TasksDataContext);
     const [length, setLength] = useState(0);
     const [update, isUpdate] = useState(false);
     const [toUpdate, setToUpdate] = useState(0);
@@ -50,7 +54,8 @@ function ToDoListForm({thisUser, showForm, toggleShowToDo, formActive}) {
     const handleAddTask = async (e) => {
         e.preventDefault();
         if (!update) { // add new task
-            await addNewTask(thisUser, task);
+            await createNewTask(auth.user, task);
+            giveUserXp(10);
             clearFields();
         } else { // update task
             toDo.edit = false;
@@ -58,7 +63,6 @@ function ToDoListForm({thisUser, showForm, toggleShowToDo, formActive}) {
             await updateTask(toUpdate, task);
             isUpdate(false);
             clearFields();
-            toast.success('Taak is aangepast')
         }
     }
     const handleEdit = async (taskId) => {
@@ -92,33 +96,29 @@ function ToDoListForm({thisUser, showForm, toggleShowToDo, formActive}) {
     }
 
     return <>
-        {showForm && <form id='to-do-list' onSubmit={handleAddTask}>
-            <InputFieldWithIcon icon={<GiCheckMark/>}>
-                <textarea
-                    id='title'
-                    placeholder='Wat wordt je volgende taak?'
-                    value={title}
-                    onChange={handleChange}
-                    autoFocus={true}
-                    maxLength={255}
-                />
-            </InputFieldWithIcon>
+        {showForm && <Form
+            type={'primary'}>
+
+            <SimpleTextArea
+                iconSize={15}
+                item={title}
+                name={'title'}
+                placeHolder={'Wat wordt je volgende taak?'}
+                onChange={handleChange}
+                isRequired={true}
+                max={255}
+            />
             <span className={length > 254 ? 'too-long' : ''}>
                     {length > 254 && 'maximaal aantal tekens bereikt'}
             </span>
-            <InputFieldWithIcon icon={<FiCalendar/>}>
-                <input
-                    id='deadline'
-                    type='date'
-                    value={deadline}
-                    onChange={handleChange}
-                    min={getToday()}
-                />
-            </InputFieldWithIcon>
-            <button type='submit' className='submit-save'>
+            <SimpleDateInput
+                value={deadline}
+                handleChange={handleChange}
+            />
+            <button type='button' className='submit-save' onClick={handleAddTask}>
                 {update ? <FiEdit size={20}/> : <GiSave size={20}/>}
             </button>
-        </form>
+        </Form>
         }
         <ToDoTaskList
             showForm={toggleShowToDo}

@@ -11,11 +11,13 @@ import {FiArrowDown, FiArrowLeft, FiXCircle, GiSave} from "react-icons/all";
 import Form from "../../components/forms/Form";
 import {InputXAndYField, SimpleTextField} from "../../components/forms/FormItems";
 import FormGarden from "../../components/forms/FormGarden";
+import {useHistory} from "react-router-dom";
 
 function Gardens() {
     const { auth } = useContext(AuthDataContext);
     const [createNew, toggleCreateNew] = useState(false);
 
+    const history = useHistory();
     return <>
         <PageHeader title={auth.user.username + '\'s Mengelmoestuintjes'}/>
         <PageContent>

@@ -1,6 +1,6 @@
 import {useContext, useState} from "react";
 import PostsDataContext from "../../../context/PostsDataContext";
-import PostCard from "./PostCard";
+import PostCard, {PostPreview} from "./PostCard";
 import NoteCard from "./NoteCard";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {getUniqueId, sortArrayById} from "../../../helpers/functions";
@@ -11,7 +11,7 @@ import ShowAndHide from "../ShowAndHide";
 
 function UserPosts({note, showNotes, publ, showPublic, priv, showPrivate}) {
     const { auth } = useContext(AuthDataContext)
-    const { myNotes, myPrivatePosts, myPublicPosts } = useContext(PostsDataContext)
+    const { personalNotes, myPrivatePosts, myPublicPosts } = useContext(PostsDataContext)
 
     let all = [];
     let notes = [];
@@ -21,7 +21,7 @@ function UserPosts({note, showNotes, publ, showPublic, priv, showPrivate}) {
     const getMyNotes = async () =>{
         // console.log(myNotes)
         let count = 0;
-        myNotes.map(note => {
+        personalNotes.map(note => {
             notes[count] = note;
             count++;
         })
@@ -82,9 +82,9 @@ function UserPosts({note, showNotes, publ, showPublic, priv, showPrivate}) {
                     ? <> {
                         all.map((item) => {
                             if (item.category === 'NOTE') {
-                                return <NoteCard key={getUniqueId()} item={item} />
+                                return <NoteCard key={item.id} item={item} />
                             } else {
-                                return <PostCard key={getUniqueId()} item={item} type={'preview'}/>
+                                return <PostPreview key={item.id} item={item} imageUrl={'emptypost4'} />
                             }
                         })} </>
                     : <ItemNotFound title={'berichten'}/>

@@ -6,15 +6,16 @@ import {GiSave} from "react-icons/all";
 import PostsDataContext from "../../context/PostsDataContext";
 import {toast} from "react-toastify";
 import {refreshPage} from "../../helpers/functions";
+import GardensDataContext from "../../context/GardensDataContext";
 
-function FormNote({gardenId}) {
+function FormNote({gardenId, toggle}) {
     const { auth } = useContext(AuthDataContext);
-    const { createNewNote } = useContext(PostsDataContext);
-
+    const { createNewNote } = useContext(GardensDataContext);
     const [note, setNote] = useState({
         title: '',
         description: ''
     })
+
     const {title, description} = note;
     const [isValid, setIsValid] = useState(false);
 
@@ -23,9 +24,13 @@ function FormNote({gardenId}) {
             title: note.title,
             description: note.description,
         }
-        console.log('create note', newNote);
+        console.log('create note', newNote, gardenId);
         createNewNote(gardenId, newNote);
-        refreshPage();
+        setNote({
+            title: '',
+            description: '',
+        })
+        toggle(false)
     }
 
     const handleChange = (e) => {

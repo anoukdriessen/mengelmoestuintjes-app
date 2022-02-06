@@ -42,9 +42,8 @@ function GardenForm({gardenId}) {
         try {
             toggleAddNew((prevState => !prevState))
             addOwnerToGarden(username, gardenId);
-            toast.success('gebruiker toegevoegd')
         } catch (e) {
-            toast.error('gebruiker niet gevonden')
+            // TODO set message
         }
     }
 

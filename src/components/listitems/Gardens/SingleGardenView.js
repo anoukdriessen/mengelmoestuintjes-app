@@ -1,7 +1,7 @@
-import {TasksDataContextProvider} from "../../../context/TasksDataContext";
+import TasksDataContext, {TasksDataContextProvider} from "../../../context/TasksDataContext";
 import GardenForm from "../../forms/types/GardenForm";
 import {getUniqueId, refreshPage} from "../../../helpers/functions";
-import {FiPlus, FiRefreshCw, FiX} from "react-icons/fi";
+import {FiMinus, FiPlus, FiRefreshCw, FiX} from "react-icons/fi";
 import {FiCheck, FiSettings} from "react-icons/all";
 import GardenTaskList from "../Tasks/GardenTaskList";
 import {useContext, useEffect, useState} from "react";
@@ -14,14 +14,15 @@ import GardensDataContext from "../../../context/GardensDataContext";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {toast} from "react-toastify";
 import {useHistory, useParams} from "react-router-dom";
+import {PlantCard} from "../Card";
 
 function SingleGardenView({type}) {
     const { auth } = useContext(AuthDataContext)
     const { fetchGardenById, fetchGardenNotes, fetchGardenOwners, fetchGardenPlants, fetchGardenFields, getPlantsFromField,
             garden, notes, owners, removeNoteFromGarden, plants
     } = useContext(GardensDataContext)
-
-    const [isInGarden, setIsInGarden] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [selected, setSelected] = useState({});
     const [showTaskForm, toggleShowTaskForm] = useState(false);
     const [showNoteForm, toggleShowNoteForm] = useState(false);
     const [showSettingsForm, toggleShowSettingsForm] = useState(false);
@@ -29,17 +30,46 @@ function SingleGardenView({type}) {
     const [thisGarden, setThisGarden] = useState({
         item: {
             title: garden.title,
-            owners: [garden.owners],
+            owners: [],
             x: garden.x,
             y: garden.y,
         },
-        fields: [garden.fields],
     });
 
-    const params = useParams();
+    const {x, y} = thisGarden.item;
+    let currentSize = x * y;
+    const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
+    const handleTileClick = (name) => {
+        // console.log('geklikt op', name)
+        setSelected(name)
+        setModal(true)
+    }
+
+    const [gardenFields, setGardenFields] = useState({
+        rows: [],
+        columns: [],
+    });
+
+    if (garden.fields) {
+        for (let i = 0; i < x; i++) {
+            if (y !== 0) { // y cannot be empty to have at least one row
+                // for each row
+                // console.log('row=',i+1);
+                gardenFields.rows[i] = letters[i];
+                for (let j = 0; j < y; j++) {
+                    // for each row we add the amount of columns
+                    // console.log('adding column', j+1);
+                    gardenFields.columns[j] = j + 1;
+                }
+            }
+        }
+    }
+    // console.log(garden.fields, gardenFields)
+    const params = useParams();
     const getThisGarden = async () => {
         fetchGardenById(params.gardenid);
+
     }
     const getThisGardenDetails = async () => {
         fetchGardenNotes(params.gardenid);
@@ -113,13 +143,17 @@ function SingleGardenView({type}) {
     const handleDeleteNote = async (e, id, note) => {
         e.preventDefault();
         if(window.confirm("Je staat op het punt deze notitie te verwijderen, Weet je het zeker?")) {
-                removeNoteFromGarden(id, note);
-                refreshPage();
-                toast.success('notitie verwijderd')
+            removeNoteFromGarden(id, note);
         }
     }
 
-    // console.log(plants)
+    const handleAddOne = (num, name) => {
+        console.log('handle add', num, name)
+    }
+    const handleRemoveOne = (num, name) => {
+        console.log('handle remove', num, name)
+    }
+
     return <>
         { getGardenHeader() }
         {
@@ -129,13 +163,13 @@ function SingleGardenView({type}) {
                         <PostsDataContextProvider>
                             <div className='action-forms'>
                                 { showTaskForm && <FormTask taskType={'GARDENING'}/> }
-                                { showNoteForm && <FormNote gardenId={garden.id}/> }
+                                { showNoteForm && <FormNote gardenId={garden.id} toggle={toggleShowNoteForm}/> }
                                 { showSettingsForm && <GardenForm gardenId={garden.id} owners={garden.owners}/> }
                             </div>
                             <h3>Taken</h3>
                             <ul>
-                            { thisGarden.owners &&
-                                    thisGarden.owners.map((user) => {
+                            { garden.owners &&
+                                    garden.owners.map((user) => {
                                         return <div key={user.username} className={'note-card todo'}>
                                             { user.image
                                                 ? <img id='profile-img' src={`data:image/jpeg;base64,${user.image}`} alt='user'/>
@@ -151,7 +185,7 @@ function SingleGardenView({type}) {
                             <div id='post-cards'>
                                 {notes
                                     ? <>{ notes.map((note) => {
-                                        return <div key={garden.name + note.id} onClick={(e) => handleDeleteNote(e, garden.id, note.id)}>
+                                        return <div key={'note' +note.id} onClick={(e) => handleDeleteNote(e, garden.id, note.id)}>
                                             <NoteCard item={note} disableEditing={true} />
                                         </div>
                                     })}</>
@@ -166,17 +200,74 @@ function SingleGardenView({type}) {
         {
             type === 2 && <>
                 <h4>Planten in tuintje</h4>
-                <ul>
+                <ul className={'plants'}>
                     {
                         plants &&
+                            plants.length > 0
+                            ?
                             plants.map((plant) => {
-                                // TODO add link to single plant view
-                                return <li key={plant.id} onClick={() => {
-                                history.push(`plant/${plant.id}`)}
-                                }>Nr. [{plant.id}] {plant.name} </li>
+                                return <span onClick={()=> {history.push(`/plant/${plant.id}`)}}>
+                                    <PlantCard plant={plant}/>
+                                    </span>
                             })
+                            : <ItemNotFound title={'Planten in tuintje'}/>
                     }
                 </ul>
+            </>
+        }
+        {
+            type === 3 && <>
+                <div id='my-garden-info'>
+                    {/* TODO change button + / - */}
+                    <div id={'input garden'}>
+                        <FiMinus onClick={() => handleRemoveOne(x, 'x')}/> <span>{x}m breed</span> <FiPlus onClick={() => handleAddOne(x, 'x')}/>
+                        <FiMinus onClick={() => handleRemoveOne(y, 'y')}/> <span>{y}m lang</span> <FiPlus onClick={() => handleAddOne(y, 'y')}/>
+                    </div>
+                    <h3>je tuin is {!isNaN(x) ? x : 0} x {!isNaN(y) ? y : 0} = {!isNaN(currentSize) ? (currentSize) : 0} m<sup>2</sup></h3>
+                </div>
+                <div id='garden-select-box'>
+                    {currentSize !== 0 && ( <>
+                                       <div id='garden'>
+                                             <div id='rows'>
+                                                 { gardenFields.columns &&
+                                                    gardenFields.columns.map((c) => {
+                                                        return <div className='row' key={c}>
+                                                            { gardenFields.rows && gardenFields.rows.map((r) => {
+                                                                let name = (r + c);
+                                                                return <span className='tile' key={r}>
+                                                                    <div className={'tile-action'}
+                                                                         onClick={() => handleTileClick(name)}>
+                                                                        <img src={'/images/tiles/ground.png'} alt='ground'/>
+                                                                        </div>
+                                                                    </span>
+                                                            })}
+                                                        </div>
+                                                    })}
+                                             </div>
+                                         </div>
+                                 </>)}
+                                 { modal && <div id='day-content' onClick={() => setModal(false)}>
+                                     <div id='modal-content'>
+                                         <h2>VELD [ {selected} ]</h2>
+                                         {/* TODO image change */}
+                                         <img src={'/images/tiles/ground.png'} alt='ground' width='222px'/>
+                                         {/* TODO fieldinfo */}
+                                         <div>
+                                             veld info
+                                             TYPE [ x ]
+                                             STATUS [ x ]
+                                         </div>
+                                         {/* TODO list of plants */}
+                                         <ul>
+                                             <li>plant 1</li>
+                                             <li>plant 2</li>
+                                             <li>plant 3</li>
+                                             <li>ect..</li>
+                                         </ul>
+                                         {/* TODO tasks of field */}
+                                     </div>
+                                 </div> }
+                </div>
             </>
         }
 

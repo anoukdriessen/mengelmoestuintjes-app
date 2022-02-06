@@ -3,7 +3,7 @@ import {useContext} from "react";
 import {UserDataContext} from "../context/UserDataContext";
 import {
     GiAubergine, GiBananaPeeled,
-    GiButterflyFlower, GiDaisy, GiFlowerEmblem, GiFruitTree,
+    GiButterflyFlower, GiChemicalDrop, GiDaisy, GiDroplets, GiFlowerEmblem, GiFruitTree,
     GiGate,
     GiHeartKey, GiHerbsBundle,
     GiHobbitDoor,
@@ -11,7 +11,7 @@ import {
     GiMedievalGate,
     GiRanchGate,
     GiSkeletonKey,
-    GiStarKey, GiTomato, GiWoodenDoor
+    GiStarKey, GiTomato, GiWaterDrop, GiWoodenDoor
 } from "react-icons/all";
 import {Mail} from "../components/forms/FormItems";
 
@@ -256,5 +256,42 @@ export function getPlantCategory(category, size) {
             return <GiFruitTree size={size}/>
     }
     return null;
+}
+
+export function getNameLevel(level) {
+    if (level === 'LOW') {
+        return 'weinig'
+    }
+    if (level === 'MEDIUM') {
+        return 'gemiddeld'
+    }
+    if (level === 'HIGH') {
+        return 'veel'
+    }
+}
+
+export function getNumberLevel(level) {
+    if (level === "LOW") { return 0 }
+    if (level === "MEDIUM") { return 1 }
+    if (level === "HIGH") { return 2 }
+}
+
+export function getIconLevelAndType(level, type) {
+    // eslint-disable-next-line default-case
+    switch (type) {
+        case 'water':
+            if (level === 'LOW') {
+                return <GiChemicalDrop/>
+            }
+            if (level === 'MEDIUM') {
+                return <GiWaterDrop/>
+            }
+            if (level === 'HIGH') {
+                return <GiDroplets/>
+            }
+            break;
+        case 'sun':
+            break;
+    }
 }
 

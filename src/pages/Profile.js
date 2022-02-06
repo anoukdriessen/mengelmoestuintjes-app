@@ -58,71 +58,59 @@ export function SmallProfileCardWithTasks({image, name, username, tasks}) {
         </div>
     </Card>
 }
-export function ProfileCard({image, hasDisplayName, authUser, procentBar, procent}) {
-    return <Card useId='user'>
-        {
-            image
-                ? <img id='profile-img' src={`data:image/jpeg;base64,${image}`} alt='user'/>
-                : <img id='profile-img' src='https://images.unsplash.com/photo-1587334274328-64186a80aeee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c3Byb3V0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60' alt='empty user' />
-        }
-        <p className='user-card-header'>
-                            <span><strong>@</strong>
-                                {
-                                    hasDisplayName ? authUser.displayName.toUpperCase() : authUser.username
-                                }
-                            </span>
-            <span><strong>[</strong> lvl {authUser.details.level.currentLevel}<strong> ]</strong></span>
-        </p>
-        <div className='user-card-body'>
-                            <span>
-                                <FiMapPin size={15}/>
-                                <strong>{authUser.details.province ? authUser.details.province : 'ONBEKEND'}</strong>
-                            </span>
-            <div className='user-progress-bar'>
-                                <span className='progress' style={{width: procentBar}}>
-                                    {procent}%
-                                </span>
-            </div>
-            <div className='user-progress-details'>
-                                    <span className='progress-current'>
-                                        <strong>{authUser.details.level.currentXP}</strong> XP</span>
-                <GiProgression size={15}/>
-                <span className='progress-limit'>
-                                        <strong>{authUser.details.level.limit}</strong> XP</span>
-            </div>
-        </div>
-    </Card>
-}
 
 function Profile() {
-    const {auth, hasUserRole} = useContext(AuthDataContext);
-    const [user, setUser] = useState(auth.user);
+    const { auth, hasUserRole } = useContext(AuthDataContext);
     const [image, setImage] = useState(null);
-    const [procent, setProcent] = useState(calcProgress(user.details.level.currentXP, user.details.level.limit));
+    const [procent, setProcent] = useState(calcProgress(auth.user.details.level.currentXP, auth.user.details.level.limit));
     const [changeUserDetails, toggleChangeUserDetails] = useState(false);
     const [changeUserImage, toggleChangeUserImage] = useState(false);
     const [showToDo, toggleShowToDo] = useState(false);
     const [showNote, toggleShowNote] = useState(false);
     const [showPost, toggleShowPost] = useState(false);
     const [showForm, toggleShowForm] = useState(false);
-    let hasDisplayName = user.displayName;
+    let hasDisplayName = auth.user.displayName;
     let procentBar = `${procent}%`
-
-
-    // console.log('is user mod',hasUserRole('ROLE_MODERATOR'));
 
     return<>
             <PageHeader title={auth.user.username}/>
             <PageContent>
                 { !changeUserDetails && <>
-                <ProfileCard
-                    image={image}
-                    hasDisplayName={hasDisplayName}
-                    authUser={auth.user}
-                    procentBar={procentBar}
-                    procent={procent}
-                />
+                    <Card className={'profile small'} hideCardHeader={true}>
+                        {
+                            image
+                                ? <img id='profile-img' src={`data:image/jpeg;base64,${image}`} alt='user'/>
+                                : <img id='profile-img' src='https://images.unsplash.com/photo-1587334274328-64186a80aeee?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c3Byb3V0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60' alt='empty user' />
+                        }
+                        <p className='user-card-header'>
+                            <span><strong>@</strong>
+                                {
+                                    hasDisplayName ? auth.user.displayName.toUpperCase() : auth.user.username
+                                }
+                            </span>
+                            <span><strong>[</strong> lvl {auth.user.details.level.currentLevel}<strong> ]</strong></span>
+                        </p>
+                        <div className='user-card-body'>
+                            <span>
+                                <FiMapPin size={15}/>
+                                <strong>{auth.user.details.province ? auth.user.details.province : 'ONBEKEND'}</strong>
+                            </span>
+                            <div className='user-progress-bar'>
+                                <span className='progress' style={{width: procentBar}}>
+                                    {procent}%
+                                </span>
+                            </div>
+                            <div className='user-progress-details'>
+                                    <span className='progress-current'>
+                                        <strong>{auth.user.details.level.currentXP}</strong> XP</span>
+                                <GiProgression size={15}/>
+                                <span className='progress-limit'>
+                                        <strong>{auth.user.details.level.limit}</strong> XP</span>
+                            </div>
+                        </div>
+                    </Card>
                 </>
+
                 }
                 <PageContentNav
                     changeUserDetails={changeUserDetails}
@@ -136,6 +124,7 @@ function Profile() {
                     showForm={showForm}
                     toggleShowForm={toggleShowForm}
                 />
+
                 <UserDataContextProvider>
                     {
                         !changeUserDetails && <div id='dashboard'>
@@ -152,7 +141,6 @@ function Profile() {
                                                 showForm={showToDo}
                                                 toggleShowToDo={toggleShowToDo}
                                             />
-
                                 }
                                 </TasksDataContextProvider>
                             </div>
@@ -172,15 +160,15 @@ function Profile() {
                         </div>
                     }
 
-                    { changeUserDetails &&
-                        <ProfileCard
-                            image={image}
-                            hasDisplayName={hasDisplayName}
-                            authUser={auth.user}
-                            procentBar={procentBar}
-                            procent={procent}
-                        />
-                    }
+                    {/*{ changeUserDetails &&*/}
+                    {/*    <ProfileCard*/}
+                    {/*        image={image}*/}
+                    {/*        hasDisplayName={hasDisplayName}*/}
+                    {/*        authUser={auth.user}*/}
+                    {/*        procentBar={procentBar}*/}
+                    {/*        procent={procent}*/}
+                    {/*    />*/}
+                    {/*}*/}
 
                     <ProfileForm
                         thisUser = {auth.user}

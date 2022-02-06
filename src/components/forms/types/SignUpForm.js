@@ -142,7 +142,7 @@ function SignUpForm() {
                 email={email}
                 onChange={onChange}
             />
-            <Message check={emailValid} message={'email wordt niet herkend'}/>
+            <Message check={emailValid} message={'vul een geldig mail adres in'}/>
             <Password
                 iconSize={iconSize}
                 showPassword={showPassword}

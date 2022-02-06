@@ -1,18 +1,20 @@
 import {useContext, useState} from "react";
 import PlantsDataContext from "../../context/PlantsDataContext";
-import {InputFieldWithIcon, SimpleTextArea, SimpleTextField} from "./FormItems";
+import {InputFieldWithIcon, Message, SimpleTextArea, SimpleTextField} from "./FormItems";
 import {FiMapPin, GiBoxUnpacking, GiGroundSprout, GiSave} from "react-icons/all";
 import Form from "./Form";
 import {toast} from "react-toastify";
 import {convertProvince} from "../../helpers/functions";
 
 function FormPlant() {
-    const { createNewPlant } = useContext(PlantsDataContext)
+    const { createNewPlant, toFind, findPlantByName } = useContext(PlantsDataContext)
     const [isValid, setIsValid] = useState(false);
+    const [message, setMessage] = useState('')
     const [thisPlant, setThisPlant] = useState({
         name: '',
         description: '',
         category: 'FLOWERS',
+        field: null,
         details: {
             official: '',
             waterRequirement: "LOW",
@@ -41,7 +43,7 @@ function FormPlant() {
     const categories = ['FLOWERS', 'VEGETABLES', 'HERBS', 'FRUITS'];
 
     const handleChange = (e) => {
-        console.log(e.target.id, e.target.value)
+        // console.log(e.target.id, e.target.value)
         setThisPlant({
             ...thisPlant,
             [e.target.id]: e.target.value,
@@ -49,21 +51,15 @@ function FormPlant() {
     }
 
     const handleSubmit = (e) => {
-        if (thisPlant.name === '') {
-            toast.error('naam mag niet leeg zijn');
-        } else if (thisPlant.description === '') {
-            toast.error('beschrijving mag niet leeg zijn');
-        } else {
-            e.preventDefault();
-            // console.log('submit', thisPlant)
-            let newPlant = {
-                name: thisPlant.name,
-                description: thisPlant.description,
-                field: null,
-            }
-            let category = thisPlant.category.toLowerCase();
-            createNewPlant(thisPlant, category);
+        e.preventDefault();
+        findPlantByName(thisPlant.name);
+        console.log(toFind)
+        if (toFind) {
+            console.log('bestaat al')
+            setMessage(`Deze plant bestaat al met id [${toFind.id}]`)
         }
+        let category = thisPlant.category.toLowerCase();
+        createNewPlant(thisPlant, category, setMessage, setIsValid);
     }
 
     return <>
@@ -89,6 +85,7 @@ function FormPlant() {
                 isRequired={true}
                 max={255}
             />
+            <span className={'error'}> { message } </span>
             <InputFieldWithIcon icon = {<GiGroundSprout size={15} />}>
                 <select name='category' id='category' onChange={handleChange} defaultValue={category}>
                     {
@@ -98,12 +95,10 @@ function FormPlant() {
                     }
                 </select>
             </InputFieldWithIcon>
-
-            <button type={"submit"} className='btn btn-form' onClick={handleSubmit}>
+            <button type={"button"} className='btn btn-form' onClick={handleSubmit}>
                 <GiSave/>Opslaan
             </button>
         </Form>
-    {/*  TODO add details  */}
     </>
 }
 

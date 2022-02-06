@@ -4,7 +4,7 @@ import {useState} from "react";
 import {
     FiArrowDown,
     FiArrowLeft,
-    FiArrowRight, FiArrowUp, FiCheck,
+    FiArrowRight, FiArrowUp, FiCalendar, FiCheck,
     FiEdit,
     FiLock,
     FiUpload,
@@ -16,6 +16,7 @@ import {
 import {FiEye, FiEyeOff, FiMail, FiSend, FiType, FiUser} from "react-icons/fi";
 import {GiNotebook} from "react-icons/gi";
 import {SquareRootGarden} from "../../helpers/smallcontent";
+import {getToday} from "../../helpers/functions";
 
 export function Action({linkTo, linkTitle, showOnHover}){
     const [actionHovered, toggleActionHovered] = useState(false);
@@ -205,6 +206,18 @@ export function InputXAndYField({x, y, placeHolderX, placeHolderY, onChange, isR
         <SquareRootGarden count={count}/>
         </div>
     </div>
+}
+
+export function SimpleDateInput({value, handleChange}){
+    return <InputFieldWithIcon icon={<FiCalendar/>}>
+        <input
+            id='deadline'
+            type='date'
+            value={value}
+            onChange={handleChange}
+            min={getToday()}
+        />
+    </InputFieldWithIcon>
 }
 
 

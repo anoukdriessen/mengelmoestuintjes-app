@@ -72,7 +72,7 @@ export const GardensDataContextProvider = ({ children }) => {
             const response = await axios.get(`https://localhost:8443/api/tuintjes/${id}`);
             // console.log(response.data.owners)
             response.data.owners.map((owner) => {
-                console.log(owner.username)
+                // console.log(owner.username)
                 if (owner.username === auth.user.username) {
                     isUserInGarden = true;
                 }
@@ -159,6 +159,22 @@ export const GardensDataContextProvider = ({ children }) => {
             console.log(e.response)
         }
     }
+    const createNewNote = async (gardenId, newNote) => {
+        console.log(newNote);
+        let thisUser = auth.user.username;
+
+        await axios.put(`https://localhost:8443/api/tuintjes/${gardenId}/${auth.user.username}/notities`,
+            {
+                'title': newNote.title,
+                'description': newNote.description,
+            }, {
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+        setNotes([...notes, newNote]);
+    }
 
     // DELETE
     const removeNoteFromGarden = async (gardenId, note) => {
@@ -167,15 +183,10 @@ export const GardensDataContextProvider = ({ children }) => {
                 note
             )
             console.log(result);
-            let notes = [];
-            setGarden({
-                ...garden,
-                posts: [...notes],
-            })
+            fetchGardenNotes(gardenId)
         } catch (e) {
             console.error(e);
             console.log(e.response);
-            toast.error('Kan notitie niet verwijderen')
         }
     }
 
@@ -187,6 +198,7 @@ export const GardensDataContextProvider = ({ children }) => {
         fields,
         allGardens,
         allMyGardens,
+        createNewNote,
         createNewGarden,
         fetchGardenById,
         fetchGardenNotes,
@@ -195,8 +207,8 @@ export const GardensDataContextProvider = ({ children }) => {
         fetchGardenPlants,
         updateGardenName,
         addOwnerToGarden,
-        removeNoteFromGarden,
         getPlantsFromField,
+        removeNoteFromGarden,
     }
 
     return <GardensDataContext.Provider value={contextData}>

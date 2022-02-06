@@ -29,22 +29,29 @@ function FormPost({type}) {
     const [isValidDescription, setIsValidDescription] = useState(false);
 
     const handleImageChange = (e) => {
-        // console.log('changing', e.target.id, e.target.value)
-        setSelected(e.target.files[0]);
-        let file = URL.createObjectURL(e.target.files[0]);
-        let out = document.getElementById('post-img');
-        out.src = file;
-        out.onload = function() {
-            URL.revokeObjectURL(out.src) // free memory
+        const fileSize = e.target.files[0].size / 1024 / 1024; // in MiB
+        if (fileSize > 1) {
+            alert('Het bestandsformaat is te groot');
+        } else {
+            // Proceed further
+            // console.log('changing', e.target.id, e.target.value)
+            setSelected(e.target.files[0]);
+            let file = URL.createObjectURL(e.target.files[0]);
+            let out = document.getElementById('post-img');
+            out.src = file;
+            out.onload = function() {
+                URL.revokeObjectURL(out.src) // free memory
+            }
+            setPostData({
+                ...postData,
+                image: selected,
+            })
         }
-        setPostData({
-            ...postData,
-            image: selected,
-        })
+
     }
 
     const handleChange = (e) => {
-        console.log(postData)
+        // console.log(postData)
         setIsValidTitle(false);
         setIsValidSummary(false);
         setIsValidDescription(false);
@@ -121,7 +128,7 @@ function FormPost({type}) {
             postData.image
                 ? <img id='post-img' src={`data:image/jpeg;base64,${postData.image}`} alt={title}/>
                 : <img id='post-img'
-                       src='/images/emptypost.jpg'
+                       src={`/images/emptypost0.jpg`}
                        alt='empty post image'/>
             }
             <input

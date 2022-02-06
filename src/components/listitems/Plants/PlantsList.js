@@ -3,6 +3,7 @@ import PlantsDataContext from "../../../context/PlantsDataContext";
 import {getPlantCategory} from "../../../helpers/functions";
 import Card, {PlantCard} from "../Card";
 import {GiApothecary, GiFlowerPot, GiFruitBowl, GiGroundSprout, GiHerbsBundle} from "react-icons/all";
+import {useHistory} from "react-router-dom";
 
 function PlantsList() {
     const { plants, fruits, flowers, herbs, vegetables,
@@ -44,28 +45,34 @@ function PlantsList() {
     }
 
     const showAll = !showFruits && !showHerbs && !showVegetables && !showFlowers;
+    const history = useHistory();
+    const getPlantCard = (id, name, plant) => {
+        return <span key={name} onClick={()=> {history.push(`/plant/${id}`)}}>
+            <PlantCard  type={'preview'} plant={plant}/>
+        </span>
+    }
 
     // console.log(allPlants)
     return <div className={'list'}>
         <div className={'filters'}>
-            <span onClick={handleFruits}><GiFruitBowl size={50}/>Fruit</span>
-            <span onClick={handleFlowers}><GiFlowerPot size={50}/>Bloemen</span>
-            <span onClick={handleVegetables}><GiGroundSprout size={50}/>Groenten</span>
-            <span onClick={handleHerbs}><GiApothecary size={50}/>Kruiden</span>
+            <span className={'filter'} onClick={handleFruits}><GiFruitBowl size={50}/>Fruit</span>
+            <span className={'filter'} onClick={handleFlowers}><GiFlowerPot size={50}/>Bloemen</span>
+            <span className={'filter'} onClick={handleVegetables}><GiGroundSprout size={50}/>Groenten</span>
+            <span className={'filter'} onClick={handleHerbs}><GiApothecary size={50}/>Kruiden</span>
         </div>
             { !showAll &&
-                <span className={'retro'} onClick={() => {
+                <span className={'filter retro'} onClick={() => {
                     setShowFruits(false);
                     setShowFlowers(false);
                     setShowHerbs(false);
                     setShowVegetables(false);
                 }}>Verwijder filter</span>
             }
-        <ul>
+        <ul  className={'plants'}>
             { showAll &&
                 plants &&
                     plants.map((plant) => {
-                        return <PlantCard key={plant.name} type={'preview'} plant={plant}/>
+                        return getPlantCard(plant.id, plant.name, plant)
                     })
             }
             { showFruits &&
@@ -74,7 +81,7 @@ function PlantsList() {
                         <h3 className={'writing'}>{fruits.length} Fruit Soorten</h3>
                         {
                             fruits.map((plant) => {
-                                return <PlantCard key={plant.name} type={'preview'} plant={plant}/>
+                                return getPlantCard(plant.id, plant.name, plant)
                             })
                         }
                     </>
@@ -84,8 +91,8 @@ function PlantsList() {
             <>
                 <h3 className={'writing'}>{flowers.length} Bloemen Soorten</h3>
                 {
-                    flowers.map((plant) => {
-                        return <PlantCard key={plant.name} type={'preview'} plant={plant}/>
+                    flowers.map((plant) => {  return getPlantCard(plant.id, plant.name, plant)
+
                     })
                 }
             </>
@@ -95,7 +102,8 @@ function PlantsList() {
                 <h3 className={'writing'}>{vegetables.length} Groenten Soorten</h3>
                 {
                     vegetables.map((plant) => {
-                        return <PlantCard key={plant.name} type={'preview'} plant={plant}/>
+                       return getPlantCard(plant.id, plant.name, plant)
+
                     })
                 }
             </>
@@ -105,7 +113,7 @@ function PlantsList() {
             <h3 className={'writing'}>{herbs.length} Kruiden Soorten</h3>
             {
                 herbs.map((plant) => {
-                    return <PlantCard key={plant.name} type={'preview'} plant={plant}/>
+                    return getPlantCard(plant.id, plant.name, plant)
                 })
             }
         </>

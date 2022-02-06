@@ -29,6 +29,7 @@ export function Garden() {
         <div id='garden-content'>
             {viewOne && <GardenView type={1}/>}
             {viewTwo && <GardenView type={2}/>}
+            {viewThree && <GardenView type={3}/>}
             {/*{viewThree && <GardenView type={3} garden={garden}>*/}
             {/*    { fields && fields.map((field) => {*/}
             {/*        return <p>{field.name}</p>*/}

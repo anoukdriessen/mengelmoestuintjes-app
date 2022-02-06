@@ -1,50 +1,31 @@
 import {useContext, useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import {FiPenTool, FiSave, GiSave} from "react-icons/all";
-import {getUniqueId, parseMyDate, refreshPage} from "../../../helpers/functions";
+import {getRandomImage, getUniqueId, parseMyDate, refreshPage} from "../../../helpers/functions";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {FiEdit3, FiEye, FiEyeOff, FiX} from "react-icons/fi";
 import axios from "axios";
 import {toast} from "react-toastify";
 import PostsDataContext from "../../../context/PostsDataContext";
+import {SimpleTextArea, SimpleTextField} from "../../forms/FormItems";
+import Form from "../../forms/Form";
 
-function PostCard({item, type}) {
-    const {auth} = useContext(AuthDataContext);
-    const {toFind, fetchPostById} = useContext(PostsDataContext);
-
+export function PostPreview({item, imageUrl}) {
     const [active, toggleActive] = useState(false);
-    const [changeFields, toggleChangeFields] = useState(false);
-    const [showImageInput, toggleShowImageInput] = useState(false);
-    const [selected, setSelected] = useState()
-    const [deleted, isDeleted] = useState(false);
-    const [postData, setPostData] = useState({
-        title: '',
-        summary: '',
-        description: '',
-        published: false,
-    });
-    const { title, summary, description, published } = postData;
-
     const history = useHistory();
-    const params = useParams();
 
     if (item) {
-        let currentUserIsAuthor;
-        if (auth.isAuth) {
-            currentUserIsAuthor = (auth.user.username === item.author);
-        }
-        if (type === 'preview') {
-            return <div className='post-card'
-                        onMouseEnter={e => {toggleActive(true)}}
-                        onMouseLeave={e => {toggleActive(false)}}
-                        onClick={() => { history.push(`/berichten/${item.id}`); }}
+        return <div className='post-card'
+                    onMouseEnter={e => {toggleActive(true)}}
+                    onMouseLeave={e => {toggleActive(false)}}
+                    onClick={() => { history.push(`/berichten/${item.id}`); }}
             >
                 <h4>{item.title}</h4>
                 {
                     item.image !== null
                         ? <img id='post-img' src={`data:image/jpeg;base64,${item.image}`} alt={item.title}/>
                         : <img id='post-img'
-                               src='/images/emptypost.jpg'
+                               src={`/images/${imageUrl}.jpg`}
                                alt='empty post image'/>
                 }
                 <p>
@@ -61,26 +42,66 @@ function PostCard({item, type}) {
                     }}>Lees verder</span>
                 </p>
             </div>
-        } else if (type === 'blog'){
-            const handleClickChange = () => {
-                toggleChangeFields(true);
-                setPostData({
-                    id: item.id,
-                    title: item.title,
-                    summary: item.summary,
-                    description: item.summary,
-                    published: item.published,
-                    author: item.author,
-                })
-            }
-            const handleChange = (e) => {
-                // console.log('bewerk', e.target.id)
-                setPostData({
-                    ...postData,
-                    [e.target.id]: e.target.value
-                })
-            }
-            const handleImageChange = (e) => {
+        } else {
+            return null;
+        }
+}
+
+function PostCard({toFind}) {
+    const {auth} = useContext(AuthDataContext);
+    const {updatePost} = useContext(PostsDataContext);
+
+    const [changeFields, toggleChangeFields] = useState(false);
+    const [showImageInput, toggleShowImageInput] = useState(false);
+    const [selected, setSelected] = useState(toFind.image)
+    const [isValid, setIsValid] = useState(false)
+    const [deleted, isDeleted] = useState(false);
+
+    const [postData, setPostData] = useState({
+        title: '',
+        summary: '',
+        description: '',
+    });
+    const { title, summary, description, published } = postData;
+
+    const history = useHistory();
+    const params = useParams();
+
+    if (toFind) {
+        let currentUserIsAuthor;
+        if (auth.isAuth) {
+            currentUserIsAuthor = (auth.user.username === toFind.author);
+        }
+
+        const handleClickChange = () => {
+            toggleChangeFields(true);
+            setPostData({
+                id: toFind.id,
+                title: toFind.title,
+                image: toFind.image,
+                summary: toFind.summary,
+                description: toFind.summary,
+                category: toFind.category,
+                published: toFind.published,
+                author: toFind.author,
+            })
+        }
+
+        const handleChange = (e) => {
+            // console.log('bewerk', e.target.id)
+            setPostData({
+                ...postData,
+                [e.target.id]: e.target.value
+            })
+        }
+
+        const handleImageChange = (e) => {
+
+            const fileSize = e.target.files[0].size / 1024 / 1024; // in MiB
+            // console.log(fileSize)
+            if (fileSize > 1) {
+                alert('Bestandsformaat is te groot');
+            } else {
                 setSelected(e.target.files[0]);
                 let file = URL.createObjectURL(e.target.files[0]);
                 let out = document.getElementById('post-img');
@@ -90,185 +111,131 @@ function PostCard({item, type}) {
                 }
                 setPostData((prevState) => ({
                     ...prevState,
-                    image: selected,
+                    image: e.target.files[0],
                 }))
             }
-
-            const togglePublished = () => {
-                // console.log('verander published', item.id)
-                // console.log('NU=', item.published)
-                // console.log('CHANGE TO=', !item.published)
-                try {
-                    const result = axios.put(`https://localhost:8443/api/berichten/${item.id}/${!item.published}`)
-                    setPostData((prevState) => ({
-                        ...prevState,
-                        published: !published,
-                    }))
-                    // console.log(result);
-                    let visible = 'gepubliceerd'
-                    if (postData.published) {
-                        visible = 'een privé concept'
-                    }
-                    toast.success(`${item.title} is nu ${visible}`)
-                } catch (e) {
-                    console.error(e)
-                    console.log(e.response)
-                }
-                toggleChangeFields(false);
-            }
-
-            const handleSave = async (e) => {
-                // console.log(postData)
-                let modified = {
-                    title: postData.title,
-                    summary: postData.summary,
-                    description: postData.description,
-                    published: postData.published,
-                    category: postData.category,
-                }
-                try {
-                    const result = await axios.put(`https://localhost:8443/api/berichten/${item.id}`,
-                        modified,
-                        {
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${localStorage.getItem('token')}`
-                            }, params: {
-                                published: false
-                            }
-                        });
-                    // console.log(result);
-                    if (selected) {
-                        // console.log(selected);
-                        const formData = new FormData();
-                        let file = selected;
-                        formData.append('photo', file, 'image');
-                        try {
-                            await axios.post(`https://localhost:8443/api/berichten/${postData.id}/upload`,
-                                formData,
-                                { headers: {
-                                        'Content-Type': `multipart/form-data; boundary=photo`,
-                                        "Authorization": `Bearer ${localStorage.getItem('token')}`,
-                                    }, params: {
-                                        photo: file
-                                    }
-                                });
-                        } catch (e) {
-                            console.error(e);
-                            console.log(e.response);
-                        }
-                    }
-                    toggleChangeFields(false);
-                } catch (e) {
-                    console.error(e);
-                    console.log(e.response);
-                }
-            }
-
-            const handleDelete = async (e) => {
-                try {
-                    const result = await axios.delete(`https://localhost:8443/api/berichten/${item.id}`,
-                        {
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${localStorage.getItem('token')}`
-                            }
-                        })
-                    // console.log(result);
-                    toggleChangeFields(false);
-                    isDeleted(true);
-                } catch (e) {
-                    console.error(e);
-                    console.log(e.response);
-                }
-            }
-
-            return <div className='single-post-card' key={item.id}>
-                {
-                    !deleted && currentUserIsAuthor && <div className='is-author'>
-                        <span className='link'>{!changeFields ? <FiEdit3 onClick={handleClickChange}/> : <GiSave onClick={handleSave}/>}</span>
-                        { changeFields && <span className='link' onClick={handleDelete}><FiX/>Verwijder bericht</span> }
-                        <span className='link' onClick={togglePublished}>{ !published ? <FiEyeOff/> : <FiEye/> }</span>
-                    </div>
-                }
-                {
-                    !changeFields
-                        ? <h4>{item.title}</h4>
-                        : <input
-                            id='title'
-                            type='text'
-                            placeholder='Titel van bericht'
-                            value={title}
-                            onChange={handleChange}
-                            maxLength={50}
-                            required={true}
-                        />
-                }
-                <span className={`author ${deleted ? 'failure' : null}`}>
-                    {!deleted && published ? 'CONCEPT' : null}
-                    {deleted ? 'VERWIJDERD' : null}
-                    <span>Geschreven door: </span>@{item.author}</span>
-                {
-                    !changeFields
-                        ? <p className='body'>
-                            {
-                                item.image !== null
-                                    ? <img id='post-img' src={`data:image/jpeg;base64,${item.image}`} alt={item.title}/>
-                                    : <img id='post-img'
-                                           src='/images/emptypost.jpg'
-                                           alt='empty post image'/>
-                            }
-
-                            <span className='summary'>{ item.summary }</span>
-                            <span className='description'>{ item.description }</span>
-                        </p>
-                        : <p>
-                            {
-                                postData.image !== null
-                                    ? <img id='post-img' src={`data:image/jpeg;base64,${item.image}`} alt={item.image}/>
-                                    : <img id='post-img'
-                                           src='/images/emptypost.jpg'
-                                           alt='empty post image'/>
-                            }
-                            { showImageInput && <input
-                                    id='photo'
-                                    type='file'
-                                    name='photo'
-                                    accept='image/png, image/jpeg'
-                                    onChange={handleImageChange}
-                                    required={false}
-                                />
-                            }
-                            <span onClick={() => toggleShowImageInput((prevState => !prevState))}>
-                                {!showImageInput ? 'VERANDER AFBEELDING' : '' }
-                            </span>
-                            <textarea
-                                className='summary'
-                                id='summary'
-                                placeholder='Beschrijf in het kort je bericht'
-                                value={summary}
-                                onChange={handleChange}
-                                maxLength={200}
-                                required={true}
-                            />
-                            <textarea
-                                className='description'
-                                id='description'
-                                placeholder='Begin hier met het schrijven van je bericht...'
-                                value={description}
-                                onChange={handleChange}
-                                maxLength={255}
-                                required={true}
-                            />
-                        </p>
-                }
-
-            </div>;
-        } else {
-            return null
         }
+
+        const togglePublished = () => {
+            toggleChangeFields(false);
+            console.log(published)
+            try {
+                const result = axios.put(`https://localhost:8443/api/berichten/${toFind.id}/${!published}`)
+                setPostData((prevState) => ({
+                    ...prevState,
+                    published: !published,
+                }))
+            } catch (e) {
+                console.error(e)
+                console.log(e.response)
+            }
+        }
+
+        const handleSave = async (e) => {
+            // console.log(modified, postData.id, selected)
+            updatePost(postData.id, postData, selected);
+            toggleChangeFields(false);
+        }
+
+        const handleDelete = async (e) => {
+            try {
+                const result = await axios.delete(`https://localhost:8443/api/berichten/${toFind.id}`,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem('token')}`
+                        }
+                    })
+                // console.log(result);
+                toggleChangeFields(false);
+                isDeleted(true);
+            } catch (e) {
+                console.error(e);
+                console.log(e.response);
+            }
+        }
+
+        return <div className='single-post-card' key={toFind.id}>
+            {
+                !deleted &&
+                currentUserIsAuthor &&
+                <div className='is-author'>
+                    <span className='link'>{!changeFields ? <FiEdit3 onClick={handleClickChange}/> : <GiSave size={25} onClick={handleSave}/>}</span>
+                    { changeFields &&
+                    <span className='link' onClick={handleDelete}><FiX size={25}/>Verwijder bericht</span> }
+                    <span className='link' onClick={togglePublished}>{ published ? <FiEyeOff size={25}/> : <FiEye size={25}/> }</span>
+                </div>
+            }
+            <div className={'single-item'}>
+            {
+                !changeFields
+                    ? <h4>{toFind.title}</h4>
+                    : <SimpleTextField
+                        item={title}
+                        name={'title'}
+                        placeHolder={'Titel van bericht'}
+                        onChange={handleChange}
+                        isRequired={true}
+                        max={50}
+                    />
+            }
+            <span className={`author ${deleted ? 'failure' : null}`}>
+                {!deleted && published ? 'CONCEPT' : null}
+                {deleted ? 'VERWIJDERD' : null}
+                <span>Geschreven door: </span>@{toFind.author}</span>
+            {
+                !changeFields
+                    ? <div className='body'>
+                        {
+                            toFind.image !== null
+                                ? <img id='post-img' src={`data:image/jpeg;base64,${toFind.image}`} alt={toFind.title}/>
+                                : <img id='post-img'
+                                       src={`/images/emptypost0.jpg`}
+                                       alt='empty post image'/>
+                        }
+                        <span className='summary'>{toFind.summary}</span>
+                        <span className='description'>{toFind.description}</span>
+                    </div>
+                    : <div>
+                        <div className={'inputField img'}>
+                            {
+                            postData.image
+                                ? <img id='post-img' src={`data:image/jpeg;base64,${postData.image}`} alt={title}/>
+                                : <img id='post-img'
+                                       src={`/images/emptypost0.jpg`}
+                                       alt='empty post image'/>
+                        }
+                            <input
+                                id='image'
+                                type='file'
+                                name='image'
+                                accept='image/png, image/jpeg'
+                                onChange={handleImageChange}
+                                required={false}
+                            />
+                        </div>
+                        <SimpleTextArea
+                            item={summary}
+                            name={'summary'}
+                            placeHolder={'Beschrijf het bericht'}
+                            onChange={handleChange}
+                            isRequired={true}
+                            max={255}
+                        />
+                        <SimpleTextArea
+                            item={description}
+                            name={'description'}
+                            placeHolder={'Begin hier met je verhaal'}
+                            onChange={handleChange}
+                            isRequired={true}
+                            max={255}
+                        />
+                    </div>
+            }
+            </div>
+        </div>;
     } else {
-        return null;
+        return null
     }
 }
 

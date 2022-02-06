@@ -7,7 +7,16 @@ import GardensDataContext, {GardensDataContextProvider} from "../../context/Gard
 import {UserDataContextProvider} from "../../context/UserDataContext";
 import {ActionLink, BasicPageContentNav} from "../../components/pageitems/PageContentNav";
 import {FiEdit3, FiPlus, FiX} from "react-icons/fi";
-import {FiArrowDown, FiArrowLeft, FiXCircle, GiSave} from "react-icons/all";
+import {
+    FiArrowDown,
+    FiArrowLeft,
+    FiXCircle,
+    GiApothecary, GiChemicalDrop, GiDroplets,
+    GiFlowerPot,
+    GiFruitBowl,
+    GiGroundSprout,
+    GiSave, GiWaterDrop
+} from "react-icons/all";
 import Form from "../../components/forms/Form";
 import {InputXAndYField, SimpleTextField} from "../../components/forms/FormItems";
 import FormGarden from "../../components/forms/FormGarden";
@@ -17,30 +26,64 @@ import PlantsList from "../../components/listitems/Plants/PlantsList";
 import {useHistory, useParams} from "react-router-dom";
 import {ShowAndHideSinglePlant} from "../../components/listitems/ShowAndHide";
 import PlantView from "../../components/listitems/Plants/PlantView";
+import {getIconLevelAndType, getNameLevel, getNumberLevel, getPlantCategory} from "../../helpers/functions";
+import NotFound from "../NotFound";
+
+export function Detail(name, message, requirement, isLvl,  lvl1, lvl2, lvl3) {
+    const [showInfo, toggleShowInfo] = useState(false);
+    const levels = ['LOW', 'MEDIUM', 'HIGH'];
+
+    return  <div className={`details ${name}`}
+                            onMouseOver={() => { toggleShowInfo(true)}}
+                            onMouseOut={() => { toggleShowInfo(false)}}
+            >
+                <span className={` ${requirement === levels[getNumberLevel(requirement)] ? 'enabled': 'disabled'} `}>{ getIconLevelAndType(requirement, name)}
+                    { showInfo && <span>[ { getNameLevel(requirement) } ] {name}</span> }
+                </span>
+    </div>
+}
 
 export function Plant() {
-    const { plant, fetchPlantById } = useContext(PlantsDataContext)
+    const { plant, findPlantById } = useContext(PlantsDataContext)
 
-    const [thisPlant, setThisPlant] = useState({
-        item: {
-            name: plant.name,
-            description: plant.description,
-        }
-    })
+    const [showInfoWater, toggleShowInfoWater] = useState(false)
 
     const params = useParams();
+    const history = useHistory();
 
 
     useEffect(() => {
-        fetchPlantById(params.id);
+        findPlantById(params.id);
     }, []);
 
-    console.log(plant, thisPlant);
-
+    const details = plant.details;
+    // console.log(details)
     return<>
+        <span className={'link back'} onClick={() => {history.push('/planten')}}>
+            <FiArrowLeft size={23}/>
+        </span>
         <div id='plant-content'>
-            hallo
-            {/*{viewOne && <PlantView type={1}/>}*/}
+            {
+                plant
+                    ? <>
+                        <div className={'header'}>
+                            {
+                                getPlantCategory(plant.category, 60)
+                            }
+                            <h2>{plant.name}</h2>
+                            {/*{plant.details.official ? -*/}
+                            {/*<span> {plant.details.official}</span> : ''}*/}
+                        </div>
+                        <p className={'description'}>{plant.description}</p>
+                        <div className={'details'}>
+                            <h4 className={'writing'}>
+                                details coming soon
+                            </h4>
+                        </div>
+                        {/*{viewOne && <PlantView type={1}/>}*/}
+                    </>
+                    : <NotFound />
+            }
         </div>
     </>
 }

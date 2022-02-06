@@ -54,10 +54,6 @@ function App() {
                 <Profile/>
             </Route>
 
-            <Route path={'/dashboard'}>
-                <Dashboard/>
-            </Route>
-
             <Route path={'/tuintjes'}>
                 <Gardens/>
             </Route>
@@ -72,6 +68,10 @@ function App() {
 
             <Route path={'/plant/:id'}>
                 <SinglePlant/>
+            </Route>
+
+            <Route path={'/dashboard'}>
+                <Dashboard/>
             </Route>
 
             <Route path='/terms-and-privacy'>

@@ -5,18 +5,23 @@ import {UserDataContextProvider} from "../../context/UserDataContext";
 import PostCards from "../../components/listitems/Posts/PostCards";
 import {PostsDataContextProvider} from "../../context/PostsDataContext";
 import {AuthDataContext} from "../../context/AuthDataContext";
-import {FiPlus, FiX} from "react-icons/fi";
+import {FiX} from "react-icons/fi";
 import {BasicPageContentNav} from "../../components/pageitems/PageContentNav";
-import FormGarden from "../../components/forms/FormGarden";
-import GardensList from "../../components/listitems/Gardens/GardensList";
-import PostForm from "../../components/forms/types/PostForm";
 import FormPost from "../../components/forms/FormPost";
 
 function Posts() {
-    const { auth, hasUserRole } = useContext(AuthDataContext)
+    const { hasUserRole } = useContext(AuthDataContext)
     const [createNew, toggleCreateNew] = useState(false);
 
     // console.log(hasUserRole("ROLE_MODERATOR"))
+    let create = false;
+    let show = null;
+    let toggle = null;
+    if (hasUserRole("ROLE_MODERATOR")) {
+        create = true;
+        show = createNew;
+        toggle = toggleCreateNew;
+    }
 
     return <>
         <PageHeader title='Berichten'/>
@@ -24,11 +29,12 @@ function Posts() {
             <UserDataContextProvider>
                 <PostsDataContextProvider>
                     <BasicPageContentNav
-                        hasCreate={true}
-                        showCreate={createNew}
-                        toggleShowCreate={toggleCreateNew}
+                        hasCreate={create}
+                        showCreate={show}
+                        toggleShowCreate={toggle}
                     >
-                        { hasUserRole("ROLE_MODERATOR") && createNew && <>
+                        { hasUserRole("ROLE_MODERATOR") &&
+                        createNew && <>
                             <span className={'link action'} onClick={
                                 () => {
                                     toggleCreateNew(false);
@@ -43,11 +49,10 @@ function Posts() {
                                 <FormPost type={'BLOG'}/>
                     }
 
-                    <>filter berichten per provincie</>
                     <PostCards
                         title='Recente blogberichten'
                         type='blog'
-                        num={20}
+                        num={30}
                     />
                 </PostsDataContextProvider>
             </UserDataContextProvider>

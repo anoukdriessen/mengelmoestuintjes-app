@@ -22,10 +22,10 @@ export function CardHeader({icon, nr, title}) {
         {icon} Nr. [{nr}] <span className={'retro'}>{title}</span>
     </div>
 }
-function Card({children, useId, className, icon, nr, title}) {
+function Card({children, useId, className, icon, nr, title, hideCardHeader}) {
 
     return <div id={useId} className={`card ${className}`}>
-        <CardHeader icon={icon} nr={nr} title={title}/>
+        { hideCardHeader ? null : <CardHeader icon={icon} nr={nr} title={title}/> }
         {children}
     </div>
 }

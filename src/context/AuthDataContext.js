@@ -145,6 +145,32 @@ function AuthContextProvider({ children }) {
         return false;
     }
 
+    const giveUserXp = async (xp) => {
+        console.log('setting xp', xp)
+        try {
+            const result = await axios.patch(`https://localhost:8443/api/gebruikers/${auth.user.username}/xp/${xp}`, {},
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+            setAuth({
+                ...auth,
+                user: {
+                    ...auth.user,
+                    details: {
+                        ...auth.user.details,
+                        currentXP: result.data,
+                    }
+                }
+            })
+        } catch (e) {
+            console.error(e)
+            console.log(e.response)
+        }
+    }
+
     const contextData = {
         auth,
         authenticate,
@@ -156,6 +182,7 @@ function AuthContextProvider({ children }) {
         setError,
         success,
         setSuccess,
+        giveUserXp,
     }
 
     return (

@@ -167,6 +167,7 @@ nav img {
 #dashboard #main-content {
     flex: 1;
     min-width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -176,6 +177,11 @@ nav img {
 
 #dashboard #main-content #post-cards {
     max-width: 100%;
+}
+
+p.not-found {
+    min-width: 200px;
+    max-width: 800px;
 }
 
 @media screen and (min-width: 720px) {
@@ -231,7 +237,12 @@ nav img {
         padding-left: 5px;
     }
     #dashboard #main-content #post-cards {
-        max-width: 75%;
+        max-width: 70%;
+        overflow: scroll;
+    }
+
+    #page-navigation .overlay-content ul li a .nav-icon {
+        font-size: 15px;
     }
 
 }

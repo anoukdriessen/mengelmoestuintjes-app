@@ -2,7 +2,7 @@
 form.primary {
     max-width: 400px;
 }
-form.primary input {
+form.primary input, .single-item input {
     min-width: 300px;
     max-width: 400px;
     border: none;
@@ -12,7 +12,7 @@ form.primary input {
     font-size: 1.7em;
 }
 
-form.primary .inputField {
+form.primary .inputField, .single-item .inputField {
     border: 3px solid transparent;
     padding: 5px;
     margin: 10px 0;
@@ -22,20 +22,37 @@ form.primary .inputField {
     justify-content: center;
     align-items: center;
 }
+.single-item {
+    min-width: 320px;
+}
+.single-item .inputField.img  {
+    max-width: 500px;
+}
+span.author {
+    text-align: center;
+}
+
+#post-img {
+    min-width: 320px;
+    max-width: 320px;
+    min-height: 320px;
+    max-height: 320px;
+}
 
 
 /* input type for form */
-form input[type="checkbox"] {
+input[type="checkbox"] {
     cursor: pointer;
     width: 21px;
     height: 21px;
 }
-form input[type="file"] {
+input[type="file"] {
     cursor: pointer;
-    max-width: 200px;
+    width: 320px;
+    max-width: 320px;
 }
 
-form select {
+select {
     width: 100%;
     border: none;
     padding: 5px 0 0 5px;
@@ -49,7 +66,8 @@ form svg {
     width: 20px;
     height: 20px;
 }
-form textarea {
+
+textarea {
     border: none;
     padding: 5px;
     min-width: 300px;

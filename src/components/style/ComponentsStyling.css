@@ -115,6 +115,13 @@ hr {
     outline: 5px solid var(--lighter-blue);
     margin-right: 15px;
 }
+.card.profile.small {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    min-width: 320px;
+    max-width: 320px;
+}
 
 .card .user-card-header {
     flex: 1;
@@ -211,25 +218,48 @@ button[type="submit"] svg {
     min-height: 55px;
     max-height: 55px;
 }
-.to-do-container.show-and-hide {
+.to-do-container .show-and-hide {
+    min-width: 400px;
     max-width: 500px;
 }
+#main-content .show-and-hide {
+    align-self: flex-start;
+    min-width: 400px;
+    max-width: 500px;
+}
+
+.plants {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.plants div {
+    flex: 1;
+    cursor: pointer;
+}
+.plants div:hover {
+    background-color: var(--orange);
+    transition: 0.7s;
+}
+
 .show-and-hide span {
     padding: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    border-radius: var(--s-round-borders);
     margin: 0 3px;
 }
 .show-and-hide span.selected {
     background-color: var(--orange);
     width: 100%;
+    min-width: 33%;
 }
 .show-and-hide span.hidden {
     background-color: var(--lighter-orange);
     width: 100%;
+    min-width: 33%;
 }
 #post-cards .show-and-hide {
     min-width: 100%;
@@ -601,6 +631,12 @@ button[type="submit"] svg {
     overflow: auto;
     box-shadow: 2px 2px 2px 2px var(--main-dark);
     justify-content: center;
+    min-width: 320px;
+    min-height: 320px;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
 }
 
 
@@ -732,14 +768,7 @@ button[type="submit"] svg {
     border: none;
 }
 
-@media screen and (min-width: 1000px) {
-    #garden-content-owners ul {
-        flex-direction: row;
-    }
-    #garden-content-owners .note-card.todo {
-        min-width: 25%;
-    }
-}
+
 
 .plant-preview {
     object-fit: fill;
@@ -761,8 +790,116 @@ button[type="submit"] svg {
     align-items: center;
 }
 
-.filters span {
+.list .filters .filter {
+    cursor: pointer;
     flex: 1;
     min-width: 50%;
-    padding: 15px;
+    padding: 0.5rem;
+}
+.list .filters .filter:hover {
+    background-color: var(--darker-green);
+    color: var(--main-light);
+    transition: 1s;
+    border-radius: var(--r-borders);
+}
+
+.list .filters .filter:hover svg {
+    color: var(--lighter-blue);
+    transition: 1s;
+}
+.list .filters .filter:hover {
+    text-decoration: 1px solid underline var(--darker-green);
+}
+.list .filters .filter:hover::after {
+    content: ">>>";
+    color: var(--orange);
+    transition: 1s;
+}
+.list .filter {
+    cursor: pointer;
+    text-align: center;
+}
+.list .filter:hover {
+    text-decoration: 1px underline var(--green);
+}
+
+#plant-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    min-width: 320px;
+    padding: 1.5rem;
+}
+
+#plant-content .header {
+    flex: 1;
+    min-width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 20px;
+    text-transform: capitalize;
+}
+
+span.link.back {
+    align-self: flex-start;
+}
+
+span.link.back:hover::after {
+    content: "Ga terug";
+}
+
+#plant-content .description {
+    flex: 1;
+    min-width: 100%;
+    padding: 1rem;
+}
+
+#plant-content .details {
+    min-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#plant-content .details div {
+    flex: 1;
+    min-width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    cursor: pointer;
+}
+#plant-content .details svg {
+    width: 33px;
+    height: 33px;
+}
+#plant-content .details span.enabled {
+    color: var(--green);
+}
+#plant-content .details span.disabled {
+    color: var(--main-light);
+}
+@media screen and (min-width: 600px){
+    .tile, .tile img {
+        min-width: 75px;
+        min-height: 75px;
+        transition: 1s;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    #garden-content-owners ul {
+        flex-direction: row;
+    }
+    #garden-content-owners .note-card.todo {
+        min-width: 25%;
+    }
+    .list .filters .filter {
+        min-width: 10%;
+    }
 }

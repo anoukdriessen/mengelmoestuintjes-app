@@ -13,13 +13,9 @@ export function GardenToDo({item}) {
     const [isDone, toggleIsDone] = useState(item.done);
 
     const handleFinished = async (itemId) => {
-        console.log('finish task', itemId);
+        // console.log('finish task', itemId);
         if (item.owner === auth.user.username) {
             deleteTask(itemId);
-            toast.success('Taak is verwijderd');
-            refreshPage();
-        } else {
-            toast.error('Alleen de eigenaar kan de taak voltooien')
         }
     }
 
@@ -42,8 +38,6 @@ export function GardenToDo({item}) {
 
 function GardenTaskList({tasks, owner}) {
     let count = 0;
-    // console.log('in garden to do list', tasks)
-    // console.log('in garden to do list', owner)
     return <>
         {
             tasks &&
@@ -53,7 +47,7 @@ function GardenTaskList({tasks, owner}) {
                         if (task.owner === owner) {
                             if (count < 3) {
                                 count++;
-                                return <GardenToDo key={task.owner + task.id} item={task}/>
+                                return <GardenToDo key={task.id} item={task}/>
                             }
                         }
                     }

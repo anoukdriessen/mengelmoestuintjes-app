@@ -46,7 +46,7 @@ export const TasksDataContextProvider = ({ children }) => {
                         "Authorization": `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-            // console.log(result.data)
+            console.log(result.data)
             setToDo(result.data)
             setToDoTasks([...toDoTasks, result.data]);
         } catch (e) {
@@ -94,57 +94,27 @@ export const TasksDataContextProvider = ({ children }) => {
         }
     }
 
-    // const getExpiredTasks = () => {
-    //     let expired = [];
-    //     let count = 0;
-    //     toDoTasks.map((task) => {
-    //         if (task.deadline < getToday()) {
-    //             // get to do expired
-    //             expired[count] = task;
-    //             count++;
-    //         }
-    //     });
-    //     setExpiredTasks([...expired]);
-    // }
+    const fetchGardeningTasks = async () => {
+        setIsLoading(true);
+        try {
+            if (auth.isAuth) {
+                const response = await axios.get(`https://localhost:8443/api/gebruikers/${auth.user.username}/taken/GARDENING`,
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${localStorage.getItem('token')}`
+                        }
+                    });
+                // console.log('fetch to do', response);
+                setToDoGardening(response.data);
+                setIsLoading(false);
+            }
+        } catch (e) {
+            console.error(e)
+            console.log(e.response)
+        }
+    }
 
-    // const getTodayTasks = () => {
-    //     let today = [];
-    //     let count = 0;
-    //     toDoTasks.map((task) => {
-    //         if (task.deadline === getToday()) {
-    //             // get to do expired
-    //             today[count] = task;
-    //             count++;
-    //         }
-    //     });
-    //     setTodayTasks([...today]);
-    // }
-
-    // const getTomorrowTasks = () => {
-    //     let tomorrow = [];
-    //     let count = 0;
-    //     toDoTasks.map((task) => {
-    //         if (task.deadline === getTomorrow()) {
-    //             // get to do expired
-    //             tomorrow[count] = task;
-    //             count++;
-    //         }
-    //     });
-    //     return tomorrow;
-    // }
-
-    // const getSoonTasks = () => {
-    //     let soon = [];
-    //     let count = 0;
-    //     toDoTasks.map((task) => {
-    //         if (task.deadline > getTomorrow()) {
-    //             // get to do expired
-    //             soon[count] = task;
-    //             count++;
-    //         }
-    //     });
-    //     return soon;
-    // }
 
     // UPDATE
     const updateTask = async (toUpdate, task) => {
@@ -217,6 +187,8 @@ export const TasksDataContextProvider = ({ children }) => {
         createNewTask,
         fetchTaskById,
         toDoTasks,
+        fetchGardeningTasks,
+        toDoGardening,
         updateTask,
         finishTask,
         deleteTask,

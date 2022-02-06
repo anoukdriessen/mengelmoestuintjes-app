@@ -13,12 +13,13 @@ import {FiMinus, FiPlus, FiUser, FiX} from "react-icons/fi";
 import {refreshPage} from "../../helpers/functions";
 import QuoteDataContext, {QuoteDataContextProvider} from "../../context/QuoteDataContext";
 import DashboardTopic from "../../components/pageitems/DashboardTopic";
-import {BsFillChatLeftQuoteFill, BsFillChatQuoteFill} from "react-icons/all";
+import {BsFillChatLeftQuoteFill, BsFillChatQuoteFill, FiArrowLeft, FiArrowRight} from "react-icons/all";
 import QuoteItem from "../../components/listitems/Quotes/QuoteItem";
 import QuotesDashboard from "../../components/listitems/Quotes/QuotesDashboard";
 import UserAndRoles from "../../components/listitems/Users/UserAndRolesDashboard";
 import UserAndRolesDashboard from "../../components/listitems/Users/UserAndRolesDashboard";
 import {UserDataContextProvider} from "../../context/UserDataContext";
+import {useHistory} from "react-router-dom";
 
 function Dashboard() {
     const { auth, hasUserRole } = useContext(AuthDataContext);
@@ -34,18 +35,22 @@ function Dashboard() {
     });
     let {text, author} = foundQuote;
 
-    const [showPlants, toggleShowPlants] = useState(false);
-    const [showUserAndRoles, toggleShowUserAndRoles] = useState(false);
-    const [showQuotes, toggleShowQuotes] = useState(false);
-    const [showNotes, toggleShowNotes] = useState(false);
-    const [showBlog, toggleShowBlog] = useState(false);
-    const [showAcademy, toggleShowAcademy] = useState(false);
+    const [showPlants, toggleShowPlants] = useState(true);
+    const [showUserAndRoles, toggleShowUserAndRoles] = useState(true);
+    const [showQuotes, toggleShowQuotes] = useState(true);
+    const [showNotes, toggleShowNotes] = useState(true);
+    const [showBlog, toggleShowBlog] = useState(true);
+    const [showAcademy, toggleShowAcademy] = useState(true);
 
     let today = new Date().toDateString();
+    const history =useHistory();
 
     return <>
             <PageHeader title={auth.user.username}/>
             <PageContent>
+                <span className={'link'}>
+            <sup>scroll</sup><FiArrowRight size={23}/>
+        </span>
                 <div id='moderator-dashboard'>
                     <DashboardTopic
                         image={'https://images.unsplash.com/photo-1495908333425-29a1e0918c5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'}

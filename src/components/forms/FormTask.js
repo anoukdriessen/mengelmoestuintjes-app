@@ -2,7 +2,7 @@ import {useContext, useState} from "react";
 import TasksDataContext from "../../context/TasksDataContext";
 import {AuthDataContext} from "../../context/AuthDataContext";
 import Form from "./Form";
-import {SimpleTextArea} from "./FormItems";
+import {Message, SimpleTextArea} from "./FormItems";
 import {GiSave} from "react-icons/all";
 import {toast} from "react-toastify";
 import {refreshPage} from "../../helpers/functions";
@@ -24,10 +24,8 @@ function FormTask({taskType}) {
             }
             // console.log('create task', newTask)
             createNewTask(auth.user, newTask);
-            toast.success('taak geplaatst');
-            refreshPage();
         } else {
-            toast.error('taak mag niet leeg zijn')
+            alert('Taak mag niet leeg zijn');
         }
     }
 
@@ -35,17 +33,9 @@ function FormTask({taskType}) {
         setTask(e.target.value);
     }
 
-    // const handleChanges = (e) => {
-    //     setThisTask({
-    //         ...thisTask,
-    //         [e.target.id]: e.target.value,
-    //     });
-    // }
-
     return <>
         <Form
             type={'primary'}
-            onSumbit={handleSubmit}
             isDisabled={!isValid}
         >
             <SimpleTextArea

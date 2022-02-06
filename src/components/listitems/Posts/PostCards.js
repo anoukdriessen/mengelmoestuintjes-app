@@ -1,15 +1,14 @@
 import '../style/postcard.css';
 import {getUniqueId, sortArrayById} from "../../../helpers/functions";
-import PostCard from "./PostCard";
-import {useContext} from "react";
+import PostCard, {PostPreview} from "./PostCard";
+import {useContext, useState} from "react";
 import PostsDataContext from "../../../context/PostsDataContext";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import ItemNotFound from "../ItemNotFound";
 
-function PostCards({title, type, num}) {
+function PostCards({title, num}) {
     const { auth } = useContext(AuthDataContext);
     const { blogPosts, allPublicPosts } = useContext(PostsDataContext);
-
     let posts = [];
     let list = [];
 
@@ -24,7 +23,7 @@ function PostCards({title, type, num}) {
 
 
     sortArrayById(posts);
-    posts.reverse();
+    // posts.reverse();
     if (posts.length < 1) {
         return <ItemNotFound title={'Berichten'}/>
     }
@@ -32,16 +31,17 @@ function PostCards({title, type, num}) {
     for (let i = 0; i < num; i++) {
         list[i] = posts[i]
     }
+    const postImages = ['emptypost2', 'emptypost3', 'emptypost4', 'emptypost5', 'emptypost6']
     return <>
         <h4>{title}</h4>
         <div id='post-cards'>
             {
                 list.map((item) => {
-                    let myKey = getUniqueId();
-                    if (item) {
-                        myKey = item.id
+                    if (item){
+                        return <PostPreview key={item.id} item={item} imageUrl={postImages[4]}/>
+                    } else {
+                        return null
                     }
-                    return <PostCard key={myKey} item={item} type='preview'/>
                 })
             }
         </div>

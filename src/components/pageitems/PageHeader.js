@@ -1,9 +1,10 @@
-import {FiMenu, FiUser, FiX} from 'react-icons/fi'
+import {FiLogOut, FiMenu, FiTrello, FiUser, FiX} from 'react-icons/fi'
 import React, {useContext, useState} from "react";
 import AuthContextProvider, {AuthDataContext} from "../../context/AuthDataContext";
 import {NavLink} from "react-router-dom";
-import {GiBookshelf, GiMushroomHouse, GiNotebook, GiWoodenSign} from "react-icons/gi";
+import {GiBookshelf, GiDatabase, GiGraveFlowers, GiMushroomHouse, GiNotebook, GiWoodenSign} from "react-icons/gi";
 import ListDataContext from "../../context/ListDataContext";
+import {GiButterflyFlower, GiFlowerPot} from "react-icons/all";
 
 export function MyNavLink(isExact, title, link, icon) {
     if(isExact) {
@@ -26,6 +27,7 @@ function NavLinks() {
 
     let pages = [
         { title: 'Home', icon: <GiMushroomHouse/>, link: '/' },
+        { title: 'Planten', icon: <GiButterflyFlower/>, link: '/planten' },
         { title: 'Blog', icon: <GiNotebook/>, link: '/blog' },
     ]
 
@@ -38,7 +40,7 @@ function NavLinks() {
 
     if (hasUserRole("ROLE_MODERATOR")) {
         pages = [...pages,
-            { title: 'Dashboard', icon: <GiMushroomHouse/>, link: '/home' },
+            { title: 'Dashboard', icon: <FiTrello/>, link: '/dashboard' },
             { title: 'Academy', icon: <GiBookshelf/>, link: '/academy' },
         ]
     }
@@ -70,19 +72,16 @@ function NavLinks() {
                     }
                 })
             }
+            {loggedIn ? <ul id='secondary-nav'>
+                <li>
+                    <NavLink activeClassName='active' to={`/`} onClick={logout}>Uitloggen</NavLink></li>
+            </ul> : <ul id='secondary-nav'>
+                <li>
+                    <NavLink activeClassName='active' to={'/login'}>Inloggen</NavLink>
+                    <NavLink activeClassName='active' to={'/registreren'}>Registreren</NavLink>
+                </li>
+            </ul>}
         </ul>
-
-        <img src='https://images.unsplash.com/photo-1603729336521-9bff55419157?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80' alt='bord in community garden'/>
-
-        {loggedIn ? <ul id='secondary-nav'>
-            <li>
-                <NavLink activeClassName='active' to={`/`} onClick={logout}>Uitloggen</NavLink></li>
-        </ul> : <ul id='secondary-nav'>
-            <li>
-                <NavLink activeClassName='active' to={'/login'}>Inloggen</NavLink>
-                <NavLink activeClassName='active' to={'/registreren'}>Registreren</NavLink>
-            </li>
-        </ul>}
     </nav>
 }
 
