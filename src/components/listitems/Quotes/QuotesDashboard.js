@@ -1,17 +1,10 @@
-import {useContext, useEffect, useState} from "react";
-import ListDataContext from "../../../context/ListDataContext";
-import Card from "../Card";
-import {FiEdit3, FiLoader, FiRefreshCw, FiSend, FiUser, FiX} from "react-icons/fi";
-import Button from "../../Button";
-import ListStats from "../ListStats";
-import QuoteForm from "../../forms/types/QuoteForm";
-import QuoteItem from "./QuoteItem";
+import {useContext, useState} from "react";
+import {FiSend, FiUser, FiX} from "react-icons/fi";
 import QuoteDataContext from "../../../context/QuoteDataContext";
 import ItemNotFound from "../ItemNotFound";
 import {InputFieldWithIcon} from "../../forms/FormItems";
 import {BsFillChatQuoteFill, GiSave} from "react-icons/all";
-import {toast} from "react-toastify";
-import {refreshPage} from "../../../helpers/functions";
+import Form from "../../forms/Form";
 
 function QuotesDashboard() {
     const { quotes, toUpdate, createQuote, updateQuote, deleteQuote, isLoading } = useContext(QuoteDataContext)
@@ -21,6 +14,8 @@ function QuotesDashboard() {
         author: '',
     })
     const { text, author } = thisQuote
+    const [message, setMessage] = useState('');
+
     if (!quotes || isLoading) {
         return <ItemNotFound title={'Quote'}/>
     }
@@ -55,13 +50,13 @@ function QuotesDashboard() {
             await updateQuote(thisQuote.id, thisQuote);
             isUpdate(false);
             clearThisQuote();
-            toast.success('Quote is aangepast')
+            setMessage('quote is aangepast')
         } else {
             // new quote
             console.log('add new quote', thisQuote);
             await createQuote(thisQuote);
             clearThisQuote();
-            toast.success(`${thisQuote.text} is geplaatst`)
+            setMessage('quote is geplaatst')
         }
     }
     const handleDelete = async () => {
@@ -69,7 +64,7 @@ function QuotesDashboard() {
         try {
             await deleteQuote(thisQuote.id, thisQuote);
             clearThisQuote();
-            toast.success('quote verwijderd')
+            setMessage('quote is verwijderd')
         } catch (e) {
             console.error(e);
             console.log(e.response);
@@ -83,10 +78,10 @@ function QuotesDashboard() {
             author: quote.author,
         })
         console.log('trying to change', quote);
-        toast.info(`Verander quote nr ${quote.id}`)
+        setMessage('');
     }
     return <>
-        <form id='quotes' onSubmit={handleSubmit}>
+        <Form type={'primary'} id='quotes'>
             <InputFieldWithIcon icon={<BsFillChatQuoteFill size={20}/>}>
                 <textarea
                     id='text'
@@ -109,7 +104,10 @@ function QuotesDashboard() {
                     maxLength={100}
                 />
             </InputFieldWithIcon>
-            <button className='link' type='submit' onClick={() => isUpdate(true)} >
+            <button type={'button'} className='link' onClick={(e) => {
+                isUpdate(true)
+                handleSubmit(e)
+            }} >
                 {isUpdate ? <GiSave className='submit-edit'/> : <FiSend className='submit-save'/>}</button>
             {
                 toUpdate.edit && <button className='link' type='button' onClick={() => handleDelete()}><FiX/></button>
@@ -123,7 +121,7 @@ function QuotesDashboard() {
                 </p>
             })
         }
-        </form>
+        </Form>
     </>
 }
 

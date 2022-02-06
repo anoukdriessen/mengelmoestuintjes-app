@@ -1,7 +1,7 @@
 import {useContext} from "react";
 import ListDataContext from "../../../context/ListDataContext";
 import Card from "../Card";
-import {FiEdit3, FiX} from "react-icons/fi";
+import {FiX} from "react-icons/fi";
 
 function TaskItem({item}) {
     const {deleteTask, updateTask} = useContext(ListDataContext);

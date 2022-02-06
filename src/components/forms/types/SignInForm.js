@@ -1,14 +1,8 @@
-import '../forms.css'
-import AuthContextProvider, {AuthDataContext} from "../../../context/AuthDataContext";
-import Button from "../../Button";
+import '../../../styles/forms.css'
+import  {AuthDataContext} from "../../../context/AuthDataContext";
 import {useContext, useState} from "react";
-import axios from "axios";
-import {FiEye, FiEyeOff, FiSend, FiUser} from "react-icons/fi";
-import {Link, Redirect, useHistory} from "react-router-dom";
-import {toast} from "react-toastify";
-import {Action, InputFieldWithIcon, Password, SubmitBtn, Username} from "../FormItems";
-import {FiLock, GiSave} from "react-icons/all";
-import {refreshPage} from "../../../helpers/functions";
+import { FiSend} from "react-icons/fi";
+import {Action, Password,  Username} from "../FormItems";
 import Form from "../Form";
 
 function SignInForm() {
@@ -63,11 +57,6 @@ function SignInForm() {
                     setShowPassword={setShowPassword}
                 />
 
-                {/*<Action*/}
-                {/*    linkTo='/wachtwoord-vergeten'*/}
-                {/*    linkTitle='wachtwoord vergeten?'*/}
-                {/*    showOnHover='>>>'*/}
-                {/*/>*/}
                 { message }
                 <button type={"submit"} className='btn btn-form' onClick={handleSubmit}>
                     <FiSend/>Login

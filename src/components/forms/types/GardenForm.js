@@ -1,9 +1,8 @@
 import {FiPlus, FiX} from "react-icons/fi";
 import axios from "axios";
-import {useContext, useEffect, useState} from "react";
-import {FiSave, GiSave} from "react-icons/all";
+import {useContext, useState} from "react";
+import { GiSave} from "react-icons/all";
 import {refreshPage} from "../../../helpers/functions";
-import {toast} from "react-toastify";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import Form from "../Form";
 import GardensDataContext from "../../../context/GardensDataContext";
@@ -43,7 +42,6 @@ function GardenForm({gardenId}) {
             toggleAddNew((prevState => !prevState))
             addOwnerToGarden(username, gardenId);
         } catch (e) {
-            // TODO set message
         }
     }
 

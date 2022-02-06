@@ -2,8 +2,7 @@ import {createContext, useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
 import jwt_decode from 'jwt-decode'
-import {convertToMyDateFormat, refreshPage} from "../helpers/functions";
-import {UserDataContextProvider} from "./UserDataContext";
+import {refreshPage} from "../helpers/functions";
 
 export const AuthDataContext = createContext({});
 

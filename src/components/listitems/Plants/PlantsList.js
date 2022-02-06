@@ -1,8 +1,7 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import PlantsDataContext from "../../../context/PlantsDataContext";
-import {getPlantCategory} from "../../../helpers/functions";
-import Card, {PlantCard} from "../Card";
-import {GiApothecary, GiFlowerPot, GiFruitBowl, GiGroundSprout, GiHerbsBundle} from "react-icons/all";
+import {PlantCard} from "../Card";
+import {GiApothecary, GiFlowerPot, GiFruitBowl, GiGroundSprout} from "react-icons/all";
 import {useHistory} from "react-router-dom";
 
 function PlantsList() {

@@ -1,4 +1,4 @@
-import './forms.css'
+import '../../styles/forms.css'
 import {Link} from "react-router-dom";
 import {useState} from "react";
 import {

@@ -1,19 +1,12 @@
-import {FiCalendar, FiEdit, FiSave, FiSettings, GiChecklist, GiCheckMark, GiSave} from "react-icons/all";
+import {FiEdit, FiEditGiSave, GiSave} from "react-icons/all";
 import {useContext, useState} from "react";
 import {
     getToday,
-    getTomorrow,
-    getUniqueId,
     refreshPage
 } from "../../../helpers/functions";
-import UserDataContext from "../../../context/UserDataContext";
-import axios from "axios";
-import {FiX} from "react-icons/fi";
-import {InputFieldWithIcon, SimpleDateInput, SimpleTextArea} from "../FormItems";
+import { SimpleDateInput, SimpleTextArea} from "../FormItems";
 import ToDoTaskList from "../../listitems/Tasks/ToDoTaskList";
-import PostsDataContext from "../../../context/TasksDataContext";
 import TasksDataContext from "../../../context/TasksDataContext";
-import {toast} from "react-toastify";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import Form from "../Form";
 

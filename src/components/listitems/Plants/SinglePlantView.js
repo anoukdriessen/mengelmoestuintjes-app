@@ -1,4 +1,3 @@
-import {PlantCard} from "../Card";
 import {useParams} from "react-router-dom";
 import {useContext, useEffect} from "react";
 import PlantsDataContext from "../../../context/PlantsDataContext";

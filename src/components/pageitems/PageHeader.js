@@ -1,10 +1,9 @@
-import {FiLogOut, FiMenu, FiTrello, FiUser, FiX} from 'react-icons/fi'
+import { FiMenu, FiTrello, FiUser, FiX} from 'react-icons/fi'
 import React, {useContext, useState} from "react";
 import AuthContextProvider, {AuthDataContext} from "../../context/AuthDataContext";
 import {NavLink} from "react-router-dom";
-import {GiBookshelf, GiDatabase, GiGraveFlowers, GiMushroomHouse, GiNotebook, GiWoodenSign} from "react-icons/gi";
-import ListDataContext from "../../context/ListDataContext";
-import {GiButterflyFlower, GiFlowerPot} from "react-icons/all";
+import {GiBookshelf,  GiMushroomHouse, GiNotebook, GiWoodenSign} from "react-icons/gi";
+import {GiButterflyFlower} from "react-icons/all";
 
 export function MyNavLink(isExact, title, link, icon) {
     if(isExact) {

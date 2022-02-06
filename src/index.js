@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 
-// global styling
 import './styles/index.css';
 
 import App from './App';

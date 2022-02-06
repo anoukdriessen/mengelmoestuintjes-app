@@ -1,6 +1,6 @@
-import '../forms.css'
+import '../../../styles/forms.css'
 import {useContext, useState} from "react";
-import {FiImage, FiMapPin, FiSave, FiSettings, FiUserCheck, GiPartyPopper, GiSave} from "react-icons/all";
+import {FiMapPin, GiSave} from "react-icons/all";
 import {DetailsInput, InputFieldWithIcon} from "../FormItems";
 import axios from "axios";
 import UserDataContext from "../../../context/UserDataContext";
@@ -89,7 +89,7 @@ function ProfileForm({thisUser, image, changeUserDetails, changeUserImage }) {
                 changeDetails={changeUserDetails}
             />
 
-            <form id='profile-details-form' onSubmit={handleSubmit} className={ !changeUserDetails ? 'hidden' : '' }>
+            {changeUserDetails && <form id={'profile-details-form'} className={`primary user-settings { !changeUserDetails ? 'hidden' : ''} `}>
                 <DetailsInput
                     isrequired={false}
                     iconSize={iconSize}
@@ -136,9 +136,11 @@ function ProfileForm({thisUser, image, changeUserDetails, changeUserImage }) {
                     <p>Waar zijn jij en je tuintje gevestigd? Deel dit met je mede tuinierders en wordt getoont in de lokale berichten</p>
                 </div>
                 <div className='details'>
-                    {/*<SubmitBtn>Wijzigen</SubmitBtn>*/}
+                    <button type={"button"} className='btn btn-form' onClick={handleSubmit}>
+                    <GiSave/>Opslaan
+                </button>
                 </div>
-            </form>
+            </form>}
         </div>
     </>
 

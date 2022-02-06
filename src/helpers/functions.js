@@ -1,9 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
-import {useContext} from "react";
-import {UserDataContext} from "../context/UserDataContext";
 import {
-    GiAubergine, GiBananaPeeled,
-    GiButterflyFlower, GiChemicalDrop, GiDaisy, GiDroplets, GiFlowerEmblem, GiFruitTree,
+    GiChemicalDrop, GiDaisy, GiDroplets, GiFruitTree,
     GiGate,
     GiHeartKey, GiHerbsBundle,
     GiHobbitDoor,
@@ -13,7 +10,6 @@ import {
     GiSkeletonKey,
     GiStarKey, GiTomato, GiWaterDrop, GiWoodenDoor
 } from "react-icons/all";
-import {Mail} from "../components/forms/FormItems";
 
 export function getUniqueId() {
     return uuidv4();

@@ -1,16 +1,8 @@
 import {useContext, useState} from "react";
-import UserDataContext from "../../../context/UserDataContext";
-import {getUniqueId, refreshPage, sortArrayById} from "../../../helpers/functions";
-import {FiHash, FiType, FiX} from "react-icons/fi";
-import {FiEdit, GiChecklist, GiSave, GiStabbedNote} from "react-icons/all";
-import {GiNotebook} from "react-icons/gi";
-import axios from "axios";
-import {InputFieldWithIcon, PostCategory, PostVisibility, SimpleTextArea, SimpleTextField} from "../FormItems";
-import {useHistory} from "react-router-dom";
-import PostCard from "../../listitems/Posts/PostCard";
-import PostCards from "../../listitems/Posts/PostCards";
+import {refreshPage} from "../../../helpers/functions";
+import {GiSave} from "react-icons/all";
+import {PostCategory, PostVisibility, SimpleTextArea, SimpleTextField} from "../FormItems";
 import PostsDataContext from "../../../context/PostsDataContext";
-import UserNotes from "../../listitems/Posts/UserPosts";
 import UserPosts from "../../listitems/Posts/UserPosts";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import Form from "../Form";
@@ -22,7 +14,6 @@ function PostForm({formActive, thisUser, showForm, toggleShowPost}) {
     const [showPosts, toggleShowPosts] = useState(true);
     const [showConcepts, toggleShowConcepts] = useState(true);
 
-    const [update, setToUpdate] = useState(false);
     const [type, setType] = useState();
     const [isPrivate, setIsPrivate] = useState(true);
     const [selected, setSelected] = useState()

@@ -1,5 +1,5 @@
-import PageHeader from "../../components/pageitems/PageHeader";
-import PageContent from "../../components/pageitems/PageContent";
+import PageHeader from "../components/pageitems/PageHeader";
+import PageContent from "../components/pageitems/PageContent";
 import {useHistory} from "react-router-dom";
 
 function TermsAndPrivacy() {

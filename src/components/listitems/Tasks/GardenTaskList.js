@@ -1,11 +1,7 @@
 import {FiCheckSquare, FiSquare} from "react-icons/all";
 import {useContext, useState} from "react";
 import TasksDataContext from "../../../context/TasksDataContext";
-import {getUniqueId, refreshPage} from "../../../helpers/functions";
-import ItemNotFound from "../ItemNotFound";
-import {FiPlus} from "react-icons/fi";
 import {AuthDataContext} from "../../../context/AuthDataContext";
-import {toast} from "react-toastify";
 
 export function GardenToDo({item}) {
     const { auth } = useContext(AuthDataContext);

@@ -1,5 +1,5 @@
 import {AuthDataContext} from "../../../context/AuthDataContext";
-import {getUniqueId, refreshPage} from "../../../helpers/functions";
+import {refreshPage} from "../../../helpers/functions";
 import {FiEdit3, FiX} from "react-icons/fi";
 import {FiSave} from "react-icons/all";
 import {useContext, useState} from "react";

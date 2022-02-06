@@ -1,4 +1,4 @@
-import '../components/pageitems/PageStyling.css'
+import '../styles/PageStyling.css'
 import MultiPanelContainer from "../components/listitems/MultiPanelContainer";
 import PageHeader from "../components/pageitems/PageHeader";
 import PageContent from "../components/pageitems/PageContent";
@@ -9,7 +9,7 @@ import {AuthDataContext} from "../context/AuthDataContext";
 import Quote from "../components/Quote";
 import {UserDataContextProvider} from "../context/UserDataContext";
 import CallToAction from "../components/CallToAction";
-import PostsDataContext, {PostsDataContextProvider} from "../context/PostsDataContext";
+import {PostsDataContextProvider} from "../context/PostsDataContext";
 
 function Home() {
     const {auth} = useContext(AuthDataContext);

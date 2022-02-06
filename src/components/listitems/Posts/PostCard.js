@@ -1,14 +1,11 @@
-import {useContext, useEffect, useState} from "react";
-import {useHistory, useParams} from "react-router-dom";
-import {FiPenTool, FiSave, GiSave} from "react-icons/all";
-import {getRandomImage, getUniqueId, parseMyDate, refreshPage} from "../../../helpers/functions";
+import {useContext, useState} from "react";
+import {useHistory} from "react-router-dom";
+import { GiSave} from "react-icons/all";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {FiEdit3, FiEye, FiEyeOff, FiX} from "react-icons/fi";
 import axios from "axios";
-import {toast} from "react-toastify";
 import PostsDataContext from "../../../context/PostsDataContext";
 import {SimpleTextArea, SimpleTextField} from "../../forms/FormItems";
-import Form from "../../forms/Form";
 
 export function PostPreview({item, imageUrl}) {
     const [active, toggleActive] = useState(false);
@@ -52,9 +49,8 @@ function PostCard({toFind}) {
     const {updatePost} = useContext(PostsDataContext);
 
     const [changeFields, toggleChangeFields] = useState(false);
-    const [showImageInput, toggleShowImageInput] = useState(false);
     const [selected, setSelected] = useState(toFind.image)
-    const [isValid, setIsValid] = useState(false)
+    // const [isValid, setIsValid] = useState(false)
     const [deleted, isDeleted] = useState(false);
 
     const [postData, setPostData] = useState({
@@ -63,9 +59,6 @@ function PostCard({toFind}) {
         description: '',
     });
     const { title, summary, description, published } = postData;
-
-    const history = useHistory();
-    const params = useParams();
 
     if (toFind) {
         let currentUserIsAuthor;
@@ -120,7 +113,7 @@ function PostCard({toFind}) {
             toggleChangeFields(false);
             console.log(published)
             try {
-                const result = axios.put(`https://localhost:8443/api/berichten/${toFind.id}/${!published}`)
+                axios.put(`https://localhost:8443/api/berichten/${toFind.id}/${!published}`)
                 setPostData((prevState) => ({
                     ...prevState,
                     published: !published,
@@ -139,7 +132,7 @@ function PostCard({toFind}) {
 
         const handleDelete = async (e) => {
             try {
-                const result = await axios.delete(`https://localhost:8443/api/berichten/${toFind.id}`,
+                await axios.delete(`https://localhost:8443/api/berichten/${toFind.id}`,
                     {
                         headers: {
                             "Content-Type": "application/json",

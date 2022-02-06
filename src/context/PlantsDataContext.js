@@ -1,15 +1,11 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {AuthDataContext} from "./AuthDataContext";
 import axios from "axios";
-import PostsDataContext from "./PostsDataContext";
 import {useHistory} from "react-router-dom";
-import {toast} from "react-toastify";
-import {removeFromArray} from "../helpers/functions";
 
 export const PlantsDataContext = createContext({});
 
 export const PlantsDataContextProvider = ({ children }) => {
-    const { auth } = useContext(AuthDataContext)
     const [isLoading, setIsLoading] = useState();
 
     const [plant, setPlant] = useState({});

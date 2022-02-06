@@ -1,0 +1,82 @@
+/**
+BUTTONS
+**/
+button.disabled:hover {
+    transform: scale(1);
+    color: lightgray;
+    transition: 0s;
+}
+button.disabled:hover::after {
+    color: transparent;
+}
+.btn {
+    text-align: center;
+    width: 100px;
+    padding: 0.5rem;
+    font-size: 0.64em;
+    border: transparent;
+}
+.btn-form:hover {
+    transform: scale(1.1);
+    color: var(--blue);
+    transition: 1s;
+}
+.btn-form svg {
+    width: 25px;
+    height: 25px;
+    color: var(--orange);
+}
+.btn-form svg:hover {
+    color: var(--blue);
+    transition: 1s;
+}
+
+/**
+LINKS
+**/
+#action a {
+    font-family: var(--lato);
+    text-decoration: none;
+    color: var(--main-dark);
+}
+#action {
+    font-size: 12px;
+    padding: 10px 0;
+}
+#action:hover a{
+    border-bottom: 2px solid var(--orange);
+    transition: ease-in-out 0.3s;
+}
+#action:hover strong {
+    color: var(--green);
+}
+.link.show-hide:hover {
+    color: var(--blue);
+}
+.actions {
+    padding: var(--padding-small)
+}
+.link.action.active {
+    display: none;
+}
+.link.action svg {
+    width: 33px;
+    height: 33px;
+    color: var(--main-dark);
+    border-radius: var(--full-circle);
+}
+.link.action svg:hover {
+    background-color: var(--orange);
+    transform: scale(1.1);
+    transition: ease-in-out 0.5s;
+}
+
+/**
+TEXT
+**/
+.isDone {
+    text-decoration: line-through var(--main-dark);
+}
+.too-long {
+    color: var(--failure);
+}

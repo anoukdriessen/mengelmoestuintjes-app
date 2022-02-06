@@ -3,9 +3,6 @@ import {AuthDataContext} from "../../context/AuthDataContext";
 import Form from "./Form";
 import {SimpleTextArea, SimpleTextField} from "./FormItems";
 import {GiSave} from "react-icons/all";
-import PostsDataContext from "../../context/PostsDataContext";
-import {toast} from "react-toastify";
-import {refreshPage} from "../../helpers/functions";
 import GardensDataContext from "../../context/GardensDataContext";
 
 function FormNote({gardenId, toggle}) {

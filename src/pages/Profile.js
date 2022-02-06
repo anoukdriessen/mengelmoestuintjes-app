@@ -1,26 +1,18 @@
-import {Redirect, useHistory} from "react-router-dom";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext,  useState} from "react";
 import {AuthDataContext} from "../context/AuthDataContext";
 import PageHeader from "../components/pageitems/PageHeader";
 import PageContent from "../components/pageitems/PageContent";
-import PageFooter from "../components/pageitems/PageFooter";
-import ProfileForm from "../components/forms/types/ProfileForm";
-import UserDataContext, {UserDataContextProvider} from "../context/UserDataContext";
+import{UserDataContextProvider} from "../context/UserDataContext";
 import Card from "../components/listitems/Card";
-import {InputFieldWithIcon} from "../components/forms/FormItems";
-import {FiChevronsRight, FiImage, FiMapPin, FiSave, FiSettings, GiProgression, GiSave} from "react-icons/all";
-import axios from "axios";
-import ProfileImageForm from "../components/forms/types/ProfileImageForm";
-import {calcProgress, refreshPage} from "../helpers/functions";
-import ToDoList from "../components/forms/types/ToDoListForm";
+import { FiMapPin, GiProgression, } from "react-icons/all";
+import {calcProgress, } from "../helpers/functions";
 import ToDoListForm from "../components/forms/types/ToDoListForm";
 import PostForm from "../components/forms/types/PostForm";
 import PageContentNav from "../components/pageitems/PageContentNav";
-import ToDoTaskList from "../components/listitems/Tasks/ToDoTaskList";
 import Calendar from "../components/Calendar";
 import {TasksDataContextProvider} from "../context/TasksDataContext";
 import {PostsDataContextProvider} from "../context/PostsDataContext";
-import CallToAction from "../components/CallToAction";
+import ProfileForm from "../components/forms/types/ProfileForm";
 
 export function SmallProfileCard({image, name, username, currentLevel}) {
     return <Card useId='user' className={'small'}>
@@ -66,7 +58,6 @@ function Profile() {
     const [changeUserDetails, toggleChangeUserDetails] = useState(false);
     const [changeUserImage, toggleChangeUserImage] = useState(false);
     const [showToDo, toggleShowToDo] = useState(false);
-    const [showNote, toggleShowNote] = useState(false);
     const [showPost, toggleShowPost] = useState(false);
     const [showForm, toggleShowForm] = useState(false);
     let hasDisplayName = auth.user.displayName;
@@ -97,7 +88,8 @@ function Profile() {
                             </span>
                             <div className='user-progress-bar'>
                                 <span className='progress' style={{width: procentBar}}>
-                                    {procent}%
+                                    {isNaN(procent) ? <>0%</>
+                                        : `${procent}%`}
                                 </span>
                             </div>
                             <div className='user-progress-details'>
@@ -159,16 +151,6 @@ function Profile() {
                             </div>
                         </div>
                     }
-
-                    {/*{ changeUserDetails &&*/}
-                    {/*    <ProfileCard*/}
-                    {/*        image={image}*/}
-                    {/*        hasDisplayName={hasDisplayName}*/}
-                    {/*        authUser={auth.user}*/}
-                    {/*        procentBar={procentBar}*/}
-                    {/*        procent={procent}*/}
-                    {/*    />*/}
-                    {/*}*/}
 
                     <ProfileForm
                         thisUser = {auth.user}

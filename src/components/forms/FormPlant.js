@@ -1,10 +1,8 @@
 import {useContext, useState} from "react";
 import PlantsDataContext from "../../context/PlantsDataContext";
-import {InputFieldWithIcon, Message, SimpleTextArea, SimpleTextField} from "./FormItems";
-import {FiMapPin, GiBoxUnpacking, GiGroundSprout, GiSave} from "react-icons/all";
+import {InputFieldWithIcon,  SimpleTextArea, SimpleTextField} from "./FormItems";
+import {GiGroundSprout, GiSave} from "react-icons/all";
 import Form from "./Form";
-import {toast} from "react-toastify";
-import {convertProvince} from "../../helpers/functions";
 
 function FormPlant() {
     const { createNewPlant, toFind, findPlantByName } = useContext(PlantsDataContext)
@@ -38,7 +36,7 @@ function FormPlant() {
             avgDaysTillHarvest: 0
         }
     });
-    const { name, description, category, details } = thisPlant;
+    const { name, description, category } = thisPlant;
 
     const categories = ['FLOWERS', 'VEGETABLES', 'HERBS', 'FRUITS'];
 

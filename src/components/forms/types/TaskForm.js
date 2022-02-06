@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import ListDataContext from "../../../context/ListDataContext";
 import {FiSend} from "react-icons/fi";
 import Button from "../../Button";

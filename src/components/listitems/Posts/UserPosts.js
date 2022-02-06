@@ -1,16 +1,13 @@
 import {useContext, useState} from "react";
 import PostsDataContext from "../../../context/PostsDataContext";
-import PostCard, {PostPreview} from "./PostCard";
+import {PostPreview} from "./PostCard";
 import NoteCard from "./NoteCard";
 import {AuthDataContext} from "../../../context/AuthDataContext";
-import {getUniqueId, sortArrayById} from "../../../helpers/functions";
+import {sortArrayById} from "../../../helpers/functions";
 import ItemNotFound from "../ItemNotFound";
-import {FiEdit3, FiX} from "react-icons/fi";
-import {FiSave} from "react-icons/all";
 import ShowAndHide from "../ShowAndHide";
 
 function UserPosts({note, showNotes, publ, showPublic, priv, showPrivate}) {
-    const { auth } = useContext(AuthDataContext)
     const { personalNotes, myPrivatePosts, myPublicPosts } = useContext(PostsDataContext)
 
     let all = [];

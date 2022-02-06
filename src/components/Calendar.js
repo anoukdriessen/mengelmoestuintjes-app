@@ -1,23 +1,13 @@
 import {
-    convertToMyDateFormat, fetchXItemsFromList, getDateHumanFormat,
+     getDateHumanFormat,
     getDay,
-    getMonth,
-    getMonthString,
     getNextDay,
     getToday, getTodayHumanFormat,
-    getUniqueId,
-    getYear, refreshPage
 } from "../helpers/functions";
 import {useContext, useState} from "react";
-import {FiXCircle} from "react-icons/all";
-import {FiX} from "react-icons/fi";
-import {toast} from "react-toastify";
-import UserDataContext from "../context/UserDataContext";
-import PostsDataContext from "../context/TasksDataContext";
 import TasksDataContext from "../context/TasksDataContext";
 
 function Calendar({days}) {
-    const {toDoTasks} = useContext(TasksDataContext);
     const [selected, setSelected] = useState(getToday);
     const [modal, setModal] = useState(false);
     const upcomming = [...Array(days).keys()]

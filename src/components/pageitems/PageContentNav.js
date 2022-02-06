@@ -1,15 +1,11 @@
 import {
-    FiDelete,
-    FiFilePlus,
-    FiImage, FiMonitor, FiPenTool,
-    FiSave,
+    FiImage, FiMonitor,
     FiSettings,
     GiChatBubble,
-    GiChecklist,
     GiCheckMark,
     GiSeedling
 } from "react-icons/all";
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {FiPlus, FiX} from "react-icons/fi";
 import {useHistory} from "react-router-dom";
 import {AuthDataContext} from "../../context/AuthDataContext";

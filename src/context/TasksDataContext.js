@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {AuthDataContext} from "./AuthDataContext";
 import axios from "axios";
-import {getToday, getTomorrow} from "../helpers/functions";
+import {getToday} from "../helpers/functions";
 
 export const TasksDataContext = createContext({});
 

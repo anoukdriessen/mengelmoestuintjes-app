@@ -16,6 +16,7 @@ function TasksList( {type} ) {
 
     let theseTasks = [...tasks];
 
+    // eslint-disable-next-line default-case
     switch (type){
         case 0:
             return isLoading ? <h3><FiLoader/></h3> : ( <>

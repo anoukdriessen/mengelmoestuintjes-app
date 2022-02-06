@@ -2,6 +2,11 @@
 form.primary {
     max-width: 400px;
 }
+form.user-settings {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 form.primary input, .single-item input {
     min-width: 300px;
     max-width: 400px;
@@ -38,7 +43,6 @@ span.author {
     min-height: 320px;
     max-height: 320px;
 }
-
 
 /* input type for form */
 input[type="checkbox"] {
@@ -83,9 +87,6 @@ textarea {
 .form-message {
     text-align: center;
 }
-
-
-
 
 form .inputField:hover {
     border: 3px solid var(--lighter-blue);
@@ -141,51 +142,6 @@ form .inputField:focus-within.checkbox, form .inputField:hover.checkbox {
 }
 #to-do-list .inputField input[type="date"] {
     text-align: center;
-}
-
-#profile-details,
-#profile-details-form,
-#upload-image {
-    width: 80%;
-    max-width: 1000px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    padding: 10px;
-}
-
-#profile-details {
-    padding: 10px;
-    min-width: 100%;
-}
-#profile-details-form {
-    min-width: 100%;
-    padding: 0;
-    margin: 0;
-}
-#profile-details-form.hidden, #upload-image.hidden {
-    display: none;
-}
-#profile-details #change-details {
-    flex: 1;
-    min-width: 100%;
-    cursor: pointer;
-    padding-bottom: 20px;
-}
-#profile-details .details {
-    flex: 1;
-    min-width: 100%;
-    margin-top: 3px;
-    padding: 5px;
-}
-#profile-details .details button[type="submit"] {
-    width: 100%;
-    letter-spacing: 5px;
-    text-align: center;
-}
-#profile-details .inputField:hover, #profile-details .inputField:focus-within {
-    border: 3px solid transparent;
 }
 
 #profile-image {
@@ -248,18 +204,6 @@ input[type=file]::file-selector-button, input[type=file], #upload-image button {
     align-items: center;
 }
 
-.isDone {
-    text-decoration: line-through var(--main-dark);
-}
-.too-long {
-    color: var(--failure);
-}
-
-.link.show-hide:hover {
-    color: var(--blue);
-}
-
-
 .submit-save, .submit-edit {
     letter-spacing: 2px;
     margin: 0;
@@ -276,16 +220,6 @@ input[type=file]::file-selector-button, input[type=file], #upload-image button {
 .submit-edit:hover::after, .submit-save:hover::after {
     content: ">";
     transition: 2s;
-}
-
-@media screen and (min-width: 768px){
-    #profile-details .details button[type="submit"] {
-        text-align: center;
-        min-width: 100%;
-    }
-    #profile-details .details {
-        min-width: 50%;
-    }
 }
 
 #post-img {
@@ -312,14 +246,6 @@ select:hover {
 .numberField input[type='number'] {
     text-align: center;
 }
-button.disabled:hover {
-    transform: scale(1);
-    color: lightgray;
-    transition: 0s;
-}
-button.disabled:hover::after {
-    color: transparent;
-}
 
 /* remove number arrows on input field */
 input[type=number]::-webkit-inner-spin-button,
@@ -331,30 +257,51 @@ form input:focus {
     outline: none!important;
 }
 
-@media screen and (min-width: 1000px){
-    #profile-details .details {
-        min-width: 25%;
-    }
+#profile-details-form.hidden, #upload-image.hidden {
+    display: none;
 }
 
-.btn {
+#profile-details,
+#profile-details-form,
+#upload-image {
+    width: 80%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+#profile-details {
+    padding: 10px;
+    min-width: 100%;
+}
+#profile-details-form {
+    min-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+#profile-details-form.hidden, #upload-image.hidden {
+    display: none;
+}
+#profile-details #change-details {
+    flex: 1;
+    min-width: 100%;
+    cursor: pointer;
+    padding-bottom: 20px;
+}
+#profile-details .details {
+    flex: 1;
+    min-width: 50%;
+    margin-top: 3px;
+    padding: 5px;
+}
+#profile-details .details button[type="submit"] {
+    letter-spacing: 5px;
     text-align: center;
-    width: 100px;
-    padding: 0.5rem;
-    font-size: 0.64em;
-    border: transparent;
 }
-.btn-form:hover {
-    transform: scale(1.1);
-    color: var(--blue);
-    transition: 1s;
+#profile-details .inputField:hover, #profile-details .inputField:focus-within {
+    border: 3px solid transparent;
 }
-.btn-form svg {
-    width: 25px;
-    height: 25px;
-    color: var(--orange);
-}
-.btn-form svg:hover {
-    color: var(--blue);
-    transition: 1s;
-}
+

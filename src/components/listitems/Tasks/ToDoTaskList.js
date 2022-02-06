@@ -1,9 +1,7 @@
 import {getToday, getTomorrow, getUniqueId} from "../../../helpers/functions";
-import {useContext, useEffect, useState} from "react";
-import UserDataContext from "../../../context/UserDataContext";
-import {FiEdit, FiSmile, GiChatBubble, GiCheckMark} from "react-icons/all";
-import {FiEye, FiEyeOff, FiX} from "react-icons/fi";
-import PostsDataContext from "../../../context/TasksDataContext";
+import {useContext,  useState} from "react";
+import {FiEdit, FiSmile} from "react-icons/all";
+import {FiX} from "react-icons/fi";
 import TasksDataContext from "../../../context/TasksDataContext";
 import ShowAndHide from "../ShowAndHide";
 

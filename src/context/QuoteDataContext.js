@@ -1,6 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {AuthDataContext} from "./AuthDataContext";
-import PostsDataContext from "./PostsDataContext";
 import axios from "axios";
 
 export const QuoteDataContext = createContext({});

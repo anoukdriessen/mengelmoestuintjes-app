@@ -1,34 +1,16 @@
-import {ListDataProvider} from "../../context/ListDataContext";
-import QuotesList from "../../components/listitems/Quotes/QuotesDashboard";
-import UsersList from "../../components/listitems/Users/UsersList";
-import TasksList from "../../components/listitems/Tasks/TasksList";
-import PageHeader from "../../components/pageitems/PageHeader";
-import {useContext, useEffect, useState} from "react";
-import {AuthDataContext} from "../../context/AuthDataContext";
-import PageContent from "../../components/pageitems/PageContent";
-import axios from "axios";
-import {toast} from "react-toastify";
-import {InputFieldWithIcon, Username} from "../../components/forms/FormItems";
-import {FiMinus, FiPlus, FiUser, FiX} from "react-icons/fi";
-import {refreshPage} from "../../helpers/functions";
-import QuoteDataContext, {QuoteDataContextProvider} from "../../context/QuoteDataContext";
-import DashboardTopic from "../../components/pageitems/DashboardTopic";
-import {BsFillChatLeftQuoteFill, BsFillChatQuoteFill, FiArrowLeft, FiArrowRight} from "react-icons/all";
-import QuoteItem from "../../components/listitems/Quotes/QuoteItem";
-import QuotesDashboard from "../../components/listitems/Quotes/QuotesDashboard";
-import UserAndRoles from "../../components/listitems/Users/UserAndRolesDashboard";
-import UserAndRolesDashboard from "../../components/listitems/Users/UserAndRolesDashboard";
-import {UserDataContextProvider} from "../../context/UserDataContext";
-import {useHistory} from "react-router-dom";
+import PageHeader from "../components/pageitems/PageHeader";
+import {useContext, useState} from "react";
+import {AuthDataContext} from "../context/AuthDataContext";
+import PageContent from "../components/pageitems/PageContent";
+import {QuoteDataContextProvider} from "../context/QuoteDataContext";
+import DashboardTopic from "../components/pageitems/DashboardTopic";
+import QuotesDashboard from "../components/listitems/Quotes/QuotesDashboard";
+import UserAndRolesDashboard from "../components/listitems/Users/UserAndRolesDashboard";
+import {UserDataContextProvider} from "../context/UserDataContext";
+import {FiArrowRight} from "react-icons/all";
 
 function Dashboard() {
-    const { auth, hasUserRole } = useContext(AuthDataContext);
-    const { quotes } = useContext(QuoteDataContext);
-    const [isMod, setIsMod] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
-
-    const [showForm, setShowForm] = useState(false);
-    const [foundUser, setFoundUser] = useState(null);
+    const { auth } = useContext(AuthDataContext);
     const [foundQuote, setFoundQuote] = useState({
         text: '',
         author: '',
@@ -42,8 +24,6 @@ function Dashboard() {
     const [showBlog, toggleShowBlog] = useState(true);
     const [showAcademy, toggleShowAcademy] = useState(true);
 
-    let today = new Date().toDateString();
-    const history =useHistory();
 
     return <>
             <PageHeader title={auth.user.username}/>
@@ -58,7 +38,7 @@ function Dashboard() {
                         title={'Planten DB'}
                         handleOnClick={() => toggleShowPlants((prevState => !prevState))}
                     >
-                        { showPlants && <>planten</>}
+                        { showPlants && <><h3 className={'writing'}>Coming Soon</h3></>}
                     </DashboardTopic>
                 <DashboardTopic
                     image={'https://images.unsplash.com/photo-1641951820920-c90394aef512?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'}
@@ -90,10 +70,8 @@ function Dashboard() {
                     title="NOTE-TO-SELFPad's"
                     handleOnClick={() => toggleShowNotes((prevState => !prevState))}
                 >
-                {/*  TODO NOTE
-                    + note achtergrond veranderen op basis van prio  */}
                     {
-                        showNotes && <>notes</>
+                        showNotes && <><h3 className={'writing'}>Coming Soon</h3></>
                     }
                 </DashboardTopic>
                     <DashboardTopic
@@ -102,11 +80,8 @@ function Dashboard() {
                         title="Wat is jouw volgende verhaal?"
                         handleOnClick={() => toggleShowBlog((prevState => !prevState))}
                     >
-                        {/*
-                          TODO BLOGPOSTS
-                          */}
                         {
-                            showBlog && <>blogposts</>
+                            showBlog && <><h3 className={'writing'}>Coming Soon</h3></>
                         }
                     </DashboardTopic>
                     <DashboardTopic
@@ -115,9 +90,8 @@ function Dashboard() {
                         title="Mengelmoestuintjes, de academy"
                         handleOnClick={() => toggleShowAcademy((prevState => !prevState))}
                         >
-                    {/*  TODO ACADEMY TOPICS / POSTS  */}
                         {
-                            showAcademy && <>de academy</>
+                            showAcademy && <><h3 className={'writing'}>Coming Soon</h3></>
                         }
                     </DashboardTopic>
                 </div>

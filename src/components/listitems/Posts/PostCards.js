@@ -1,7 +1,7 @@
-import '../style/postcard.css';
-import {getUniqueId, sortArrayById} from "../../../helpers/functions";
-import PostCard, {PostPreview} from "./PostCard";
-import {useContext, useState} from "react";
+import '../../../styles/postcard.css';
+import { sortArrayById} from "../../../helpers/functions";
+import {PostPreview} from "./PostCard";
+import {useContext} from "react";
 import PostsDataContext from "../../../context/PostsDataContext";
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import ItemNotFound from "../ItemNotFound";

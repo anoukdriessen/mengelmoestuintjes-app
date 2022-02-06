@@ -1,7 +1,6 @@
-import TasksDataContext, {TasksDataContextProvider} from "../../../context/TasksDataContext";
+import  {TasksDataContextProvider} from "../../../context/TasksDataContext";
 import GardenForm from "../../forms/types/GardenForm";
-import {getUniqueId, refreshPage} from "../../../helpers/functions";
-import {FiMinus, FiPlus, FiRefreshCw, FiX} from "react-icons/fi";
+import {FiMinus, FiPlus, FiX} from "react-icons/fi";
 import {FiCheck, FiSettings} from "react-icons/all";
 import GardenTaskList from "../Tasks/GardenTaskList";
 import {useContext, useEffect, useState} from "react";
@@ -12,7 +11,6 @@ import NoteCard from "../Posts/NoteCard";
 import ItemNotFound from "../ItemNotFound";
 import GardensDataContext from "../../../context/GardensDataContext";
 import {AuthDataContext} from "../../../context/AuthDataContext";
-import {toast} from "react-toastify";
 import {useHistory, useParams} from "react-router-dom";
 import {PlantCard} from "../Card";
 

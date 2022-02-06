@@ -1,8 +1,8 @@
-import PageHeader from "../../components/pageitems/PageHeader";
-import PageContent from "../../components/pageitems/PageContent";
-import {SimpleTextArea, SimpleTextField} from "../../components/forms/FormItems";
+import PageHeader from "../components/pageitems/PageHeader";
+import PageContent from "../components/pageitems/PageContent";
+import {SimpleTextArea, SimpleTextField} from "../components/forms/FormItems";
 import {useState} from "react";
-import Form from "../../components/forms/Form";
+import Form from "../components/forms/Form";
 import {FiSend} from "react-icons/fi";
 
 function Contact() {

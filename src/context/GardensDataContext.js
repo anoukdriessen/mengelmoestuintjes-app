@@ -1,10 +1,7 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {AuthDataContext} from "./AuthDataContext";
 import axios from "axios";
-import PostsDataContext from "./PostsDataContext";
 import {useHistory} from "react-router-dom";
-import {toast} from "react-toastify";
-import {removeFromArray} from "../helpers/functions";
 
 export const GardensDataContext = createContext({});
 

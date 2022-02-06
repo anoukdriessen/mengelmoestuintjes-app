@@ -1,9 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {AuthDataContext} from "./AuthDataContext";
-import {getToday, getTomorrow} from "../helpers/functions";
-import {useHistory} from "react-router-dom";
-import {logDOM} from "@testing-library/react";
 
 export const UserDataContext = createContext({});
 

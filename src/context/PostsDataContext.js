@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {AuthDataContext} from "./AuthDataContext";
 import axios from "axios";
-import {getToday, getTomorrow, refreshPage} from "../helpers/functions";
+import { refreshPage} from "../helpers/functions";
 import {useHistory} from "react-router-dom";
 
 export const PostsDataContext = createContext({});
@@ -12,19 +12,19 @@ export const PostsDataContextProvider = ({ children }) => {
 
     const [toFind, setToFind] = useState({});
 
-    const [toUpdatePost, setToUpdatePost] = useState({
-        title: '',
-        summary: '',
-        description: '',
-        published: 'private',
-        category: 'POST',
-        photo: null,
-    });
-    const [toUpdateNote, setToUpdateNote] = useState({
-        title: '',
-        description: '',
-        category: 'NOTE',
-    });
+    // const [toUpdatePost, setToUpdatePost] = useState({
+    //     title: '',
+    //     summary: '',
+    //     description: '',
+    //     published: 'private',
+    //     category: 'POST',
+    //     photo: null,
+    // });
+    // const [toUpdateNote, setToUpdateNote] = useState({
+    //     title: '',
+    //     description: '',
+    //     category: 'NOTE',
+    // });
 
     // User posts
     const [allMyPosts, setAllMyPosts] = useState([]);
@@ -50,7 +50,7 @@ export const PostsDataContextProvider = ({ children }) => {
     // CREATE
 
     const addPersonalNote = async (newNote) => {
-        console.log(newNote);
+        // console.log(newNote);
         try {
             await axios.post(`https://localhost:8443/api/gebruikers/${auth.user.username}/berichten`,
                 {

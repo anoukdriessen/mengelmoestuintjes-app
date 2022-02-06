@@ -1,5 +1,4 @@
 import {GiSave} from "react-icons/all";
-import axios from "axios";
 
 function ProfileImageForm({changeUserImage, image, handleSubmit, handleChange, changeDetails}) {
     return <> {

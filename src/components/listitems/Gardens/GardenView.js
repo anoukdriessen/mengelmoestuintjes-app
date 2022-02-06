@@ -1,6 +1,4 @@
 import '../../../styles/single-view.css'
-import {FiMinus, FiPlus} from "react-icons/fi";
-import {useState} from "react";
 import SingleGardenView from "./SingleGardenView";
 import {TasksDataContextProvider} from "../../../context/TasksDataContext";
 

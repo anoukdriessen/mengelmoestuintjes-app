@@ -1,19 +1,17 @@
-import '../forms.css'
+import '../../../styles/forms.css'
 import {AuthDataContext} from "../../../context/AuthDataContext";
 import {useContext, useState} from "react";
 import {FiSend} from "react-icons/fi";
-import {useHistory} from "react-router-dom";
 import {
-    Action, BtnSubmit,
+    Action,
     Mail, Message,
     Password,
-    SingleCheckBox, Submit,
+    SingleCheckBox,
     Username
 } from "../FormItems";
 import axios from "axios";
 import Form from "../Form";
 import {isValidEmail, isValidPassword, isValidUsername} from "../../../helpers/functions";
-import {FiCheck, GiSave} from "react-icons/all";
 
 function SignUpForm() {
     const { login, setError, error } = useContext(AuthDataContext);
@@ -33,7 +31,6 @@ function SignUpForm() {
     const [passwordValid, setPasswordValid] = useState(false);
     const [emailValid, setEmailValid] = useState(false);
 
-    let history = useHistory();
     const iconSize = 20;
 
     const onChange = (e) => {

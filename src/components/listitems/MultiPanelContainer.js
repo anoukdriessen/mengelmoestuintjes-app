@@ -1,4 +1,4 @@
-import './style/multipanel.css';
+import '../../styles/multipanel.css';
 import React, {useState} from "react";
 
 function getMissions() {

@@ -1,5 +1,4 @@
 function ListStats({item}) {
-    // console.log('stats', item);
 
     const total = (
         <h4 className='num'>{item.length} items in lijst</h4>
